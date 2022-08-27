@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Objavi delo</title> 
+{% endblock %}
+
+{% block body %}
+<!--  formular za edit-->
+<h1>Spremeni povpraševanje</h1>
+
+
+
+
+    <hr>
+    <form action='/posts/edit/{{post.id}}' method='POST'>
+
+
+        <select name="category" id="categories">
+            {% for category in categories %}
+                <li>{{category.name}}</li>
+                <option value="{{category.id}}">{{category.name}}</option>
+            {% endfor%}
+            </select>
+
+
+
+
+        <label for="title">Title:</label>
+    <!--  value je post title kar jinja pobere iz baze kar je blo v bazi pod prejsnji povst-->
+        <input class="form-control" type="text" name='title' id='title' value="{{ post.title }}" aria-label="Enter Title">
+        <br>
+        <label for="offer">Offer:</label>
+        <input class="form-control" type="text" name='offer' id='offer' value="{{ post.offer }}" aria-label="Enter Offer">
+        <br>
+        <label for="email">Email:</label>
+        <input class="form-control" type="text" name='email' id='email' value="{{ post.email }}" aria-label="Enter Email">
+        <br>
+        <label for="content">Post:</label>
+        <textarea class="form-control" name='content' id="content" aria-label="Enter Content" rows="3">{{ post.content }}</textarea>
+        <br>
+        <!--  save gumb zato value save-->
+        <input type='submit' value='Save'>
+    </form>
+    <hr>
+{% endblock %}

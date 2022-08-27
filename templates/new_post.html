@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Objavi delo</title> 
+{% endblock %}
+
+{% block body %}
+<h1>Oddaj povpraševanje</h1>
+
+    <hr>
+
+
+    <!--  formular kamor folk vpise podatke za nov povst-->
+    <form action='/posts' method='POST'>
+        <label for="title">Ime:</label>
+        <input class="form-control" type="text" name='title' id='title' placeholder="ime dela" aria-label="Enter Title">
+        <!-- jaka naredil da izpiše kategorije-->
+        <label for="category">Kategorija:</label>
+        <select name="category" id="categories">
+        {% for category in categories %}
+            <li>{{category.name}}</li>
+            <option value="{{category.id}}">{{category.name}}</option>
+        {% endfor%}
+        </select>
+
+        <!--  -->
+        <br>
+        <label for="offer">Ponudba:</label>
+        <input class="form-control" type="text" name='offer' id='offer' placeholder="vnesi ponudbo" aria-label="Enter Offer" required minlength="1" maxlength="3">
+        <br>
+        <label for="email">Email:</label>
+        <input class="form-control" type="email" name='email' id='email' placeholder="vnesi svoj email" aria-label="Enter Email" required
+            oninvalid="this.setCustomValidity('Enter valid email')"
+            oninput="this.setCustomValidity('')">
+        <br>
+        <label for="content">Opis dela:</label>
+        <textarea class="form-control" name='content' id="content" placeholder="Opis" aria-label="Enter Content" rows="3"></textarea>
+        <!--  spodi sam submita ne poveže pa v bazo-->
+        <input type='submit' value='Objavi'>
+    </form>
+
+    
+    <hr>
+{% endblock %}
