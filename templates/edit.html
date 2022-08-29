@@ -18,7 +18,7 @@
         <select name="category" id="categories">
             {% for category in categories %}
                 <li>{{category.name}}</li>
-                <option value="{{category.id}}">{{category.name}}</option>
+                <option value="{{category.id}}"  selected>{{category.name}}</option>
             {% endfor%}
             </select>
 
