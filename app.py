@@ -114,7 +114,6 @@ def edit(id):
         post.offer = request.form['offer']
         post.content = request.form['content']
         post.email = request.form['email']
-        post.category = request.form ['category']
         db.session.commit()
         return redirect('/posts')
     else:
