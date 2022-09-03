@@ -17,10 +17,11 @@
 
         <select name="category" id="categories">
             {% for category in categories %}
-                <li>{{category.name}}</li>
-                <option value="{{category.id}}"  selected>{{category.name}}</option>
+                {% set is_selected = 'selected' if category == post.category else ''%}
+                <option value="{{category.id}}" {{is_selected}}>{{category.name}}</option>
             {% endfor%}
             </select>
+    
 
 
 

@@ -40,7 +40,7 @@ class Category(db.Model):
     name = db.Column(db.String(50), nullable=False)
 
 
-# spodaj baza za blogpovste (child)
+# model spodaj baza za blogpovste (child)
 class BlogPost(db.Model):
     """Baza za poste"""
 
@@ -55,10 +55,8 @@ class BlogPost(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     date_updated = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 #   za  kategorije
-    category_id = db.Column(db.Integer, db.ForeignKey('work_type.id'),
-        nullable=True)
-    category = db.relationship('Category',
-        backref=db.backref('work_type', lazy=True))
+    category_id = db.Column(db.Integer, db.ForeignKey('work_type.id'), nullable=True)
+    category = db.relationship('Category', backref=db.backref('work_type', lazy=True))
 
     def __repr__(self):
         """vrne objekt reprezentativni"""
@@ -80,7 +78,8 @@ def posts():
         post_offer = request.form['offer']
         post_email = request.form['email']
         post_category_id = request.form["category"]
-        new_post = BlogPost(title=post_title, content=post_content, offer=post_offer, email=post_email, category_id=post_category_id)
+        new_post = BlogPost(title=post_title, content=post_content, offer=post_offer, 
+                            email=post_email, category_id=post_category_id)
 
         # vpise v bazo v trenutno
         db.session.add(new_post)
@@ -108,17 +107,22 @@ def delete(id):
 def edit(id):
     
     post = BlogPost.query.get_or_404(id)
+    # dodal kernc kategorije niso ble definiane z debugerjem
+    categories = Category.query.all()
 
     if request.method == 'POST':
         post.title = request.form['title']
         post.offer = request.form['offer']
         post.content = request.form['content']
         post.email = request.form['email']
+        post.category_id = request.form['category']
         db.session.commit()
         return redirect('/posts')
     else:
         # post=post ker rabi prebrisat prejsn povst
-        return render_template('edit.html', post=post)
+        return render_template('edit.html', post=post, categories=categories)
+
+
 
 
 @app.route('/posts/new', methods=['GET', 'POST'])
@@ -137,10 +141,6 @@ def new_post():
         # jaka naredil da naredi categorije poizvedbo za vse 
         categories = Category.query.all()
         return render_template('new_post.html', categories=categories, action_url=url_for(posts.__name__))
-
-
-
-
 
 
 # jan naredil podstran
