@@ -20,8 +20,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
 #mail config
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'yourId@gmail.com'
-app.config['MAIL_PASSWORD'] = '*****'
+app.config['MAIL_USERNAME'] = 'handytest753@gmail.com'
+app.config['MAIL_PASSWORD'] = 'cldufworakfjudnp'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
@@ -89,8 +89,8 @@ def index():
 
 # naredil funkcijo ki pošlje mail
 def sendmail(email,confirmation_id):
-    msg = Message('Hello', sender = 'yourId@gmail.com', recipients = [email])
-    msg.body = f"Click to confirm http://localhost:5000/post/confirm/{confirmation_id}"
+    msg = Message('Hello', sender = 'handytest753@gmail.com', recipients = [email])
+    msg.body = f"Click to confirm http://localhost:5000/posts/confirm/{confirmation_id}"
     mail.send(msg)
 
 #sendmail(confirmation_id="")
