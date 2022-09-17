@@ -179,11 +179,11 @@ def new_post():
 
 # decorator funkcijo pokiče v ozadju. 
 @app.route('/posts/confirm/<int:id>')
-def confirm(confirmation_id):
-    """Confirm blog post by confirmation id created in POST /postss"""
+def confirm(id):
+    """Confirm blog post by confirmation id created in POST /posts"""
 
     # get post from database where confirmation id matches or return 404
-    post = BlogPost.query.filter(BlogPost.confirmation_id == confirmation_id).first_or_404()
+    post = BlogPost.query.filter(BlogPost.confirmation_id == id).first_or_404()
 
     # set post to confirmed
     post.confirmed = True
