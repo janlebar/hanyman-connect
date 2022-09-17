@@ -11,7 +11,8 @@ from flask_migrate import Migrate
 from sqlalchemy import Table
 from sqlalchemy.orm import backref
 
-from flask_mail import Mail, Message
+from flask_mail import Mail
+from flask_mail import Message
 
 app = Flask(__name__)
 # TO SPODI JE SAM LOKACIJA ZA BAZO LAH ZAMENJAS BAZO ZA MYSQL (/// POMEN RELATIVNA POT DO BAZE)
