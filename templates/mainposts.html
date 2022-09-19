@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>Posts</title> 
+<title>Mainposts</title> 
 {% endblock %}
 {# coment #}
 {% block body %}
 <br>
+<div>
+    <h1 style="display:inline">All Posts</h1>
+    <a style="display:inline" class="btn btn-success float-right" href="/posts/new" >+ New Post</a>
+</div>
     <hr>
   
     {% for post in posts %}
@@ -28,12 +32,7 @@
         <br>
         <p style="white-space:pre-wrap">{{ post.content }}</p>
         <br>
-        <!--  klice nazaj povezavo na app.py za povsts in delete-->
-        <a class="btn btn-outline-danger" href='/posts/delete/{{post.id}}'>Delete</a>
-        <!--  klice nazaj povezavo na app.py za povsts in edit + id ker ureja sam en povst-->
-        <a class="btn btn-outline-primary" href='/posts/edit/{{post.id}}'>Edit</a>
-        <!--  klice nazaj povezavo na app.py za povsts in edit + id ker ureja sam en povst-->
-        <a class="btn btn-outline-success" href='/mainposts'>Post</a>
+
         <br>
         <hr>
         <br>

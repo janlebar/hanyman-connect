@@ -34,18 +34,11 @@ migrate = Migrate(app, db)
 mail = Mail(app)
 
 
-
-# TO SPODI JE STRUKTURA ZA BAZO MODEL, DELA SE Z CLASSI? BAZA MA TKO K TABELA COLUMNE, NULLABLE=FALSE POMENI DA NE MORE BIT PRAZN KER CE NI KONTENTA NE MORE BIT POVSTA
-# CE AVTORJA NI GA DODA KOT N/A
-# DATETIME NE DELUJE BREZ DA GA PREJ NA VRHU NE IMPORTERAS AKA FROM DATETIME IMPORT DATETIME
-
-
-
-
-
-
-
-
+# this below is the structure for the table model. Table has columnes ,nullable=false 
+# means it cannot be empty because if there is no content it cannot be created.
+# if there is no author added then n/a
+# datetime doesn't work without first importing it at the top aka from datetime import datetime
+#JL
 
 # spodaj baza za vrste del (parrent)
 class Category(db.Model):
@@ -54,7 +47,6 @@ class Category(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
-
 
 # model spodaj baza za blogpovste (child)
 class BlogPost(db.Model):
@@ -77,7 +69,7 @@ class BlogPost(db.Model):
     category = db.relationship('Category', backref=db.backref('work_type', lazy=True))
 
     def __repr__(self):
-        """vrne objekt reprezentativni"""
+        """returns object representative JL"""
         return 'Blog post ' + str(self.id)
 
 
@@ -93,7 +85,6 @@ def sendmail(email,confirmation_id):
     msg = Message('Hello', sender = 'handytest753@gmail.com', recipients = [email])
     msg.body = f"Click to confirm http://localhost:5000/posts/confirm/{confirmation_id}"
     mail.send(msg)
-
 #sendmail(confirmation_id="")
 
 
@@ -201,6 +192,42 @@ def confirm(id):
 @app.route('/about', methods=['GET', 'POST'])
 def about():
     return render_template('about.html')
+
+
+
+
+
+
+# jan naredil podstran
+@app.route('/mainposts', methods=['GET', 'POST'])
+def mainposts():
+    if request.method == 'POST':
+        post_title = request.form['title']
+        post_content = request.form['content']
+        post_offer = request.form['offer']
+        post_email = request.form['email']
+        post_category_id = request.form["category"]
+        post_confirmation_id = randbelow(10**12)
+        new_post = BlogPost(title=post_title, content=post_content, offer=post_offer, 
+                            email=post_email, category_id=post_category_id, confirmation_id=post_confirmation_id)
+
+        # vpise v bazo v trenutno
+        db.session.add(new_post)
+        # commit ga sele vpise permanentno v bazo
+        db.session.commit()
+
+
+
+        # vrne posodobljen posts page
+        return render_template('mainposts.html')
+    else:
+        # returns all posts drugace vrne prejsnje povste urejene po datumu query.order_by date_posted
+        all_posts = BlogPost.query.filter(BlogPost.confirmed == True).order_by(BlogPost.date_posted).all()
+        return render_template('mainposts.html', posts=all_posts)
+
+
+
+
 
 
 
