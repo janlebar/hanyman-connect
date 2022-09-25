@@ -92,6 +92,7 @@ def sendmail(email,confirmation_id):
 def posts():
 # if spodi ipolne form oz ga prebere 
     if request.method == 'POST':
+        
         post_title = request.form['title']
         post_content = request.form['content']
         post_offer = request.form['offer']
@@ -151,18 +152,6 @@ def edit(id):
 
 @app.route('/posts/new', methods=['GET', 'POST'])
 def new_post():
-    # if request.method == 'POST':
-    #     post.title = request.form['title']
-    #     post.offer = request.form['offer']
-    #     post.content = request.form['content']
-    #     post.email = request.form['email']
-
-    #     new_post = BlogPost(title=post_title, content=post_content, offer=post_offer, email=post_email)
-    #     db.session.add(new_post)
-    #     db.session.commit()
-    #     return redirect('/posts')
-    # else:
-        # jaka naredil da naredi categorije poizvedbo za vse 
         categories = Category.query.all()
         return render_template('new_post.html', categories=categories, action_url=url_for(posts.__name__))
 
@@ -172,13 +161,10 @@ def new_post():
 @app.route('/posts/confirm/<int:id>')
 def confirm(id):
     """Confirm blog post by confirmation id created in POST /posts"""
-
     # get post from database where confirmation id matches or return 404
     post = BlogPost.query.filter(BlogPost.confirmation_id == id).first_or_404()
-
     # set post to confirmed
     post.confirmed = True
-
     # save and commit updated post to database
     db.session.add(post)
     db.session.commit()
@@ -193,40 +179,89 @@ def confirm(id):
 def about():
     return render_template('about.html')
 
-
-
-
-
-
 # jan naredil podstran
+@app.route('/chmail', methods=['GET','POST'])
+def chmail():
+    return render_template('chmail.html')
+
+
+# jan naredil podstran za main post
 @app.route('/mainposts', methods=['GET', 'POST'])
 def mainposts():
-    if request.method == 'POST':
-        post_title = request.form['title']
-        post_content = request.form['content']
-        post_offer = request.form['offer']
-        post_email = request.form['email']
-        post_category_id = request.form["category"]
-        post_confirmation_id = randbelow(10**12)
-        new_post = BlogPost(title=post_title, content=post_content, offer=post_offer, 
-                            email=post_email, category_id=post_category_id, confirmation_id=post_confirmation_id)
-
-        # vpise v bazo v trenutno
-        db.session.add(new_post)
-        # commit ga sele vpise permanentno v bazo
-        db.session.commit()
-
-
-
-        # vrne posodobljen posts page
-        return render_template('mainposts.html')
-    else:
-        # returns all posts drugace vrne prejsnje povste urejene po datumu query.order_by date_posted
+        # returns all posts query.order_by date_posted
         all_posts = BlogPost.query.filter(BlogPost.confirmed == True).order_by(BlogPost.date_posted).all()
         return render_template('mainposts.html', posts=all_posts)
 
 
+# jan naredil podstran za main post
+# @app.route('/editing/<int:id>', methods=['GET', 'POST'])
+# def editing(id):
+#      post = BlogPost.query.get_or_404(id)
+# render_template('editing.html', )
 
+@app.route('/editing/<int:id>', methods=['GET', 'POST'])
+def editing(id):
+        # returns all posts query.order_by date_posted
+        id = BlogPost.query.filter(BlogPost.confirmed == True).all()
+        return render_template('editing.html', posts=id)
+#       post = BlogPost.query.get_or_404(id)
+
+
+# @app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
+# def edit(id):
+    
+#     post = BlogPost.query.get_or_404(id)
+#     # dodal kernc kategorije niso ble definiane z debugerjem
+#     categories = Category.query.all()
+
+#     if request.method == 'POST':
+#         post.title = request.form['title']
+#         post.offer = request.form['offer']
+#         post.content = request.form['content']
+#         post.email = request.form['email']
+#         post.category_id = request.form['category']
+#         db.session.commit()
+#         return redirect('/posts')
+#     else:
+#         # post=post ker rabi prebrisat prejsn povst
+#         return render_template('edit.html', post=post, categories=categories)
+
+
+
+#     if request.method == 'POST':
+        
+#         post_title = request.form['title']
+#         post_content = request.form['content']
+#         post_offer = request.form['offer']
+#         post_email = request.form['email']
+#         post_category_id = request.form["category"]
+#         post_confirmation_id = randbelow(10**12)
+#         new_post = BlogPost(title=post_title, content=post_content, offer=post_offer, 
+#                             email=post_email, category_id=post_category_id, confirmation_id=post_confirmation_id)
+
+#         # vpise v bazo v trenutno
+#         db.session.add(new_post)
+#         # commit ga sele vpise permanentno v bazo
+#         db.session.commit()
+
+#         #poklical funkcijo sendmail in jo izpolnil z parametri iz posts
+#         sendmail(post_email, post_confirmation_id)
+
+#         # vrne posodobljen posts page
+#         return redirect('/posts')
+#     else:
+#         # returns all posts drugace vrne prejsnje povste urejene po datumu query.order_by date_posted
+#         all_posts = BlogPost.query.filter(BlogPost.confirmed == True).order_by(BlogPost.date_posted).all()
+#         return render_template('posts.html', posts=all_posts)
+
+
+# # rout za delete post
+# @app.route('/posts/delete/<int:id>')
+# def delete(id):
+#     post = BlogPost.query.get_or_404(id)
+#     db.session.delete(post)
+#     db.session.commit()
+#     return redirect('/posts')
 
 
 
