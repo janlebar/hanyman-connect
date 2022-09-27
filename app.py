@@ -202,10 +202,10 @@ def mainposts():
 @app.route('/editing/<int:id>', methods=['GET', 'POST'])
 def editing(id):
         # returns all posts query.order_by date_posted
-        id = BlogPost.query.filter(BlogPost.confirmed == True).all()
-        return render_template('editing.html', posts=id)
+        post = BlogPost.query.filter(BlogPost.id == id)
+        return render_template('editing.html', posts=post)
 #       post = BlogPost.query.get_or_404(id)
-
+#        id = BlogPost.query.filter(BlogPost.confirmed == True).all()
 
 # @app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
 # def edit(id):
