@@ -186,12 +186,12 @@ def chmail():
     return render_template('chmail.html')
 
 
-# jan naredil podstran za main post
-@app.route('/mainposts', methods=['GET', 'POST'])
-def mainposts():
-        # returns all posts query.order_by date_posted
-        all_posts = BlogPost.query.filter(BlogPost.confirmed == True).order_by(BlogPost.date_posted).all()
-        return render_template('mainposts.html', posts=all_posts)
+#  jan naredil podstran za main post
+# @app.route('/mainposts', methods=['GET', 'POST'])
+# def mainposts():
+#         # returns all posts query.order_by date_posted
+#         all_posts = BlogPost.query.filter(BlogPost.confirmed == True).order_by(BlogPost.date_posted).all()
+#         return render_template('mainposts.html', posts=all_posts)
 
 
 # jan naredil podstran za main post
