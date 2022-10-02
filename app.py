@@ -2,6 +2,7 @@ from datetime import datetime
 from email.policy import default
 from unicodedata import category
 from secrets import randbelow
+from webbrowser import get
 
 # v flask importas se request, ki je potreben da nov post poveze v bazo line 32
 from flask import Flask, render_template, request, redirect, url_for
@@ -168,9 +169,9 @@ def confirm(id):
     # save and commit updated post to database
     db.session.add(post)
     db.session.commit()
-
     # redirect to all posts
-    return redirect('/posts')
+    #jaka: url_for je neke vrste funkcija ki generira raut in vzame parameter id, čeprav je string url
+    return redirect (url_for('editing', id=post.id))
  
 
 
