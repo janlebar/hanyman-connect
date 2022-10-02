@@ -3,6 +3,7 @@ from email.policy import default
 from unicodedata import category
 from secrets import randbelow
 from webbrowser import get
+from itsdangerous import URLSafeSerializer
 
 # v flask importas se request, ki je potreben da nov post poveze v bazo line 32
 from flask import Flask, render_template, request, redirect, url_for
