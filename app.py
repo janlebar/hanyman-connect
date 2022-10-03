@@ -209,6 +209,16 @@ def editing(id):
 #       post = BlogPost.query.get_or_404(id)
 #        id = BlogPost.query.filter(BlogPost.confirmed == True).all()
 
+@app.route('/posts/apply/<int:id>', methods=['GET', 'POST'])
+def apply(id):
+        # returns all posts query.order_by date_posted
+        post = BlogPost.query.filter(BlogPost.id == id)
+        return render_template('apply.html', posts=post)
+
+
+
+
+
 # @app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
 # def edit(id):
     
