@@ -216,7 +216,20 @@ def apply(id):
         return render_template('apply.html', posts=post)
 
 
+# class BlogApply(db.Model):
+#     """Baza za apply"""
 
+#     __tablename__ = "blog_apply"
+#     __mapper_args__ = {"eager_defaults": True}
+#     id_apply = db.Column(db.Integer, primary_key=True,)
+#     email_apply = db.Column(db.Text, nullable=False, default="")
+#     confirmation_id_apply = db.Column(db.Integer, nullable=False)
+#     confirmed_apply = db.Column(db.Boolean, default=False)
+# #   za  kategorije
+
+#     def __repr__(self):
+#         """returns object representative JL"""
+#         return 'Blog post ' + str(self.id_apply)
 
 
 # @app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
