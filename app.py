@@ -75,6 +75,23 @@ class BlogPost(db.Model):
         return 'Blog post ' + str(self.id)
 
 
+class BlogApply(db.Model):
+    """Baza za apply"""
+
+    __tablename__ = "blog_apply"
+    __mapper_args__ = {"eager_defaults": True}
+    id_apply = db.Column(db.Integer, primary_key=True,)
+    email_apply = db.Column(db.Text, nullable=False, default="")
+    # confirmation_id_apply = db.Column(db.Integer, nullable=False)
+    # confirmed_apply = db.Column(db.Boolean, default=False)
+#   za  kategorije
+
+    def __repr__(self):
+        """returns object representative JL"""
+        return 'Blog apply ' + str(self.id_apply)
+
+
+
 # DA NAREDIS BAZO GRES V TERMINAL NA LOKACIJO KJER BO IN NAPISES FROM APP IMPORT DB, KASNEJE DB.CREATE_ALL()
 @app.route('/')
 def index():
@@ -119,6 +136,11 @@ def posts():
         all_posts = BlogPost.query.filter(BlogPost.confirmed == True).order_by(BlogPost.date_posted).all()
         return render_template('posts.html', posts=all_posts)
 
+@app.route('/posts/apply/<int:id>', methods=['GET', 'POST'])
+def apply(id):
+        # returns all posts query.order_by date_posted
+        post = BlogPost.query.filter(BlogPost.id == id)
+        return render_template('apply.html', posts=post)
 
 # rout za delete post
 @app.route('/posts/delete/<int:id>')
@@ -209,27 +231,7 @@ def editing(id):
 #       post = BlogPost.query.get_or_404(id)
 #        id = BlogPost.query.filter(BlogPost.confirmed == True).all()
 
-@app.route('/posts/apply/<int:id>', methods=['GET', 'POST'])
-def apply(id):
-        # returns all posts query.order_by date_posted
-        post = BlogPost.query.filter(BlogPost.id == id)
-        return render_template('apply.html', posts=post)
 
-
-# class BlogApply(db.Model):
-#     """Baza za apply"""
-
-#     __tablename__ = "blog_apply"
-#     __mapper_args__ = {"eager_defaults": True}
-#     id_apply = db.Column(db.Integer, primary_key=True,)
-#     email_apply = db.Column(db.Text, nullable=False, default="")
-#     confirmation_id_apply = db.Column(db.Integer, nullable=False)
-#     confirmed_apply = db.Column(db.Boolean, default=False)
-# #   za  kategorije
-
-#     def __repr__(self):
-#         """returns object representative JL"""
-#         return 'Blog post ' + str(self.id_apply)
 
 
 # @app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])

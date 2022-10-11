@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Posts</title> 
+{% endblock %}
+{# coment #}
+{% block body %}
+<br>
+<div>
+    <h1 style="display:inline">All Posts</h1>
+    <a style="display:inline" class="btn btn-success float-right" href="/posts/new" >+ New Post</a>
+</div>
+    <hr>
+  
+    {% for post in posts %}
+        <h2>{{ post.title }}</h2>
+        {% if post.author %}
+            <small> Written by {{ post.author }} on {{ post.date_posted }}</small>
+        {% else %}
+            <small> Date; {{ post.date_posted }}</small>
+        {% endif %}
+        <br>
+        <br>
+        {% if post.category %}
+        <br>
+        <p style="white-space:pre-wrap">{{ post.category.name }}</p>
+        <br>
+        {% endif %}
+        <p style="white-space:pre-wrap">{{ post.email }}</p>
+        <br>
+        <p style="white-space:pre-wrap">{{ post.offer }}</p>
+        <br>
+        <p style="white-space:pre-wrap">{{ post.content }}</p>
+        <br>
+        <!--  klice nazaj povezavo na app.py za povsts in delete-->
+        <a class="btn btn-info" href='/posts/apply/{{post.id}}'>Apply</a>
+        <br>
+        <hr>
+        <br>
+    {% endfor%}
+
+{% endblock %}

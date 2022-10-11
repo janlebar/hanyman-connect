@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Objavi delo</title> 
+{% endblock %}
+
+{% block body %}
+<h1>Oddaj povpraševanje</h1>
+
+    <hr>
+
+
+    <!--  formular kamor folk vpise podatke za nov povst-->
+    <form action='{{ action_url }}' method='POST'>
+        <!--  -->
+        <br>
+        <label for="offer">Name:</label>
+        <input class="form-control" type="name_apply" name='name_apply' id='name_apply' placeholder="input name" aria-label="Enter Name" required minlength="1" maxlength="15">
+        <br>
+        <label for="email">Email:</label>
+        <input class="form-control" type="email_apply" name='email_apply' id='email_apply' placeholder="vnesi svoj email" aria-label="Enter Email" required
+            oninvalid="this.setCustomValidity('Enter valid email')"
+            oninput="this.setCustomValidity('')">
+        <br>
+         <!--  spodi sam submita ne poveže pa v bazo-->
+        <input type='submit' value='Objavi'>
+    </form>
+
+    
+    <hr>
+{% endblock %}
