@@ -81,6 +81,7 @@ class BlogApply(db.Model):
     __tablename__ = "blog_apply"
     __mapper_args__ = {"eager_defaults": True}
     id_apply = db.Column(db.Integer, primary_key=True,)
+    name_apply = db.Column(db.Text, nullable=False, default="")
     email_apply = db.Column(db.Text, nullable=False, default="")
     # confirmation_id_apply = db.Column(db.Integer, nullable=False)
     # confirmed_apply = db.Column(db.Boolean, default=False)
@@ -136,11 +137,29 @@ def posts():
         all_posts = BlogPost.query.filter(BlogPost.confirmed == True).order_by(BlogPost.date_posted).all()
         return render_template('posts.html', posts=all_posts)
 
-@app.route('/posts/apply/<int:id>', methods=['GET', 'POST'])
-def apply(id):
-        # returns all posts query.order_by date_posted
-        post = BlogPost.query.filter(BlogPost.id == id)
-        return render_template('apply.html', posts=post)
+@app.route('/applys', methods=['GET', 'POST'])
+def applys():
+# if spodi ipolne form oz ga prebere 
+    if request.method == 'POST':
+        name_apply = request.form['name_apply']
+        email_apply = request.form['email_apply']
+        new_apply = BlogApply( email_apply=email_apply,name_apply=name_apply)
+
+        # vpise v bazo v trenutno
+        db.session.add(new_apply)
+        # commit ga sele vpise permanentno v bazo
+        db.session.commit()
+        # vrne posodobljen posts page
+        return redirect('/applys')
+    else:
+        # returns all posts drugace vrne prejsnje povste urejene po datumu query.order_by date_posted
+        all_apply = BlogApply.query.all()
+        return render_template('applys.html', applys=all_apply)
+
+@app.route('/apply/new', methods=['GET', 'POST'])
+def new_apply():
+
+        return render_template('new_apply.html', action_url=url_for(applys.__name__))
 
 # rout za delete post
 @app.route('/posts/delete/<int:id>')
