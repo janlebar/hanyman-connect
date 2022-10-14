@@ -156,10 +156,12 @@ def applys():
         all_apply = BlogApply.query.all()
         return render_template('applys.html', applys=all_apply)
 
-@app.route('/apply/new', methods=['GET', 'POST'])
-def new_apply():
-
-        return render_template('new_apply.html', action_url=url_for(applys.__name__))
+@app.route('/apply/new/<int:id>', methods=['GET', 'POST'])
+def new_apply(id):
+        post = BlogPost.query.filter(BlogPost.id == id)
+        return render_template('new_apply.html', posts=post)
+        # return render_template('new_apply.html', action_url=url_for(applys.__name__))
+        # return render_template('editing.html', return render_template('editing.html', posts=post))
 
 # rout za delete post
 @app.route('/posts/delete/<int:id>')
