@@ -23,8 +23,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
 #mail config
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = ''
-app.config['MAIL_PASSWORD'] = ''
+app.config['MAIL_USERNAME'] = 'handytest753@gmail.com'
+app.config['MAIL_PASSWORD'] = 'nnmcnvlicvfurtqg'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
@@ -137,6 +137,12 @@ def posts():
         all_posts = BlogPost.query.filter(BlogPost.confirmed == True).order_by(BlogPost.date_posted).all()
         return render_template('posts.html', posts=all_posts)
 
+@app.route('/posts/new', methods=['GET', 'POST'])
+def new_post():
+        categories = Category.query.all()
+        return render_template('new_post.html', categories=categories, action_url=url_for(posts.__name__))
+
+
 @app.route('/applys', methods=['GET', 'POST'])
 def applys():
 # if spodi ipolne form oz ga prebere 
@@ -149,19 +155,28 @@ def applys():
         db.session.add(new_apply)
         # commit ga sele vpise permanentno v bazo
         db.session.commit()
-        # vrne posodobljen posts page
-        return redirect('/applys')
-    else:
-        # returns all posts drugace vrne prejsnje povste urejene po datumu query.order_by date_posted
-        all_apply = BlogApply.query.all()
-        return render_template('applys.html', applys=all_apply)
+        return redirect('/posts')
+# SAMO VPIŠE V BAZO NE VRNE APPLYS KER GA NOČEŠ VIDET
+    #     return redirect('/applys')
+    # else:
+    #     # returns all posts drugace vrne prejsnje povste urejene po datumu query.order_by date_posted
+    #     all_apply = BlogApply.query.all()
+    #     return render_template('applys.html', applys=all_apply)
 
 @app.route('/apply/new/<int:id>', methods=['GET', 'POST'])
 def new_apply(id):
-        post = BlogPost.query.filter(BlogPost.id == id)
-        return render_template('new_apply.html', posts=post)
+        # post = BlogPost.query.filter(BlogPost.id == id)
+        # return render_template('new_apply.html', posts=post)
+        categories = Category.query.all()
+        return render_template('new_apply.html', categories=categories, action_url=url_for(applys.__name__))
+
         # return render_template('new_apply.html', action_url=url_for(applys.__name__))
         # return render_template('editing.html', return render_template('editing.html', posts=post))
+
+# @app.route('/apply/new/', methods=['GET', 'POST'])
+# def new_apply(id):
+#         post = BlogPost.query.filter(BlogPost.id == id)
+#         return render_template('new_apply.html', posts=post)
 
 # rout za delete post
 @app.route('/posts/delete/<int:id>')
@@ -195,10 +210,6 @@ def edit(id):
 
 
 
-@app.route('/posts/new', methods=['GET', 'POST'])
-def new_post():
-        categories = Category.query.all()
-        return render_template('new_post.html', categories=categories, action_url=url_for(posts.__name__))
 
 
 
