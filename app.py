@@ -69,7 +69,6 @@ class BlogPost(db.Model):
 #   za  kategorije
     category_id = db.Column(db.Integer, db.ForeignKey('work_type.id'), nullable=True)
     category = db.relationship('Category', backref=db.backref('work_type', lazy=True))
-
     def __repr__(self):
         """returns object representative JL"""
         return 'Blog post ' + str(self.id)
@@ -83,6 +82,8 @@ class BlogApply(db.Model):
     id_apply = db.Column(db.Integer, primary_key=True,)
     name_apply = db.Column(db.Text, nullable=False, default="")
     email_apply = db.Column(db.Text, nullable=False, default="")
+    blog_post_id = db.Column(db.Integer, db.ForeignKey('blog_post.id'))
+
     # confirmation_id_apply = db.Column(db.Integer, nullable=False)
     # confirmed_apply = db.Column(db.Boolean, default=False)
 #   za  kategorije
@@ -149,6 +150,7 @@ def applys():
     if request.method == 'POST':
         name_apply = request.form['name_apply']
         email_apply = request.form['email_apply']
+        
         new_apply = BlogApply( email_apply=email_apply,name_apply=name_apply)
 
         # vpise v bazo v trenutno
@@ -165,10 +167,10 @@ def applys():
 
 @app.route('/apply/new/<int:id>', methods=['GET', 'POST'])
 def new_apply(id):
-        # post = BlogPost.query.filter(BlogPost.id == id)
-        # return render_template('new_apply.html', posts=post)
+
+        blog_post_id = id
         categories = Category.query.all()
-        return render_template('new_apply.html', categories=categories, action_url=url_for(applys.__name__))
+        return render_template('new_apply.html',blog_post_id=blog_post_id, categories=categories, action_url=url_for(applys.__name__))
 
         # return render_template('new_apply.html', action_url=url_for(applys.__name__))
         # return render_template('editing.html', return render_template('editing.html', posts=post))
