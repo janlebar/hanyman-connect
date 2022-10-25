@@ -150,8 +150,8 @@ def applys():
     if request.method == 'POST':
         name_apply = request.form['name_apply']
         email_apply = request.form['email_apply']
-        
-        new_apply = BlogApply( email_apply=email_apply,name_apply=name_apply)
+        blog_post_id = request.form['blog_post_id']
+        new_apply = BlogApply( email_apply=email_apply,name_apply=name_apply,blog_post_id=blog_post_id)
 
         # vpise v bazo v trenutno
         db.session.add(new_apply)
@@ -167,10 +167,8 @@ def applys():
 
 @app.route('/apply/new/<int:id>', methods=['GET', 'POST'])
 def new_apply(id):
-
-        blog_post_id = id
-        categories = Category.query.all()
-        return render_template('new_apply.html',blog_post_id=blog_post_id, categories=categories, action_url=url_for(applys.__name__))
+        blog_post_id =id
+        return render_template('new_apply.html', blog_post_id=blog_post_id, action_url=url_for(applys.__name__))
 
         # return render_template('new_apply.html', action_url=url_for(applys.__name__))
         # return render_template('editing.html', return render_template('editing.html', posts=post))

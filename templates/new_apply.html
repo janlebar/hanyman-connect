@@ -21,9 +21,13 @@
         <input class="form-control" type="email_apply" name='email_apply' id='email_apply' placeholder="vnesi svoj email" aria-label="Enter Email" required
             oninvalid="this.setCustomValidity('Enter valid email')"
             oninput="this.setCustomValidity('')">
+        <input type="hidden" id="blog_post_id" name="blog_post_id" value="{{ blog_post_id }}">    
         <br>
          <!--  spodi sam submita ne poveže pa v bazo-->
         <input type='submit' value='Objavi'>
+
+        
+
     </form>
 
     
