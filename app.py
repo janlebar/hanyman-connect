@@ -144,6 +144,12 @@ def new_post():
         return render_template('new_post.html', categories=categories, action_url=url_for(posts.__name__))
 
 
+def sendmailapply(email_apply ):
+    msg = Message('Hello', sender = 'handytest753@gmail.com', recipients = [email_apply])
+    msg.body = f"Click to confirm http://localhost:5000/posts/confirm/{email_apply}"
+    mail.send(msg)
+
+
 @app.route('/applys', methods=['GET', 'POST'])
 def applys():
 # if spodi ipolne form oz ga prebere 
@@ -157,6 +163,7 @@ def applys():
         db.session.add(new_apply)
         # commit ga sele vpise permanentno v bazo
         db.session.commit()
+        sendmailapply(email_apply)
         return redirect('/posts')
 # SAMO VPIŠE V BAZO NE VRNE APPLYS KER GA NOČEŠ VIDET
     #     return redirect('/applys')
