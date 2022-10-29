@@ -23,8 +23,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
 #mail config
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = ''
-app.config['MAIL_PASSWORD'] = ''
+app.config['MAIL_USERNAME'] = 'handytest753@gmail.com'
+app.config['MAIL_PASSWORD'] = 'nnmcnvlicvfurtqg'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
@@ -83,6 +83,8 @@ class BlogApply(db.Model):
     name_apply = db.Column(db.Text, nullable=False, default="")
     email_apply = db.Column(db.Text, nullable=False, default="")
     blog_post_id = db.Column(db.Integer, db.ForeignKey('blog_post.id'))
+    apply_confirmation_id = db.Column(db.Integer, nullable=False)
+    apply_confirmed = db.Column(db.Boolean, default=False)
 
     # confirmation_id_apply = db.Column(db.Integer, nullable=False)
     # confirmed_apply = db.Column(db.Boolean, default=False)
