@@ -29,6 +29,7 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
 # TO SPODI JE SAM LOKACIJA ZA BAZO LAH ZAMENJAS BAZO ZA MYSQL (/// POMEN RELATIVNA POT DO BAZE)
+# DA NAREDIS BAZO GRES V TERMINAL NA LOKACIJO KJER BO IN NAPISES FROM APP IMPORT DB, KASNEJE DB.CREATE_ALL()
 db = SQLAlchemy(app)
 session = db.session
 migrate = Migrate(app, db)
@@ -73,7 +74,6 @@ class BlogPost(db.Model):
         """returns object representative JL"""
         return 'Blog post ' + str(self.id)
 
-
 class BlogApply(db.Model):
     """Baza za apply"""
 
@@ -94,12 +94,8 @@ class BlogApply(db.Model):
 
 
 
-# DA NAREDIS BAZO GRES V TERMINAL NA LOKACIJO KJER BO IN NAPISES FROM APP IMPORT DB, KASNEJE DB.CREATE_ALL()
-@app.route('/')
-def index():
-    return render_template('index.html')
 
-#app.add_url_rule("/", None, view_func=index)
+
 
 # naredil funkcijo ki pošlje mail
 def sendmail(email,confirmation_id):
@@ -143,12 +139,25 @@ def new_post():
         categories = Category.query.all()
         return render_template('new_post.html', categories=categories, action_url=url_for(posts.__name__))
 
-
+# decorator funkcijo pokiče v ozadju. 
+@app.route('/posts/confirm/<int:id>')
+def confirm(id):
+    """Confirm blog post by confirmation id created in POST /posts"""
+    # get post from database where confirmation id matches or return 404
+    post = BlogPost.query.filter(BlogPost.confirmation_id == id).first_or_404()
+    # set post to confirmed
+    post.confirmed = True
+    # save and commit updated post to database
+    db.session.add(post)
+    db.session.commit()
+    # redirect to all posts
+    #jaka: url_for je neke vrste funkcija ki generira raut in vzame parameter id, čeprav je string url
+    return redirect (url_for('editing', id=post.id))
+ 
 def sendmailapply(email_apply ):
     msg = Message('Hello', sender = 'handytest753@gmail.com', recipients = [email_apply])
     msg.body = f"Click to confirm http://localhost:5000/posts/confirm/{email_apply}"
     mail.send(msg)
-
 
 @app.route('/applys', methods=['GET', 'POST'])
 def applys():
@@ -166,24 +175,52 @@ def applys():
         sendmailapply(email_apply)
         return redirect('/posts')
 # SAMO VPIŠE V BAZO NE VRNE APPLYS KER GA NOČEŠ VIDET
-    #     return redirect('/applys')
-    # else:
-    #     # returns all posts drugace vrne prejsnje povste urejene po datumu query.order_by date_posted
-    #     all_apply = BlogApply.query.all()
-    #     return render_template('applys.html', applys=all_apply)
+    #     return redirect('/v povste ')
 
 @app.route('/apply/new/<int:id>', methods=['GET', 'POST'])
 def new_apply(id):
         blog_post_id =id
         return render_template('new_apply.html', blog_post_id=blog_post_id, action_url=url_for(applys.__name__))
 
-        # return render_template('new_apply.html', action_url=url_for(applys.__name__))
-        # return render_template('editing.html', return render_template('editing.html', posts=post))
 
-# @app.route('/apply/new/', methods=['GET', 'POST'])
-# def new_apply(id):
-#         post = BlogPost.query.filter(BlogPost.id == id)
-#         return render_template('new_apply.html', posts=post)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+#app.add_url_rule("/", None, view_func=index)
 
 # rout za delete post
 @app.route('/posts/delete/<int:id>')
@@ -193,11 +230,9 @@ def delete(id):
     db.session.commit()
     return redirect('/posts')
 
-
 # route za edit post, ker ga urejas mora bit metoda post ker jo shrani v bazo
 @app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
-def edit(id):
-    
+def edit(id):   
     post = BlogPost.query.get_or_404(id)
     # dodal kernc kategorije niso ble definiane z debugerjem
     categories = Category.query.all()
@@ -213,29 +248,6 @@ def edit(id):
     else:
         # post=post ker rabi prebrisat prejsn povst
         return render_template('edit.html', post=post, categories=categories)
-
-
-
-
-
-
-
-# decorator funkcijo pokiče v ozadju. 
-@app.route('/posts/confirm/<int:id>')
-def confirm(id):
-    """Confirm blog post by confirmation id created in POST /posts"""
-    # get post from database where confirmation id matches or return 404
-    post = BlogPost.query.filter(BlogPost.confirmation_id == id).first_or_404()
-    # set post to confirmed
-    post.confirmed = True
-    # save and commit updated post to database
-    db.session.add(post)
-    db.session.commit()
-    # redirect to all posts
-    #jaka: url_for je neke vrste funkcija ki generira raut in vzame parameter id, čeprav je string url
-    return redirect (url_for('editing', id=post.id))
- 
-
 
 # jan naredil podstran
 @app.route('/about', methods=['GET', 'POST'])
@@ -261,6 +273,7 @@ def chmail():
 # def editing(id):
 #      post = BlogPost.query.get_or_404(id)
 # render_template('editing.html', )
+
 
 @app.route('/editing/<int:id>', methods=['GET', 'POST'])
 def editing(id):
