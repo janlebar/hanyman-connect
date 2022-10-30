@@ -23,8 +23,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
 #mail config
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'handytest753@gmail.com'
-app.config['MAIL_PASSWORD'] = 'nnmcnvlicvfurtqg'
+app.config['MAIL_USERNAME'] = ''
+app.config['MAIL_PASSWORD'] = ''
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
@@ -156,10 +156,11 @@ def confirm(id):
     #jaka: url_for je neke vrste funkcija ki generira raut in vzame parameter id, čeprav je string url
     return redirect (url_for('editing', id=post.id))
  
-def sendmailapply(email_apply ):
+def sendmailapply(email_apply,apply_confirmation_id):
     msg = Message('Hello', sender = 'handytest753@gmail.com', recipients = [email_apply])
-    msg.body = f"Click to confirm http://localhost:5000/posts/confirm/{email_apply}"
+    msg.body = f"Click to confirm http://localhost:5000/apply/confirmed/{apply_confirmation_id}"
     mail.send(msg)
+
 
 @app.route('/applys', methods=['GET', 'POST'])
 def applys():
@@ -168,13 +169,14 @@ def applys():
         name_apply = request.form['name_apply']
         email_apply = request.form['email_apply']
         blog_post_id = request.form['blog_post_id']
-        new_apply = BlogApply( email_apply=email_apply,name_apply=name_apply,blog_post_id=blog_post_id)
+        apply_confirmation_id = randbelow(10**12)
+        new_apply = BlogApply( email_apply=email_apply,name_apply=name_apply,blog_post_id=blog_post_id,apply_confirmation_id=apply_confirmation_id)
 
         # vpise v bazo v trenutno
         db.session.add(new_apply)
         # commit ga sele vpise permanentno v bazo
         db.session.commit()
-        sendmailapply(email_apply)
+        sendmailapply(email_apply,apply_confirmation_id)
         return redirect('/posts')
 # SAMO VPIŠE V BAZO NE VRNE APPLYS KER GA NOČEŠ VIDET
     #     return redirect('/v povste ')
@@ -185,6 +187,20 @@ def new_apply(id):
         return render_template('new_apply.html', blog_post_id=blog_post_id, action_url=url_for(applys.__name__))
 
 
+# decorator funkcijo pokiče v ozadju. 
+@app.route('/apply/confirmed/<int:id>')
+def confirmed(id):
+    """Confirm blog post by confirmation id created in POST /posts"""
+    # get post from database where confirmation id matches or return 404
+    apply = BlogApply.query.filter(BlogApply.apply_confirmation_id == id).first_or_404()
+    # set post to confirmed
+    apply.confirmed = True
+    # save and commit updated post to database
+    db.session.add(apply)
+    db.session.commit()
+    # redirect to all posts
+    #jaka: url_for je neke vrste funkcija ki generira raut in vzame parameter id, čeprav je string url
+    return redirect ('posts')
 
 
 
