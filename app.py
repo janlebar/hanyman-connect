@@ -23,8 +23,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
 #mail config
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = ''
-app.config['MAIL_PASSWORD'] = ''
+app.config['MAIL_USERNAME'] = 'handytest753@gmail.com'
+app.config['MAIL_PASSWORD'] = 'nnmcnvlicvfurtqg'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
@@ -188,19 +188,19 @@ def new_apply(id):
 
 
 # decorator funkcijo pokiče v ozadju. 
-@app.route('/apply/confirmed/<int:id>')
-def confirmed(id):
+@app.route('/apply/confirmed/<int:apply_confirmation_id>')
+def confirmed(apply_confirmation_id):
     """Confirm blog post by confirmation id created in POST /posts"""
     # get post from database where confirmation id matches or return 404
-    apply = BlogApply.query.filter(BlogApply.apply_confirmation_id == id).first_or_404()
+    apply = BlogApply.query.filter(BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404()
     # set post to confirmed
-    apply.confirmed = True
+    apply.apply_confirmed = True
     # save and commit updated post to database
     db.session.add(apply)
     db.session.commit()
     # redirect to all posts
     #jaka: url_for je neke vrste funkcija ki generira raut in vzame parameter id, čeprav je string url
-    return redirect ('posts')
+    return redirect (url_for('posts'))
 
 
 
