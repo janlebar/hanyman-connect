@@ -95,17 +95,10 @@ class BlogApply(db.Model):
         return 'Blog apply ' + str(self.id_apply)
 
 
-
-
-
-
-# naredil funkcijo ki pošlje mail
-def sendmail(email,confirmation_id):
-    msg = Message('Hello', sender = 'handytest753@gmail.com', recipients = [email])
-    msg.body = f"Click to confirm http://localhost:5000/posts/confirm/{confirmation_id}"
-    mail.send(msg)
-#sendmail(confirmation_id="")
-
+@app.route('/posts/new', methods=['GET', 'POST'])
+def new_post():
+        categories = Category.query.all()
+        return render_template('new_post.html', categories=categories, action_url=url_for(posts.__name__))
 
 @app.route('/posts', methods=['GET', 'POST'])
 def posts():
@@ -136,10 +129,12 @@ def posts():
         all_posts = BlogPost.query.filter(BlogPost.confirmed == True).order_by(BlogPost.date_posted).all()
         return render_template('posts.html', posts=all_posts)
 
-@app.route('/posts/new', methods=['GET', 'POST'])
-def new_post():
-        categories = Category.query.all()
-        return render_template('new_post.html', categories=categories, action_url=url_for(posts.__name__))
+# naredil funkcijo ki pošlje mail
+def sendmail(email,confirmation_id):
+    msg = Message('Hello', sender = 'handytest753@gmail.com', recipients = [email])
+    msg.body = f"Click to confirm http://localhost:5000/posts/confirm/{confirmation_id}"
+    mail.send(msg)
+#sendmail(confirmation_id="")
 
 # decorator funkcijo pokiče v ozadju. 
 @app.route('/posts/confirm/<int:id>')
@@ -156,16 +151,16 @@ def confirm(id):
     #jaka: url_for je neke vrste funkcija ki generira raut in vzame parameter id, čeprav je string url
     return redirect (url_for('editing', id=post.id))
  
-def sendmailapply(email_apply,apply_confirmation_id):
-    msg = Message('Hello', sender = 'handytest753@gmail.com', recipients = [email_apply])
-    msg.body = f"Click to confirm http://localhost:5000/apply/confirmed/{apply_confirmation_id}"
-    mail.send(msg)
 
+@app.route('/apply/new/<int:id>', methods=['GET', 'POST'])
+def new_apply(id):
+        blog_post_id =id
+        return render_template('new_apply.html', blog_post_id=blog_post_id, action_url=url_for(applys.__name__))
 
 @app.route('/applys', methods=['GET', 'POST'])
 def applys():
 # if spodi ipolne form oz ga prebere 
-    if request.method == 'POST':
+    if  request.method == 'POST':
         name_apply = request.form['name_apply']
         email_apply = request.form['email_apply']
         blog_post_id = request.form['blog_post_id']
@@ -181,11 +176,10 @@ def applys():
 # SAMO VPIŠE V BAZO NE VRNE APPLYS KER GA NOČEŠ VIDET
     #     return redirect('/v povste ')
 
-@app.route('/apply/new/<int:id>', methods=['GET', 'POST'])
-def new_apply(id):
-        blog_post_id =id
-        return render_template('new_apply.html', blog_post_id=blog_post_id, action_url=url_for(applys.__name__))
-
+def sendmailapply(email_apply,apply_confirmation_id):
+    msg = Message('Hello', sender = 'handytest753@gmail.com', recipients = [email_apply])
+    msg.body = f"Click to confirm http://localhost:5000/apply/confirmed/{apply_confirmation_id}"
+    mail.send(msg)
 
 # decorator funkcijo pokiče v ozadju. 
 @app.route('/apply/confirmed/<int:apply_confirmation_id>')
@@ -198,14 +192,17 @@ def confirmed(apply_confirmation_id):
     # save and commit updated post to database
     db.session.add(apply)
     db.session.commit()
-    # redirect to all posts
-    #jaka: url_for je neke vrste funkcija ki generira raut in vzame parameter id, čeprav je string url
-    return redirect (url_for('posts'))
+    # email_apply = 
+    # email = 
+    
+    results=session.query(BlogPost).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id)
+    for result in results:
+        print(result)
 
-
-
-
-
+def sendmailconnect(email_apply,email):
+    msg = Message('Hello', sender = 'handytest753@gmail.com', recipients = [email])
+    msg.body = f"Pleas contact {email_apply}"
+    mail.send(msg)
 
 
 
