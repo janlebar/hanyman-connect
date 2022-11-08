@@ -23,15 +23,15 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
 #mail config
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'handytest753@gmail.com'
-app.config['MAIL_PASSWORD'] = 'nnmcnvlicvfurtqg'
+app.config['MAIL_USERNAME'] = ''
+app.config['MAIL_PASSWORD'] = ''
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
 # TO SPODI JE SAM LOKACIJA ZA BAZO LAH ZAMENJAS BAZO ZA MYSQL (/// POMEN RELATIVNA POT DO BAZE)
 # DA NAREDIS BAZO GRES V TERMINAL NA LOKACIJO KJER BO IN NAPISES FROM APP IMPORT DB, KASNEJE DB.CREATE_ALL()
 db = SQLAlchemy(app)
-session = db.session
+sessiondb = db.session
 migrate = Migrate(app, db)
 #mail class
 mail = Mail(app)
@@ -195,9 +195,17 @@ def confirmed(apply_confirmation_id):
     # email_apply = 
     # email = 
     
-    results=session.query(BlogPost).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id)
+    # results=session.query(BlogPost).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id)
+    # for result in results:
+    #     print(result)
+
+    results = sessiondb.query(BlogPost.email).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id)
     for result in results:
         print(result)
+
+    names = sessiondb.query(BlogPost.title).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id)
+    for name in names:
+        print(name)
 
 def sendmailconnect(email_apply,email):
     msg = Message('Hello', sender = 'handytest753@gmail.com', recipients = [email])
