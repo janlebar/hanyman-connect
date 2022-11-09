@@ -199,18 +199,31 @@ def confirmed(apply_confirmation_id):
     # for result in results:
     #     print(result)
 
-    results = sessiondb.query(BlogPost.email).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id)
-    for result in results:
-        print(result)
+    # results = sessiondb.query(BlogPost.email).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id)
+    # for result in results:
+    #     print(result)
 
-    names = sessiondb.query(BlogPost.title).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id)
-    for name in names:
-        print(name)
+    # names = sessiondb.query(BlogPost.title).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id)
+    # for name in names:
+    #     print(name)
 
-def sendmailconnect(email_apply,email):
-    msg = Message('Hello', sender = 'handytest753@gmail.com', recipients = [email])
-    msg.body = f"Pleas contact {email_apply}"
+
+    email_applys = sessiondb.query(BlogPost.email).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404()
+
+
+    # titles = sessiondb.query(BlogPost.title).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404()
+
+    emails = sessiondb.query(BlogApply.email_apply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404()
+
+
+    sendmailconnect(email_applys,emails,)
+    return redirect (url_for('posts'))
+
+def sendmailconnect(email_applys,emails):
+    msg = Message('Hello', sender = 'handytest753@gmail.com', recipients = [emails])
+    msg.body = f"Pleas contact {email_applys}"
     mail.send(msg)
+
 
 
 
