@@ -205,15 +205,16 @@ def confirmed(apply_confirmation_id):
 
     # names = sessiondb.query(BlogPost.title).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id)
     # for name in names:
-    #     print(name)
+    # 
 
 
-    email_applys = sessiondb.query(BlogPost.email).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404()
-
+    email_applys = ''.join(sessiondb.query(BlogPost.email).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404())
+        
 
     # titles = sessiondb.query(BlogPost.title).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404()
 
-    emails = sessiondb.query(BlogApply.email_apply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404()
+    emails = ''.join(sessiondb.query(BlogApply.email_apply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404())
+
 
 
     sendmailconnect(email_applys,emails,)
