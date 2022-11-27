@@ -5,7 +5,7 @@ from secrets import randbelow
 from webbrowser import get
 from itsdangerous import URLSafeSerializer
 
-# v flask importas se request, ki je potreben da nov post poveze v bazo line 32
+# v flask importas se request, ki je potreben da nov post poveze v bazo 
 from flask import Flask, render_template, request, redirect, url_for
 # TO SPODI JE SAM DA PYTHON POVLECE NOT KNJIZNICO ZA BAZO
 from flask_sqlalchemy import SQLAlchemy
@@ -17,19 +17,9 @@ from flask_mail import Mail
 from flask_mail import Message
 
 app = Flask(__name__)
-# TO SPODI JE SAM LOKACIJA ZA BAZO LAH ZAMENJAS BAZO ZA MYSQL (/// POMEN RELATIVNA POT DO BAZE)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+# app config with private data excluded from git
 app.config.from_pyfile('config.cfg')
 
-#mail config
-# app.config['MAIL_SERVER']='smtp.gmail.com'
-# app.config['MAIL_PORT'] = 465
-# app.config['MAIL_USERNAME'] = ''
-# app.config['MAIL_PASSWORD'] = ''
-# app.config['MAIL_USE_TLS'] = False
-# app.config['MAIL_USE_SSL'] = True
-
-# TO SPODI JE SAM LOKACIJA ZA BAZO LAH ZAMENJAS BAZO ZA MYSQL (/// POMEN RELATIVNA POT DO BAZE)
 # DA NAREDIS BAZO GRES V TERMINAL NA LOKACIJO KJER BO IN NAPISES FROM APP IMPORT DB, KASNEJE DB.CREATE_ALL()
 db = SQLAlchemy(app)
 sessiondb = db.session
