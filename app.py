@@ -3,7 +3,7 @@ from email.policy import default
 from unicodedata import category
 from secrets import randbelow
 from webbrowser import get
-from itsdangerous import URLSafeSerializer
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 
 # v flask importas se request, ki je potreben da nov post poveze v bazo 
 from flask import Flask, render_template, request, redirect, url_for
@@ -27,8 +27,9 @@ migrate = Migrate(app, db)
 #mail class
 mail = Mail(app)
 
+serializer = URLSafeTimedSerializer('Thisisasecret!')
 
-# this below is the structure for the table model. Table has columnes ,nullable=false 
+# this below is the structure for the table model. Table has columnes ,nullable=false
 # means it cannot be empty because if there is no content it cannot be created.
 # if there is no author added then n/a
 # datetime doesn't work without first importing it at the top aka from datetime import datetime
@@ -93,16 +94,19 @@ def new_post():
 
 @app.route('/posts', methods=['GET', 'POST'])
 def posts():
-# if spodi ipolne form oz ga prebere 
+# if spodi ipolne form oz ga prebere
     if request.method == 'POST':
-        
+
         post_title = request.form['title']
         post_content = request.form['content']
         post_offer = request.form['offer']
         post_email = request.form['email']
         post_category_id = request.form["category"]
         post_confirmation_id = randbelow(10**12)
-        new_post = BlogPost(title=post_title, content=post_content, offer=post_offer, 
+
+
+
+        new_post = BlogPost(title=post_title, content=post_content, offer=post_offer,
                             email=post_email, category_id=post_category_id, confirmation_id=post_confirmation_id)
 
         # vpise v bazo v trenutno
@@ -118,7 +122,12 @@ def posts():
     else:
         # returns all posts drugace vrne prejsnje povste urejene po datumu query.order_by date_posted
         all_posts = BlogPost.query.filter(BlogPost.confirmed == True).order_by(BlogPost.date_posted).all()
-        return render_template('posts.html', posts=all_posts)
+        # urls, dictionary, for all posts id that were queried above transformed with serialiser
+        urls = {post.id: serializer.dumps(post.id, salt=MY_WEB_APP)
+                for post in all_posts}
+        return render_template('posts.html', posts=all_posts, urls=urls)
+
+MY_WEB_APP = 'asdasd'
 
 # naredil funkcijo ki pošlje mail
 def sendmail(email,confirmation_id):
@@ -141,7 +150,7 @@ def confirm(id):
     # redirect to all posts
     #jaka: url_for je neke vrste funkcija ki generira raut in vzame parameter id, čeprav je string url
     return redirect (url_for('editing', id=post.id))
- 
+
 
 @app.route('/apply/new/<int:id>', methods=['GET', 'POST'])
 def new_apply(id):
@@ -150,7 +159,7 @@ def new_apply(id):
 
 @app.route('/applys', methods=['GET', 'POST'])
 def applys():
-# if spodi ipolne form oz ga prebere 
+# if spodi ipolne form oz ga prebere
     if  request.method == 'POST':
         name_apply = request.form['name_apply']
         email_apply = request.form['email_apply']
@@ -172,7 +181,7 @@ def sendmailapply(email_apply,apply_confirmation_id):
     msg.body = f"Click to confirm http://localhost:5000/apply/confirmed/{apply_confirmation_id}"
     mail.send(msg)
 
-# decorator funkcijo pokiče v ozadju. 
+# decorator funkcijo pokiče v ozadju.
 @app.route('/apply/confirmed/<int:apply_confirmation_id>')
 def confirmed(apply_confirmation_id):
     """Confirm blog post by confirmation id created in POST /posts"""
@@ -185,7 +194,7 @@ def confirmed(apply_confirmation_id):
     db.session.commit()
     # email_apply = 
     # email = 
-    
+
     # results=session.query(BlogPost).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id)
     # for result in results:
     #     print(result)
@@ -200,7 +209,7 @@ def confirmed(apply_confirmation_id):
 
 
     email_applys = ''.join(sessiondb.query(BlogPost.email).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404())
-        
+
 
     # titles = sessiondb.query(BlogPost.title).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404()
 
@@ -260,7 +269,7 @@ def delete(id):
 
 # route za edit post, ker ga urejas mora bit metoda post ker jo shrani v bazo
 @app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
-def edit(id):   
+def edit(id):
     post = BlogPost.query.get_or_404(id)
     # dodal kernc kategorije niso ble definiane z debugerjem
     categories = Category.query.all()
@@ -316,7 +325,7 @@ def editing(id):
 
 # @app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
 # def edit(id):
-    
+
 #     post = BlogPost.query.get_or_404(id)
 #     # dodal kernc kategorije niso ble definiane z debugerjem
 #     categories = Category.query.all()
@@ -336,7 +345,7 @@ def editing(id):
 
 
 #     if request.method == 'POST':
-        
+
 #         post_title = request.form['title']
 #         post_content = request.form['content']
 #         post_offer = request.form['offer']
@@ -376,12 +385,12 @@ def editing(id):
 # TO SPODI JE ZATO DA LAUFA V DEBUG MODE
 if __name__ == "__main__":
     app.run(debug=True)
-    
+
 
 
 # QUERIES ZA BAZO PISES V TERMINAL: python3:from app import db,BlogPost 
 # BlogPost.query.get()
-#BlogPost.query.all() 
+#BlogPost.query.all()
 # BlogPost.query.filter_by(title='naslov').all()
 # db.session.delete(BlogPost.query.get() )
 # db.session.commit

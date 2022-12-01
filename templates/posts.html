@@ -33,7 +33,9 @@
         <p style="white-space:pre-wrap">{{ post.content }}</p>
         <br>
         <!--  klice nazaj povezavo na app.py za povsts in delete-->
-        <a class="btn btn-info" href='/apply/new/{{post.id}}'>Apply</a>
+        <!-- <a class="btn btn-info" href='/apply/new/{{post.id}}'>Apply</a>  -->
+        <!--  klice nazaj povezavo na app.py za url posts with serailisation -->
+        <a class="btn btn-info" href='/apply/new/{{ urls[post.id] }}'>Apply</a>
         <br>
         <hr>
         <br>
