@@ -152,10 +152,17 @@ def confirm(id):
     return redirect (url_for('editing', id=post.id))
 
 
-@app.route('/apply/new/<int:id>', methods=['GET', 'POST'])
+@app.route('/apply/new/<id>', methods=['GET', 'POST'])
 def new_apply(id):
-        blog_post_id =id
+        blog_post_id = serializer.dumps(id, salt=MY_WEB_APP)
+        # blog_post_id = id
         return render_template('new_apply.html', blog_post_id=blog_post_id, action_url=url_for(applys.__name__))
+
+# @app.route('/apply/new/<int:id>', methods=['GET', 'POST'])
+# def new_apply(id):
+#         # urls = {post.id: serializer.dumps(post.id, salt=MY_WEB_APP)
+#         blog_post_id = serializer.load(post.id, salt=MY_WEB_APP)
+#         return render_template('new_apply.html',blog_post_id=blog_post_id, action_url=url_for(applys.__name__))
 
 @app.route('/applys', methods=['GET', 'POST'])
 def applys():
