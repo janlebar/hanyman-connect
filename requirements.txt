@@ -1,4 +1,6 @@
-flask
+flask~=2.2.2
 flask_sqlalchemy
 flask_migrate
 flask_mail
+itsdangerous~=2.1.2
+SQLAlchemy~=1.4.39

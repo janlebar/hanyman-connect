@@ -1,8 +1,8 @@
 """Initial migration.
 
-Revision ID: aed773bc249d
+Revision ID: c2cc1210980f
 Revises: 
-Create Date: 2022-10-29 23:13:55.277052
+Create Date: 2022-12-11 16:28:08.045185
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'aed773bc249d'
+revision = 'c2cc1210980f'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -32,11 +32,21 @@ def upgrade():
     sa.Column('confirmation_id', sa.Integer(), nullable=False),
     sa.Column('confirmed', sa.Boolean(), nullable=True),
     sa.Column('date_posted', sa.DateTime(), nullable=False),
-    sa.Column('date_updated', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
+    sa.Column('date_updated', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('category_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['category_id'], ['work_type.id'], ),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
     )
+    op.create_index('idx_fulltext_title', 'blog_post',
+            [sa.text("to_tsvector('slovenian', title)")],
+            postgresql_using='gin')
+    op.create_index('idx_fulltext_content', 'blog_post',
+            [sa.text("to_tsvector('slovenian', content)")],
+            postgresql_using='gin')
+    op.create_index('idx_fulltext_offer', 'blog_post',
+            [sa.text("to_tsvector('slovenian', offer)")],
+            postgresql_using='gin')
+
     op.create_table('blog_apply',
     sa.Column('id_apply', sa.Integer(), nullable=False),
     sa.Column('name_apply', sa.Text(), nullable=False),

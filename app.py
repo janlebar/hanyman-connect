@@ -10,7 +10,7 @@ from flask import Flask, render_template, request, redirect, url_for
 # TO SPODI JE SAM DA PYTHON POVLECE NOT KNJIZNICO ZA BAZO
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from sqlalchemy import Table
+from sqlalchemy import Index, text
 from sqlalchemy.orm import backref
 
 from flask_mail import Mail
@@ -34,6 +34,10 @@ serializer = URLSafeTimedSerializer('Thisisasecret!')
 # if there is no author added then n/a
 # datetime doesn't work without first importing it at the top aka from datetime import datetime
 #JL
+
+def to_tsvector_ix(*columns):
+    s = " || ' ' || ".join(columns)
+    return db.func.to_tsvector('slovenian', text(s))
 
 # spodaj baza za vrste del (parrent)
 class Category(db.Model):
@@ -62,6 +66,26 @@ class BlogPost(db.Model):
 #   za  kategorije
     category_id = db.Column(db.Integer, db.ForeignKey('work_type.id'), nullable=True)
     category = db.relationship('Category', backref=db.backref('work_type', lazy=True))
+
+    # create full text search index
+    __table_args__ = (
+        Index(
+            'idx_fulltext_title',
+            db.func.to_tsvector('slovenian', title),
+            postgresql_using='gin'
+        ),
+        Index(
+            'idx_fulltext_content',
+            db.func.to_tsvector('slovenian', content),
+            postgresql_using='gin'
+        ),
+        Index(
+            'idx_fulltext_offer',
+            db.func.to_tsvector('slovenian', offer),
+            postgresql_using='gin'
+        ),
+    )
+
     def __repr__(self):
         """returns object representative JL"""
         return 'Blog post ' + str(self.id)
@@ -95,14 +119,15 @@ def new_post():
 @app.route('/posts', methods=['GET', 'POST'])
 def posts():
 # if spodi ipolne form oz ga prebere
+    # POST /posts
     if request.method == 'POST':
 
         post_title = request.form['title']
         post_content = request.form['content']
         post_offer = request.form['offer']
         post_email = request.form['email']
-        post_category_id = request.form["category"]
-        post_confirmation_id = randbelow(10**12)
+        post_category_id = int(request.form["category"])
+        post_confirmation_id = randbelow(10**10)
 
 
 
@@ -119,9 +144,29 @@ def posts():
 
         # vrne posodobljen posts page
         return redirect('/posts')
+
+    # GET /posts?query=stanovanje
     else:
+        # /posts?query=stanovanje
+        query = request.args.get("query")
+
+        #       all_posts = BlogPost.query.filter(
+        #             # to_tsvector('slovenian', content) @@ to_tsquery('slovenian', 'stanovanje')
+        #            db.func.to_tsvector('slovenian', BlogPost.content).match(query, postgresql_regconfig='slovenian') &
+        #            (BlogPost.confirmed == True)).order_by(BlogPost.date_posted).all()
+
+        if query:
+            blog_filter = (
+                # to_tsvector('slovenian', content) @@ to_tsquery('slovenian', 'stanovanje')
+                db.func.to_tsvector('slovenian', BlogPost.content).match(query, postgresql_regconfig='slovenian') &
+                (BlogPost.confirmed == True)
+            )
+        else:
+            blog_filter = BlogPost.confirmed == True
+
         # returns all posts drugace vrne prejsnje povste urejene po datumu query.order_by date_posted
-        all_posts = BlogPost.query.filter(BlogPost.confirmed == True).order_by(BlogPost.date_posted).all()
+        all_posts = BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted).all()
+
         # urls, dictionary, for all posts id that were queried above transformed with serialiser
         urls = {post.id: serializer.dumps(post.id, salt=MY_WEB_APP)
                 for post in all_posts}
