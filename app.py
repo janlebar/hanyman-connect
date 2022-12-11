@@ -154,9 +154,8 @@ def confirm(id):
 
 @app.route('/apply/new/<id>', methods=['GET', 'POST'])
 def new_apply(id):
-        blog_post_id = serializer.dumps(id, salt=MY_WEB_APP)
-        # blog_post_id = id
-        return render_template('new_apply.html', blog_post_id=blog_post_id, action_url=url_for(applys.__name__))
+        # wtf why dumps works and load does not?
+        return render_template('new_apply.html', blog_post_id=id, action_url=url_for(applys.__name__))
 
 # @app.route('/apply/new/<int:id>', methods=['GET', 'POST'])
 # def new_apply(id):
@@ -167,11 +166,13 @@ def new_apply(id):
 @app.route('/applys', methods=['GET', 'POST'])
 def applys():
 # if spodi ipolne form oz ga prebere
-    if  request.method == 'POST':
+    if request.method == 'POST':
         name_apply = request.form['name_apply']
         email_apply = request.form['email_apply']
-        blog_post_id = request.form['blog_post_id']
+        # # blog_post_id = request.form['blog_post_id']
+        # blog_post_id = request.form['blog_post_id']
         apply_confirmation_id = randbelow(10**12)
+        blog_post_id = serializer.loads(request.form['blog_post_id'], salt=MY_WEB_APP)
         new_apply = BlogApply( email_apply=email_apply,name_apply=name_apply,blog_post_id=blog_post_id,apply_confirmation_id=apply_confirmation_id)
 
         # vpise v bazo v trenutno
@@ -199,21 +200,17 @@ def confirmed(apply_confirmation_id):
     # save and commit updated post to database
     db.session.add(apply)
     db.session.commit()
-    # email_apply = 
-    # email = 
 
     # results=session.query(BlogPost).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id)
     # for result in results:
-    #     print(result)
 
+    #     print(result)
     # results = sessiondb.query(BlogPost.email).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id)
     # for result in results:
     #     print(result)
-
     # names = sessiondb.query(BlogPost.title).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id)
     # for name in names:
-    # 
-
+    #
 
     email_applys = ''.join(sessiondb.query(BlogPost.email).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404())
 
