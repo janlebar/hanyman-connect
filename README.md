@@ -85,5 +85,9 @@ Insert this into initial migrations to create full text search indexes:
 # only above bottom line
     op.create_table('blog_apply',
 ```
+![img.png](img.png)
+
+
+
 
 ![img.png](migrations_indexes.png)
