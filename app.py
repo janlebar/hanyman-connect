@@ -20,6 +20,7 @@ app = Flask(__name__)
 # app config with private data excluded from git
 app.config.from_pyfile('config.cfg')
 
+
 # DA NAREDIS BAZO GRES V TERMINAL NA LOKACIJO KJER BO IN NAPISES FROM APP IMPORT DB, KASNEJE DB.CREATE_ALL()
 db = SQLAlchemy(app)
 sessiondb = db.session
@@ -27,7 +28,9 @@ migrate = Migrate(app, db)
 #mail class
 mail = Mail(app)
 
-serializer = URLSafeTimedSerializer('Thisisasecret!')
+serializer = URLSafeTimedSerializer('SECRET_KEY')
+#salt, needs to be hidden
+MY_WEB_APP = 'SECRET_SALT'
 
 # this below is the structure for the table model. Table has columnes ,nullable=false
 # means it cannot be empty because if there is no content it cannot be created.
@@ -172,7 +175,7 @@ def posts():
                 for post in all_posts}
         return render_template('posts.html', posts=all_posts, urls=urls)
 
-MY_WEB_APP = 'asdasd'
+
 
 # naredil funkcijo ki pošlje mail
 def sendmail(email,confirmation_id):
