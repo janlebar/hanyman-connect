@@ -121,9 +121,36 @@ def new_post():
 
 @app.route('/posts', methods=['GET', 'POST'])
 def posts():
+    if request.method == 'GET':
+        # /posts?query=stanovanje
+        query = request.args.get("query")
+
+        #       all_posts = BlogPost.query.filter(
+        #             # to_tsvector('slovenian', content) @@ to_tsquery('slovenian', 'stanovanje')
+        #            db.func.to_tsvector('slovenian', BlogPost.content).match(query, postgresql_regconfig='slovenian') &
+        #            (BlogPost.confirmed == True)).order_by(BlogPost.date_posted).all()
+
+        if query:
+            blog_filter = (
+                # to_tsvector('slovenian', content) @@ to_tsquery('slovenian', 'stanovanje')
+                    db.func.to_tsvector('slovenian', BlogPost.content).match(query, postgresql_regconfig='slovenian') &
+                    (BlogPost.confirmed == True)
+            )
+        else:
+            blog_filter = BlogPost.confirmed == True
+
+        # returns all posts drugace vrne prejsnje povste urejene po datumu query.order_by date_posted
+        all_posts = BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted).all()
+
+        # urls, dictionary, for all posts id that were queried above transformed with serialiser
+        urls = {post.id: serializer.dumps(post.id, salt=MY_WEB_APP)
+                for post in all_posts}
+        return render_template('posts.html', posts=all_posts, urls=urls)
+
+
 # if spodi ipolne form oz ga prebere
     # POST /posts
-    if request.method == 'POST':
+    else:
 
         post_title = request.form['title']
         post_content = request.form['content']
@@ -148,32 +175,66 @@ def posts():
         # vrne posodobljen posts page
         return redirect('/posts')
 
-    # GET /posts?query=stanovanje
-    else:
-        # /posts?query=stanovanje
-        query = request.args.get("query")
 
-        #       all_posts = BlogPost.query.filter(
-        #             # to_tsvector('slovenian', content) @@ to_tsquery('slovenian', 'stanovanje')
-        #            db.func.to_tsvector('slovenian', BlogPost.content).match(query, postgresql_regconfig='slovenian') &
-        #            (BlogPost.confirmed == True)).order_by(BlogPost.date_posted).all()
 
-        if query:
-            blog_filter = (
-                # to_tsvector('slovenian', content) @@ to_tsquery('slovenian', 'stanovanje')
-                db.func.to_tsvector('slovenian', BlogPost.content).match(query, postgresql_regconfig='slovenian') &
-                (BlogPost.confirmed == True)
-            )
-        else:
-            blog_filter = BlogPost.confirmed == True
 
-        # returns all posts drugace vrne prejsnje povste urejene po datumu query.order_by date_posted
-        all_posts = BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted).all()
 
-        # urls, dictionary, for all posts id that were queried above transformed with serialiser
-        urls = {post.id: serializer.dumps(post.id, salt=MY_WEB_APP)
-                for post in all_posts}
-        return render_template('posts.html', posts=all_posts, urls=urls)
+
+# @app.route('/posts', methods=['GET', 'POST'])
+# def posts():
+# # if spodi ipolne form oz ga prebere
+#     # POST /posts
+#     if request.method == 'POST':
+#
+#         post_title = request.form['title']
+#         post_content = request.form['content']
+#         post_offer = request.form['offer']
+#         post_email = request.form['email']
+#         post_category_id = int(request.form["category"])
+#         post_confirmation_id = randbelow(10**10)
+#
+#
+#
+#         new_post = BlogPost(title=post_title, content=post_content, offer=post_offer,
+#                             email=post_email, category_id=post_category_id, confirmation_id=post_confirmation_id)
+#
+#         # vpise v bazo v trenutno
+#         db.session.add(new_post)
+#         # commit ga sele vpise permanentno v bazo
+#         db.session.commit()
+#
+#         #poklical funkcijo sendmail in jo izpolnil z parametri iz posts
+#         sendmail(post_email, post_confirmation_id)
+#
+#         # vrne posodobljen posts page
+#         return redirect('/posts')
+#
+#     # GET /posts?query=stanovanje
+#     else:
+#         # /posts?query=stanovanje
+#         query = request.args.get("query")
+#
+#         #       all_posts = BlogPost.query.filter(
+#         #             # to_tsvector('slovenian', content) @@ to_tsquery('slovenian', 'stanovanje')
+#         #            db.func.to_tsvector('slovenian', BlogPost.content).match(query, postgresql_regconfig='slovenian') &
+#         #            (BlogPost.confirmed == True)).order_by(BlogPost.date_posted).all()
+#
+#         if query:
+#             blog_filter = (
+#                 # to_tsvector('slovenian', content) @@ to_tsquery('slovenian', 'stanovanje')
+#                 db.func.to_tsvector('slovenian', BlogPost.content).match(query, postgresql_regconfig='slovenian') &
+#                 (BlogPost.confirmed == True)
+#             )
+#         else:
+#             blog_filter = BlogPost.confirmed == True
+#
+#         # returns all posts drugace vrne prejsnje povste urejene po datumu query.order_by date_posted
+#         all_posts = BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted).all()
+#
+#         # urls, dictionary, for all posts id that were queried above transformed with serialiser
+#         urls = {post.id: serializer.dumps(post.id, salt=MY_WEB_APP)
+#                 for post in all_posts}
+#         return render_template('posts.html', posts=all_posts, urls=urls)
 
 
 
