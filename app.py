@@ -20,35 +20,36 @@ app = Flask(__name__)
 # app config with private data excluded from git
 app.config.from_pyfile('config.cfg')
 
-
 # DA NAREDIS BAZO GRES V TERMINAL NA LOKACIJO KJER BO IN NAPISES FROM APP IMPORT DB, KASNEJE DB.CREATE_ALL()
 db = SQLAlchemy(app)
 sessiondb = db.session
 migrate = Migrate(app, db)
-#mail class
+# mail class
 mail = Mail(app)
 
 serializer = URLSafeTimedSerializer('SECRET_KEY')
-#salt, needs to be hidden
+# salt, needs to be hidden
 MY_WEB_APP = 'SECRET_SALT'
+
 
 # this below is the structure for the table model. Table has columnes ,nullable=false
 # means it cannot be empty because if there is no content it cannot be created.
 # if there is no author added then n/a
 # datetime doesn't work without first importing it at the top aka from datetime import datetime
-#JL
+# JL
 
 def to_tsvector_ix(*columns):
     s = " || ' ' || ".join(columns)
     return db.func.to_tsvector('slovenian', text(s))
 
+
 # spodaj baza za vrste del (parrent)
 class Category(db.Model):
-
     __tablename__ = "work_type"
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
+
 
 # model spodaj baza za blogpovste (child)
 class BlogPost(db.Model):
@@ -57,7 +58,7 @@ class BlogPost(db.Model):
     __tablename__ = "blog_post"
     __mapper_args__ = {"eager_defaults": True}
     # false da ne sme bit prazna vrednost, default, kašna je vrednost če ni nič noter
-    id = db.Column(db.Integer, primary_key=True,)
+    id = db.Column(db.Integer, primary_key=True, )
     title = db.Column(db.String(100), nullable=False, default="")
     content = db.Column(db.Text, nullable=False, default="")
     offer = db.Column(db.Text, nullable=False, default="")
@@ -66,7 +67,7 @@ class BlogPost(db.Model):
     confirmed = db.Column(db.Boolean, default=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     date_updated = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
-#   za  kategorije
+    #   za  kategorije
     category_id = db.Column(db.Integer, db.ForeignKey('work_type.id'), nullable=True)
     category = db.relationship('Category', backref=db.backref('work_type', lazy=True))
 
@@ -93,12 +94,13 @@ class BlogPost(db.Model):
         """returns object representative JL"""
         return 'Blog post ' + str(self.id)
 
+
 class BlogApply(db.Model):
     """Baza za apply"""
 
     __tablename__ = "blog_apply"
     __mapper_args__ = {"eager_defaults": True}
-    id_apply = db.Column(db.Integer, primary_key=True,)
+    id_apply = db.Column(db.Integer, primary_key=True, )
     name_apply = db.Column(db.Text, nullable=False, default="")
     email_apply = db.Column(db.Text, nullable=False, default="")
     blog_post_id = db.Column(db.Integer, db.ForeignKey('blog_post.id'))
@@ -107,17 +109,12 @@ class BlogApply(db.Model):
 
     # confirmation_id_apply = db.Column(db.Integer, nullable=False)
     # confirmed_apply = db.Column(db.Boolean, default=False)
-#   za  kategorije
+    #   za  kategorije
 
     def __repr__(self):
         """returns object representative JL"""
         return 'Blog apply ' + str(self.id_apply)
 
-
-@app.route('/posts/new', methods=['GET', 'POST'])
-def new_post():
-        categories = Category.query.all()
-        return render_template('new_post.html', categories=categories, action_url=url_for(posts.__name__))
 
 @app.route('/posts', methods=['GET', 'POST'])
 def posts():
@@ -148,36 +145,37 @@ def posts():
         return render_template('posts.html', posts=all_posts, urls=urls)
 
 
-# if spodi ipolne form oz ga prebere
+@app.route('/posts/new', methods=['GET', 'POST'])
+def new_post():
+    categories = Category.query.all()
+    return render_template('new_post.html', categories=categories, action_url=url_for(posts.__name__))
+
+
+@app.route('/save_post', methods=['POST'])
+def save_post():
+    # if spodi ipolne form oz ga prebere
     # POST /posts
-    else:
 
-        post_title = request.form['title']
-        post_content = request.form['content']
-        post_offer = request.form['offer']
-        post_email = request.form['email']
-        post_category_id = int(request.form["category"])
-        post_confirmation_id = randbelow(10**10)
+    post_title = request.form['title']
+    post_content = request.form['content']
+    post_offer = request.form['offer']
+    post_email = request.form['email']
+    post_category_id = int(request.form["category"])
+    post_confirmation_id = randbelow(10 ** 10)
 
+    new_post = BlogPost(title=post_title, content=post_content, offer=post_offer,
+                        email=post_email, category_id=post_category_id, confirmation_id=post_confirmation_id)
 
+    # vpise v bazo v trenutno
+    db.session.add(new_post)
+    # commit ga sele vpise permanentno v bazo
+    db.session.commit()
 
-        new_post = BlogPost(title=post_title, content=post_content, offer=post_offer,
-                            email=post_email, category_id=post_category_id, confirmation_id=post_confirmation_id)
+    # poklical funkcijo sendmail in jo izpolnil z parametri iz posts
+    sendmail(post_email, post_confirmation_id)
 
-        # vpise v bazo v trenutno
-        db.session.add(new_post)
-        # commit ga sele vpise permanentno v bazo
-        db.session.commit()
-
-        #poklical funkcijo sendmail in jo izpolnil z parametri iz posts
-        sendmail(post_email, post_confirmation_id)
-
-        # vrne posodobljen posts page
-        return redirect('/posts')
-
-
-
-
+    # vrne posodobljen posts page
+    return redirect('/posts')
 
 
 # @app.route('/posts', methods=['GET', 'POST'])
@@ -237,13 +235,14 @@ def posts():
 #         return render_template('posts.html', posts=all_posts, urls=urls)
 
 
-
 # naredil funkcijo ki pošlje mail
-def sendmail(email,confirmation_id):
-    msg = Message('Hello', sender = 'handytest753@gmail.com', recipients = [email])
+def sendmail(email, confirmation_id):
+    msg = Message('Hello', sender='handytest753@gmail.com', recipients=[email])
     msg.body = f"Click to confirm http://localhost:5000/posts/confirm/{confirmation_id}"
     mail.send(msg)
-#sendmail(confirmation_id="")
+
+
+# sendmail(confirmation_id="")
 
 # decorator funkcijo pokiče v ozadju. 
 @app.route('/posts/confirm/<int:id>')
@@ -257,14 +256,15 @@ def confirm(id):
     db.session.add(post)
     db.session.commit()
     # redirect to all posts
-    #jaka: url_for je neke vrste funkcija ki generira raut in vzame parameter id, čeprav je string url
-    return redirect (url_for('editing', id=post.id))
+    # jaka: url_for je neke vrste funkcija ki generira raut in vzame parameter id, čeprav je string url
+    return redirect(url_for('editing', id=post.id))
 
 
 @app.route('/apply/new/<id>', methods=['GET', 'POST'])
 def new_apply(id):
-        # wtf why dumps works and load does not?
-        return render_template('new_apply.html', blog_post_id=id, action_url=url_for(applys.__name__))
+    # wtf why dumps works and load does not?
+    return render_template('new_apply.html', blog_post_id=id, action_url=url_for(applys.__name__))
+
 
 # @app.route('/apply/new/<int:id>', methods=['GET', 'POST'])
 # def new_apply(id):
@@ -274,29 +274,33 @@ def new_apply(id):
 
 @app.route('/applys', methods=['GET', 'POST'])
 def applys():
-# if spodi ipolne form oz ga prebere
+    # if spodi ipolne form oz ga prebere
     if request.method == 'POST':
         name_apply = request.form['name_apply']
         email_apply = request.form['email_apply']
         # # blog_post_id = request.form['blog_post_id']
         # blog_post_id = request.form['blog_post_id']
-        apply_confirmation_id = randbelow(10**12)
+        apply_confirmation_id = randbelow(10 ** 12)
         blog_post_id = serializer.loads(request.form['blog_post_id'], salt=MY_WEB_APP)
-        new_apply = BlogApply( email_apply=email_apply,name_apply=name_apply,blog_post_id=blog_post_id,apply_confirmation_id=apply_confirmation_id)
+        new_apply = BlogApply(email_apply=email_apply, name_apply=name_apply, blog_post_id=blog_post_id,
+                              apply_confirmation_id=apply_confirmation_id)
 
         # vpise v bazo v trenutno
         db.session.add(new_apply)
         # commit ga sele vpise permanentno v bazo
         db.session.commit()
-        sendmailapply(email_apply,apply_confirmation_id)
+        sendmailapply(email_apply, apply_confirmation_id)
         return redirect('/posts')
-# SAMO VPIŠE V BAZO NE VRNE APPLYS KER GA NOČEŠ VIDET
-    #     return redirect('/v povste ')
 
-def sendmailapply(email_apply,apply_confirmation_id):
-    msg = Message('Hello', sender = 'handytest753@gmail.com', recipients = [email_apply])
+
+# SAMO VPIŠE V BAZO NE VRNE APPLYS KER GA NOČEŠ VIDET
+#     return redirect('/v povste ')
+
+def sendmailapply(email_apply, apply_confirmation_id):
+    msg = Message('Hello', sender='handytest753@gmail.com', recipients=[email_apply])
     msg.body = f"Click to confirm http://localhost:5000/apply/confirmed/{apply_confirmation_id}"
     mail.send(msg)
+
 
 # decorator funkcijo pokiče v ozadju.
 @app.route('/apply/confirmed/<int:apply_confirmation_id>')
@@ -321,56 +325,30 @@ def confirmed(apply_confirmation_id):
     # for name in names:
     #
 
-    email_applys = ''.join(sessiondb.query(BlogPost.email).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404())
-
+    email_applys = ''.join(sessiondb.query(BlogPost.email).join(BlogApply).filter(
+        BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404())
 
     # titles = sessiondb.query(BlogPost.title).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404()
 
-    emails = ''.join(sessiondb.query(BlogApply.email_apply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404())
+    emails = ''.join(sessiondb.query(BlogApply.email_apply).filter(
+        BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404())
+
+    sendmailconnect(email_applys, emails, )
+    return redirect(url_for('posts'))
 
 
-
-    sendmailconnect(email_applys,emails,)
-    return redirect (url_for('posts'))
-
-def sendmailconnect(email_applys,emails):
-    msg = Message('Hello', sender = 'handytest753@gmail.com', recipients = [emails])
+def sendmailconnect(email_applys, emails):
+    msg = Message('Hello', sender='handytest753@gmail.com', recipients=[emails])
     msg.body = f"Pleas contact {email_applys}"
     mail.send(msg)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-#app.add_url_rule("/", None, view_func=index)
+
+# app.add_url_rule("/", None, view_func=index)
 
 # rout za delete post
 @app.route('/posts/delete/<int:id>')
@@ -379,6 +357,7 @@ def delete(id):
     db.session.delete(post)
     db.session.commit()
     return redirect('/posts')
+
 
 # route za edit post, ker ga urejas mora bit metoda post ker jo shrani v bazo
 @app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
@@ -399,13 +378,15 @@ def edit(id):
         # post=post ker rabi prebrisat prejsn povst
         return render_template('edit.html', post=post, categories=categories)
 
+
 # jan naredil podstran
 @app.route('/about', methods=['GET', 'POST'])
 def about():
     return render_template('about.html')
 
+
 # jan naredil podstran
-@app.route('/chmail', methods=['GET','POST'])
+@app.route('/chmail', methods=['GET', 'POST'])
 def chmail():
     return render_template('chmail.html')
 
@@ -427,13 +408,13 @@ def chmail():
 
 @app.route('/editing/<int:id>', methods=['GET', 'POST'])
 def editing(id):
-        # returns all posts query.order_by date_posted
-        post = BlogPost.query.filter(BlogPost.id == id)
-        return render_template('editing.html', posts=post)
+    # returns all posts query.order_by date_posted
+    post = BlogPost.query.filter(BlogPost.id == id)
+    return render_template('editing.html', posts=post)
+
+
 #       post = BlogPost.query.get_or_404(id)
 #        id = BlogPost.query.filter(BlogPost.confirmed == True).all()
-
-
 
 
 # @app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
@@ -454,7 +435,6 @@ def editing(id):
 #     else:
 #         # post=post ker rabi prebrisat prejsn povst
 #         return render_template('edit.html', post=post, categories=categories)
-
 
 
 #     if request.method == 'POST':
@@ -493,17 +473,13 @@ def editing(id):
 #     return redirect('/posts')
 
 
-
-
 # TO SPODI JE ZATO DA LAUFA V DEBUG MODE
 if __name__ == "__main__":
     app.run(debug=True)
 
-
-
-# QUERIES ZA BAZO PISES V TERMINAL: python3:from app import db,BlogPost 
+# QUERIES ZA BAZO PISES V TERMINAL: python3:from app import db,BlogPost
 # BlogPost.query.get()
-#BlogPost.query.all()
+# BlogPost.query.all()
 # BlogPost.query.filter_by(title='naslov').all()
 # db.session.delete(BlogPost.query.get() )
 # db.session.commit

@@ -11,7 +11,7 @@
 
 
     <!--  formular kamor folk vpise podatke za nov povst-->
-    <form action='{{ action_url }}' method='POST'>
+    <form action='/save_post' method='POST'>
         <label for="title">Ime:</label>
         <input class="form-control" type="text" name='title' id='title' placeholder="ime dela" aria-label="Enter Title">
         <!-- jaka naredil da izpiše kategorije-->
@@ -26,8 +26,11 @@
         <!--  -->
         <br>
         <label for="offer">Ponudba:</label>
-        <input class="form-control" type="text" name='offer' id='offer' placeholder="vnesi ponudbo" aria-label="Enter Offer" required minlength="1" maxlength="3">
+        <input class="form-control" type="text" name='offer' id='offer' placeholder="vnesi ponudbo" aria-label="Enter Offer">
         <br>
+
+<!--       FIX THIS OFFERS CAN BE THE SAME <input class="form-control" type="text" name='offer' id='offer' placeholder="vnesi ponudbo" aria-label="Enter Offer" required minlength="1" maxlength="3">-->
+<!--        <br>-->
         <label for="email">Email:</label>
         <input class="form-control" type="email" name='email' id='email' placeholder="vnesi svoj email" aria-label="Enter Email" required
             oninvalid="this.setCustomValidity('Enter valid email')"
