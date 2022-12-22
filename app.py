@@ -116,7 +116,7 @@ class BlogApply(db.Model):
         return 'Blog apply ' + str(self.id_apply)
 
 
-@app.route('/posts', methods=['GET', 'POST'])
+@app.route('/posts', methods=['GET'])
 def posts():
     if request.method == 'GET':
         # /posts?query=stanovanje
