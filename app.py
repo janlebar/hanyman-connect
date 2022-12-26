@@ -115,6 +115,10 @@ class BlogApply(db.Model):
         """returns object representative JL"""
         return 'Blog apply ' + str(self.id_apply)
 
+@app.route('/search', methods=['POST'])
+def search():
+    return render_template('posts.html', posts=all_posts, urls=urls)
+
 
 @app.route('/posts', methods=['GET'])
 def posts():
