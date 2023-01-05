@@ -115,31 +115,32 @@ class BlogApply(db.Model):
         """returns object representative JL"""
         return 'Blog apply ' + str(self.id_apply)
 
+
 @app.route('/search', methods=['GET'])
 def search():
-    if request.method == 'GET':
-        # /posts?query=stanovanje
-        query = request.args.get("query")
-        if query:
-            blog_filter = (
-                # to_tsvector('slovenian', content) @@ to_tsquery('slovenian', 'stanovanje')
-                    db.func.to_tsvector('slovenian', BlogPost.content).match(query, postgresql_regconfig='slovenian') &
-                    (BlogPost.confirmed == True)
-            )
-        else:
-            blog_filter = BlogPost.confirmed == True
+    query = request.args.get("query")
 
-        # returns all posts drugace vrne prejsnje povste urejene po datumu query.order_by date_posted
-        all_posts = BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted).all()
+    if query:
+        blog_filter = (
+            # to_tsvector('slovenian', content) @@ to_tsquery('slovenian', 'stanovanje')
+                db.func.to_tsvector('slovenian', BlogPost.content).match(query, postgresql_regconfig='slovenian') &
+                (BlogPost.confirmed == True)
+        )
+    else:
+        blog_filter = BlogPost.confirmed == True
 
-        # urls, dictionary, for all posts id that were queried above transformed with serialiser
-        urls = {post.id: serializer.dumps(post.id, salt=MY_WEB_APP)
-                for post in all_posts}
-        return render_template('posts.html', posts=all_posts, urls=urls)
+    # returns all posts drugace vrne prejsnje povste urejene po datumu query.order_by date_posted
+    all_posts = BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted).all()
+
+    # urls, dictionary, for all posts id that were queried above transformed with serialiser
+    urls = {post.id: serializer.dumps(post.id, salt=MY_WEB_APP)
+            for post in all_posts}
+    return render_template('posts.html', posts=all_posts, urls=urls)
 
 
 @app.route('/posts', methods=['GET'])
 def posts():
+
     if request.method == 'GET':
         blog_filter = BlogPost.confirmed == True
 
