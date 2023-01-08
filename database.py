@@ -1,4 +1,3 @@
-# python imports library, for migrations...
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Index, text
 from datetime import datetime
@@ -26,7 +25,7 @@ class BlogPost(db.Model):
 
     __tablename__ = "blog_post"
     __mapper_args__ = {"eager_defaults": True}
-    # false da ne sme bit prazna vrednost, default, kašna je vrednost če ni nič noter
+    # false means it must not be an empty value, default,"" means that there is nothing inside.
     id = db.Column(db.Integer, primary_key=True, )
     title = db.Column(db.String(100), nullable=False, default="")
     content = db.Column(db.Text, nullable=False, default="")
@@ -37,7 +36,7 @@ class BlogPost(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     date_updated = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
-    #   za  kategorije
+    # for categories
     category_id = db.Column(db.Integer, db.ForeignKey('work_type.id'), nullable=True)
     category = db.relationship('Category', backref=db.backref('work_type', lazy=True))
 
@@ -61,12 +60,12 @@ class BlogPost(db.Model):
     )
 
     def __repr__(self):
-        """returns object representative JL"""
+        """returns object representative"""
         return 'Blog post ' + str(self.id)
 
 
 class BlogApply(db.Model):
-    """Baza za apply"""
+    """Database for apply"""
 
     __tablename__ = "blog_apply"
     __mapper_args__ = {"eager_defaults": True}
@@ -78,5 +77,5 @@ class BlogApply(db.Model):
     apply_confirmed = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
-        """returns object representative JL"""
+        """returns object representative"""
         return 'Blog apply ' + str(self.id_apply)

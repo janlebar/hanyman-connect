@@ -1,16 +1,11 @@
-from email.policy import default
-from unicodedata import category
 from secrets import randbelow
-from webbrowser import get
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
-
 # flask needs to import request, to get data from database
 from flask import Flask, render_template, request, redirect, url_for
 from flask_migrate import Migrate
 from flask_mail import Mail
 from flask_mail import Message
 from flask_hcaptcha import hCaptcha
-
 from database import db, BlogPost, Category, BlogApply
 
 app = Flask(__name__)
@@ -53,13 +48,12 @@ def search():
             for post in all_posts}
     return render_template('posts.html', posts=all_posts, urls=urls)
 
-
 @app.route('/posts', methods=['GET'])
 def posts():
     if request.method == 'GET':
         blog_filter = BlogPost.confirmed == True
 
-        # returns all posts drugace vrne prejsnje povste urejene po datumu query.order_by date_posted
+        # returns all posts otherwise returns previous posts ordered by date query.order_by date_posted
         all_posts = BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted).all()
 
         # urls, dictionary, for all posts id that were queried above transformed with serialiser
@@ -67,12 +61,10 @@ def posts():
                 for post in all_posts}
         return render_template('posts.html', posts=all_posts, urls=urls)
 
-
 @app.route('/posts/new', methods=['GET', 'POST'])
 def new_post():
     categories = Category.query.all()
     return render_template('new_post.html', categories=categories, action_url=url_for(posts.__name__))
-
 
 @app.route('/save_post', methods=['POST'])
 def save_post():
@@ -392,13 +384,7 @@ def editing(id):
 #         return render_template('posts.html', posts=all_posts)
 
 
-# # rout za delete post
-# @app.route('/posts/delete/<int:id>')
-# def delete(id):
-#     post = BlogPost.query.get_or_404(id)
-#     db.session.delete(post)
-#     db.session.commit()
-#     return redirect('/posts')
+
 
 
 # TO SPODI JE ZATO DA LAUFA V DEBUG MODE
