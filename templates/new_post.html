@@ -11,7 +11,7 @@
 
 
     <!--  formular kamor folk vpise podatke za nov povst-->
-    <form action='/save_post' method='POST'>
+    <form action='/save_post' method='POST' id="newPostForm">
         <label for="title">Ime:</label>
         <input class="form-control" type="text" name='title' id='title' placeholder="ime dela" aria-label="Enter Title">
         <!-- jaka naredil da izpiše kategorije-->
@@ -39,8 +39,19 @@
         <label for="content">Opis dela:</label>
         <textarea class="form-control" name='content' id="content" placeholder="Opis" aria-label="Enter Content" rows="3"></textarea>
         <!--  spodi sam submita ne poveže pa v bazo-->
+         {{ hcaptcha }}
         <input type='submit' value='Objavi'>
     </form>
+
+    <script>
+        document.querySelector("#newPostForm").addEventListener("submit", function(event) {
+           var hcaptchaVal = document.querySelector('[name="h-captcha-response"]').value;
+           if (hcaptchaVal === "") {
+              event.preventDefault();
+              alert("Please complete the hCaptcha");
+           }
+        });
+    </script>
 
     
     <hr>

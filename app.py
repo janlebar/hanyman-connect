@@ -1,120 +1,36 @@
-from datetime import datetime
 from email.policy import default
 from unicodedata import category
 from secrets import randbelow
 from webbrowser import get
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 
-# v flask importas se request, ki je potreben da nov post poveze v bazo 
+# flask needs to import request, to get data from database
 from flask import Flask, render_template, request, redirect, url_for
-# TO SPODI JE SAM DA PYTHON POVLECE NOT KNJIZNICO ZA BAZO
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from sqlalchemy import Index, text
-from sqlalchemy.orm import backref
-
 from flask_mail import Mail
 from flask_mail import Message
+from flask_hcaptcha import hCaptcha
+
+from database import db, BlogPost, Category, BlogApply
 
 app = Flask(__name__)
+
 # app config with private data excluded from git
 app.config.from_pyfile('config.cfg')
 
-# DA NAREDIS BAZO GRES V TERMINAL NA LOKACIJO KJER BO IN NAPISES FROM APP IMPORT DB, KASNEJE DB.CREATE_ALL()
-db = SQLAlchemy(app)
-sessiondb = db.session
+db.init_app(app)
+
+hcaptcha = hCaptcha(app)
+
+# ORM is SQLAlchemy
 migrate = Migrate(app, db)
 # mail class
 mail = Mail(app)
 
-serializer = URLSafeTimedSerializer('SECRET_KEY')
-# salt, needs to be hidden
-MY_WEB_APP = 'SECRET_SALT'
-
-
-# this below is the structure for the table model. Table has columnes ,nullable=false
-# means it cannot be empty because if there is no content it cannot be created.
-# if there is no author added then n/a
-# datetime doesn't work without first importing it at the top aka from datetime import datetime
-# JL
-
-def to_tsvector_ix(*columns):
-    s = " || ' ' || ".join(columns)
-    return db.func.to_tsvector('slovenian', text(s))
-
-
-# spodaj baza za vrste del (parrent)
-class Category(db.Model):
-    __tablename__ = "work_type"
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-
-
-# model spodaj baza za blogpovste (child)
-class BlogPost(db.Model):
-    """Baza za poste"""
-
-    __tablename__ = "blog_post"
-    __mapper_args__ = {"eager_defaults": True}
-    # false da ne sme bit prazna vrednost, default, kašna je vrednost če ni nič noter
-    id = db.Column(db.Integer, primary_key=True, )
-    title = db.Column(db.String(100), nullable=False, default="")
-    content = db.Column(db.Text, nullable=False, default="")
-    offer = db.Column(db.Text, nullable=False, default="")
-    email = db.Column(db.Text, nullable=False, default="")
-    confirmation_id = db.Column(db.Integer, nullable=False)
-    confirmed = db.Column(db.Boolean, default=False)
-    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    date_updated = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
-    #   za  kategorije
-    category_id = db.Column(db.Integer, db.ForeignKey('work_type.id'), nullable=True)
-    category = db.relationship('Category', backref=db.backref('work_type', lazy=True))
-
-    # create full text search index
-    __table_args__ = (
-        Index(
-            'idx_fulltext_title',
-            db.func.to_tsvector('slovenian', title),
-            postgresql_using='gin'
-        ),
-        Index(
-            'idx_fulltext_content',
-            db.func.to_tsvector('slovenian', content),
-            postgresql_using='gin'
-        ),
-        Index(
-            'idx_fulltext_offer',
-            db.func.to_tsvector('slovenian', offer),
-            postgresql_using='gin'
-        ),
-    )
-
-    def __repr__(self):
-        """returns object representative JL"""
-        return 'Blog post ' + str(self.id)
-
-
-class BlogApply(db.Model):
-    """Baza za apply"""
-
-    __tablename__ = "blog_apply"
-    __mapper_args__ = {"eager_defaults": True}
-    id_apply = db.Column(db.Integer, primary_key=True, )
-    name_apply = db.Column(db.Text, nullable=False, default="")
-    email_apply = db.Column(db.Text, nullable=False, default="")
-    blog_post_id = db.Column(db.Integer, db.ForeignKey('blog_post.id'))
-    apply_confirmation_id = db.Column(db.Integer, nullable=False)
-    apply_confirmed = db.Column(db.Boolean, default=False)
-
-    # confirmation_id_apply = db.Column(db.Integer, nullable=False)
-    # confirmed_apply = db.Column(db.Boolean, default=False)
-    #   za  kategorije
-
-    def __repr__(self):
-        """returns object representative JL"""
-        return 'Blog apply ' + str(self.id_apply)
-
+# serialiser config
+secret_key = app.config.get("SECRET_KEY")
+secret_salt = app.config.get("SECRET_SALT")
+serializer = URLSafeTimedSerializer(secret_key)
 
 @app.route('/search', methods=['GET'])
 def search():
@@ -133,14 +49,13 @@ def search():
     all_posts = BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted).all()
 
     # urls, dictionary, for all posts id that were queried above transformed with serialiser
-    urls = {post.id: serializer.dumps(post.id, salt=MY_WEB_APP)
+    urls = {post.id: serializer.dumps(post.id, salt=secret_salt)
             for post in all_posts}
     return render_template('posts.html', posts=all_posts, urls=urls)
 
 
 @app.route('/posts', methods=['GET'])
 def posts():
-
     if request.method == 'GET':
         blog_filter = BlogPost.confirmed == True
 
@@ -148,7 +63,7 @@ def posts():
         all_posts = BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted).all()
 
         # urls, dictionary, for all posts id that were queried above transformed with serialiser
-        urls = {post.id: serializer.dumps(post.id, salt=MY_WEB_APP)
+        urls = {post.id: serializer.dumps(post.id, salt=secret_salt)
                 for post in all_posts}
         return render_template('posts.html', posts=all_posts, urls=urls)
 
@@ -163,6 +78,9 @@ def new_post():
 def save_post():
     # if spodi ipolne form oz ga prebere
     # POST /posts
+
+    if not hcaptcha.verify():
+        return redirect("/error?message=invalid captcha")
 
     post_title = request.form['title']
     post_content = request.form['content']
@@ -289,7 +207,7 @@ def applys():
         # # blog_post_id = request.form['blog_post_id']
         # blog_post_id = request.form['blog_post_id']
         apply_confirmation_id = randbelow(2 ** 31)
-        blog_post_id = serializer.loads(request.form['blog_post_id'], salt=MY_WEB_APP)
+        blog_post_id = serializer.loads(request.form['blog_post_id'], salt=secret_salt)
         new_apply = BlogApply(email_apply=email_apply, name_apply=name_apply, blog_post_id=blog_post_id,
                               apply_confirmation_id=apply_confirmation_id)
 
@@ -333,12 +251,12 @@ def confirmed(apply_confirmation_id):
     # for name in names:
     #
 
-    email_applys = ''.join(sessiondb.query(BlogPost.email).join(BlogApply).filter(
+    email_applys = ''.join(db.session.query(BlogPost.email).join(BlogApply).filter(
         BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404())
 
     # titles = sessiondb.query(BlogPost.title).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404()
 
-    emails = ''.join(sessiondb.query(BlogApply.email_apply).filter(
+    emails = ''.join(db.session.query(BlogApply.email_apply).filter(
         BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404())
 
     sendmailconnect(email_applys, emails, )
@@ -419,6 +337,8 @@ def editing(id):
     # returns all posts query.order_by date_posted
     post = BlogPost.query.filter(BlogPost.id == id)
     return render_template('editing.html', posts=post)
+
+
 
 
 #       post = BlogPost.query.get_or_404(id)
