@@ -169,7 +169,7 @@ def save_post():
     post_offer = request.form['offer']
     post_email = request.form['email']
     post_category_id = int(request.form["category"])
-    post_confirmation_id = randbelow(10 ** 10)
+    post_confirmation_id = randbelow(2 ** 31)
 
     new_post = BlogPost(title=post_title, content=post_content, offer=post_offer,
                         email=post_email, category_id=post_category_id, confirmation_id=post_confirmation_id)
@@ -288,7 +288,7 @@ def applys():
         email_apply = request.form['email_apply']
         # # blog_post_id = request.form['blog_post_id']
         # blog_post_id = request.form['blog_post_id']
-        apply_confirmation_id = randbelow(10 ** 12)
+        apply_confirmation_id = randbelow(2 ** 31)
         blog_post_id = serializer.loads(request.form['blog_post_id'], salt=MY_WEB_APP)
         new_apply = BlogApply(email_apply=email_apply, name_apply=name_apply, blog_post_id=blog_post_id,
                               apply_confirmation_id=apply_confirmation_id)
