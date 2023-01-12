@@ -388,6 +388,7 @@ def editing(id):
 
 
 # TO SPODI JE ZATO DA LAUFA V DEBUG MODE
+# TO SPODI JE ZATO DA LAUFA V DEBUG MODE
 if __name__ == "__main__":
     app.run(debug=True)
 
