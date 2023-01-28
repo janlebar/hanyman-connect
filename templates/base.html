@@ -1,66 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Landmark</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.8.10/tailwind.min.css">
+    <!-- Small CSS to Hide elements at 1520px size -->
+    <style>
+        @media(max-width:1520px) {
+            .left-svg {
+                display: none;
+            }
+        }
+
+        /* small css for the mobile nav close */
+        #nav-mobile-btn.close span:first-child {
+            transform: rotate(45deg);
+            top: 4px;
+            position: relative;
+            background: #a0aec0;
+        }
+
+        #nav-mobile-btn.close span:nth-child(2) {
+            transform: rotate(-45deg);
+            margin-top: 0px;
+            background: #a0aec0;
+        }
+
+        .dark {
+            filter: invert(1);
+            background: #252525;
+        }
+
+        .flip {
+            filter: invert(1);
+        }
+
+        .theme-switch {
+            cursor: pointer;
+        }
+
+    </style>
+
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dist/output.css') }}">
     {% block head %} {% endblock %}
 </head>
-
 <body>
+<!-- Header Section -->
+<header class="h-24 w-full relative z-50">
+    <div
+            class="container max-w-6xl mx-auto h-full flex justify-center sm:justify-between items-center px-8 xl:px-0">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-white">
-        <a class="navbar-brand" href="#">
-            <img src="/static/images/logo.svg" alt="..." height="36">
-          </a>
-        <a class="navbar-brand" href="/">Moje delo</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample01"
-            aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <a href="/" class="inline-block h-full flex items-center h-5 relative font-black leading-none">
+            <svg class="h-6 w-auto fill-current text-indigo-600" viewBox="0 0 194 116"
+                 xmlns="http://www.w3.org/2000/svg">
+                <g fill-rule="evenodd">
+                    <path
+                            d="M96.869 0L30 116h104l-9.88-17.134H59.64l47.109-81.736zM0 116h19.831L77 17.135 67.088 0z"/>
+                    <path d="M87 68.732l9.926 17.143 29.893-51.59L174.15 116H194L126.817 0z"/>
+                </g>
+            </svg>
+            <span class="text-xl ml-3 text-gray-800">Handyman<span class="text-pink-500">.</span></span>
+        </a>
 
-        <div class="collapse navbar-collapse" id="navbarsExample01">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/posts">Posts</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/about">About</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">Contact Us</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown01">
-                        <a class="dropdown-item" href="https://www.facebook.com/handywork/">Facebook</a>
+        <nav id="nav"
+             class="absolute left-0 w-full md:w-auto text-gray-800 flex-col md:flex-row h-64 md:h-24 justify-between text-sm lg:text-base bg-white md:bg-transparent top-0 mt-24 md:mt-0 border-t md:border-none border-gray-200 pt-5 md:py-0 z-50 flex hidden md:flex items-center md:relative">
+            <a href="#"
+               class="font-bold ml-0 md:ml-12 mr-0 md:mr-3 lg:mr-8 transition-color duration-100 hover:text-indigo-600">Home</a>
+            <a href="/posts"
+               class="font-bold mr-0 md:mr-3 lg:mr-8 transition-color duration-100 hover:text-indigo-600">Posts</a>
+            <a href="#pricing"
+               class="font-bold mr-0 md:mr-3 lg:mr-8 transition-color duration-100 hover:text-indigo-600">About</a>
+            <a href="#testimonials"
+               class="font-bold transition-color duration-100 hover:text-indigo-600">Testimonials</a>
+            <a class="px-5 py-1 rounded theme-switch" onclick="theme()"><img id="theme-switch"
+                                                                             src="https://img.icons8.com/ios-glyphs/30/000000/moon-symbol.png"
+                                                                             style="width:20px;"
+                                                                             class="inver" id="im"></a>
+            <div class="block md:hidden border-t border-gray-200 font-medium flex flex-col w-full">
+                <a href="#_" class="py-2 text-pink-500 w-full text-center font-bold">Login</a>
+                <a href="#_"
+                <form>
+                    <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none"
+                                 stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                        <input type="search" id="default-search"
+                               class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                               placeholder="Search Mockups, Logos..." required>
+                        <button type="submit"
+                                class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            Search
+                        </button>
                     </div>
-                </li>
-            </ul>
-            <form method="GET" action= "{{url_for('search')}}" class="form-inline my-2 my-md-0">
-                <input class="form-control" type="text" name='query' id='search' placeholder="Search" aria-label="Search">
+                </form>
+            </div>
+
+        </nav>
+
+        <div
+                class="absolute left-0 md:relative w-full md:w-auto md:bg-transparent border-b md:border-none borde
+                r-gray-200 mt-48 md:mt-0 flex-col md:flex-row pb-8 md:p-0 justify-center items-center md:items-end hidden md:flex md:justify-between">
+            <a href="#_"
+               class="px-3 md:px-5 py-2 text-sm text-pink-500 lg:text-white font-bold mr-0 sm:mr-3 relative z-40 md:mt-0">Login</a>
+
+            <svg class="hidden lg:block absolute w-screen max-w-3xl -mt-64 -ml-12 left-0 top-0"
+                 viewBox="0 0 818 815" xmlns="http://www.w3.org/2000/svg"
+                 xmlns:xlink="http://www.w3.org/1999/xlink">
+                <defs>
+                    <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="c">
+                        <stop stop-color="#E614F2" offset="0%"/>
+                        <stop stop-color="#FC3832" offset="100%"/>
+                    </linearGradient>
+                    <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="f">
+                        <stop stop-color="#657DE9" offset="0%"/>
+                        <stop stop-color="#1C0FD7" offset="100%"/>
+                    </linearGradient>
+                    <filter x="-4.7%" y="-3.3%" width="109.3%" height="109.3%" filterUnits="objectBoundingBox"
+                            id="a">
+                        <feOffset dy="8" in="SourceAlpha" result="shadowOffsetOuter1"/>
+                        <feGaussianBlur stdDeviation="8" in="shadowOffsetOuter1" result="shadowBlurOuter1"/>
+                        <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"
+                                       in="shadowBlurOuter1"/>
+                    </filter>
+                    <filter x="-4.7%" y="-3.3%" width="109.3%" height="109.3%" filterUnits="objectBoundingBox"
+                            id="d">
+                        <feOffset dy="8" in="SourceAlpha" result="shadowOffsetOuter1"/>
+                        <feGaussianBlur stdDeviation="8" in="shadowOffsetOuter1" result="shadowBlurOuter1"/>
+                        <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"
+                                       in="shadowBlurOuter1"/>
+                    </filter>
+                    <path
+                            d="M160.52 108.243h497.445c17.83 0 24.296 1.856 30.814 5.342 6.519 3.486 11.635 8.602 15.12 15.12 3.487 6.52 5.344 12.985 5.344 30.815v497.445c0 17.83-1.857 24.296-5.343 30.814-3.486 6.519-8.602 11.635-15.12 15.12-6.52 3.487-12.985 5.344-30.815 5.344H160.52c-17.83 0-24.296-1.857-30.814-5.343-6.519-3.486-11.635-8.602-15.12-15.12-3.487-6.52-5.343-12.985-5.343-30.815V159.52c0-17.83 1.856-24.296 5.342-30.814 3.486-6.519 8.602-11.635 15.12-15.12 6.52-3.487 12.985-5.343 30.815-5.343z"
+                            id="b"/>
+                    <path
+                            d="M159.107 107.829H656.55c17.83 0 24.296 1.856 30.815 5.342 6.518 3.487 11.634 8.602 15.12 15.12 3.486 6.52 5.343 12.985 5.343 30.816V656.55c0 17.83-1.857 24.296-5.343 30.815-3.486 6.518-8.602 11.634-15.12 15.12-6.519 3.486-12.985 5.343-30.815 5.343H159.107c-17.83 0-24.297-1.857-30.815-5.343-6.519-3.486-11.634-8.602-15.12-15.12-3.487-6.519-5.343-12.985-5.343-30.815V159.107c0-17.83 1.856-24.297 5.342-30.815 3.487-6.519 8.602-11.634 15.12-15.12 6.52-3.487 12.985-5.343 30.816-5.343z"
+                            id="e"/>
+                </defs>
+                <g fill="none" fill-rule="evenodd" opacity=".9">
+                    <g transform="rotate(65 416.452 409.167)">
+                        <use fill="#000" filter="url(#a)" xlink:href="#b"/>
+                        <use fill="url(#c)" xlink:href="#b"/>
+                    </g>
+                    <g transform="rotate(29 421.929 414.496)">
+                        <use fill="#000" filter="url(#d)" xlink:href="#e"/>
+                        <use fill="url(#f)" xlink:href="#e"/>
+                    </g>
+                </g>
+            </svg>
+
+            <form method="GET" action="{{url_for('search')}}">
+                <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none"
+                             stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <input type="search" name='query' id="default-search"
+                           class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                           placeholder="Search" required>
+                    <button type="submit"
+                            class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Search
+                    </button>
+                </div>
             </form>
         </div>
-    </nav>
 
-    <div class="container">
-        {% block body %} {% endblock %}
+        <div id="nav-mobile-btn"
+             class="w-6 absolute block md:hidden right-0 top-0 mr-10 mt-8 sm:mt-10 z-50 cursor-pointer select-none">
+            <span class="w-full h-1 mt-2 sm:mt-1 bg-gray-800 rounded-full block transform duration-200"></span>
+            <span class="w-full h-1 mt-1 bg-gray-800 rounded-full block  transform duration-200"></span>
+        </div>
+
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-    <script src="/static/js/main.js"></script>
-</body>
+</header>
+<!-- End Header Section-->
 
+{% block body %} {% endblock %}
+</body>
 </html>
