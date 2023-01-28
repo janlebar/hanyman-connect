@@ -33,10 +33,22 @@ def search():
 
     if query:
         blog_filter = (
-            # to_tsvector('slovenian', content) @@ to_tsquery('slovenian', 'stanovanje')
-                db.func.to_tsvector('slovenian', BlogPost.content).match(query, postgresql_regconfig='slovenian') &
-                (BlogPost.confirmed == True)
+            (
+                    # full text search # to_tsvector('slovenian', content) @@ to_tsquery('slovenian', 'stanovanje')
+                    db.func.to_tsvector('slovenian', BlogPost.content).match(query, postgresql_regconfig='slovenian') |
+                    db.func.to_tsvector('slovenian', BlogPost.title).match(query, postgresql_regconfig='slovenian') |
+                    db.func.to_tsvector('slovenian', BlogPost.offer).match(query, postgresql_regconfig='slovenian') |
+
+                    # partial match string
+                    BlogPost.content.ilike(f'%{query}%') |
+
+                    # filter blog categories
+                    BlogPost.category.has(Category.name.ilike(f'%{query}%'))
+             ) &
+            (BlogPost.confirmed == True)
         )
+
+        # print(BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted))
     else:
         blog_filter = BlogPost.confirmed == True
 
