@@ -394,7 +394,8 @@ def editing(id):
 #         # returns all posts drugace vrne prejsnje povste urejene po datumu query.order_by date_posted
 #         all_posts = BlogPost.query.filter(BlogPost.confirmed == True).order_by(BlogPost.date_posted).all()
 #         return render_template('posts.html', posts=all_posts)
-
+@app.route('/popup', methods=['POST'])
+def popup():
 
 
 
