@@ -8,7 +8,7 @@ Install postgresql database
 
 ```shell
 sudo apt install postgresql
-sudo systectl start postgresql
+sudo systemctl start postgresql
 
 # set postgresql password
 sudo su
