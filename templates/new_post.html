@@ -38,6 +38,9 @@
         <br>
         <label for="content">Opis dela:</label>
         <textarea class="form-control" name='content' id="content" placeholder="Opis" aria-label="Enter Content" rows="3"></textarea>
+        <input type="hidden" type="text" name='longitude' id='longitude'>
+        <input type="hidden" type="text" name='latitude' id='latitude'>
+        <script src='/static/js/location.js'></script>
         <!--  spodi sam submita ne poveže pa v bazo-->
          {{ hcaptcha }}
         <input type='submit' value='Objavi'>
