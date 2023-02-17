@@ -1,7 +1,7 @@
 from secrets import randbelow
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 # flask needs to import request, to get data from database
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_migrate import Migrate
 from flask_mail import Mail
 from flask_mail import Message
