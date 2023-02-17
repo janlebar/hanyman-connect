@@ -544,79 +544,11 @@
         </footer>
 
         <!-- a little JS for the mobile nav button -->
-        <script>
-            if (document.getElementById('nav-mobile-btn')) {
-                document.getElementById('nav-mobile-btn').addEventListener('click', function () {
-                    if (this.classList.contains('close')) {
-                        document.getElementById('nav').classList.add('hidden');
-                        this.classList.remove('close');
-                    } else {
-                        document.getElementById('nav').classList.remove('hidden');
-                        this.classList.add('close');
-                    }
-                });
-            }
+        <script src='/static/js/theme.js'></script>
 
-            function theme() {
-                var element = document.body;
-                element.classList.toggle("dark");
-                // prevent img flip
-                var elements = document.getElementsByTagName("img");
-                for (let index = 0; index < elements.length; index++) {
-                    const element = elements[index];
-                    element.classList.toggle("flip");
-                }
-                // toggle button
-                var img1 = "https://www.nicepng.com/png/full/121-1215503_sun-icon-white-sun-blue-background.png",
-                    img2 = "https://img.icons8.com/ios-glyphs/30/000000/moon-symbol.png";
-                var imgElement = document.getElementById('theme-switch');
-                imgElement.src = (imgElement.src === img1) ? img2 : img1;
-            };
-        </script>
+        <div id="map"></div>
 
-
-
-
-
-
-
-
-
-<div id="map"></div>
-
-<script>var map = L.map('map').setView([46.056946, 14.505751], 8);
-
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-// Fetch the coordinates from the server
-fetch('/coords')
-  .then(response => response.json())
-  .then(coords => {
-
-
-    // Loop through the coordinates and create a marker for each one
-    coords.forEach(coord => {
-      const { id, title, latitude, longitude } = coord;
-      const marker = L.marker([latitude, longitude]).addTo(map);
-      marker.bindPopup(`${title}`).openPopup();
-    });
-  });
-
-
-
-
-
-
-
-
-
-//link
-//   marker.bindPopup(`<a href="/post/${id}">Marker ${id}</a>`).openPopup();
-
-
-        </script>
+        <script src='/static/js/map.js'></script>
 
 
 

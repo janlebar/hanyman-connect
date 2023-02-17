@@ -396,7 +396,10 @@ def editing(id):
 #         return render_template('posts.html', posts=all_posts)
 
 
-
+@app.route('/coords')
+def test():
+    BlogPosts = BlogPost.query.all()
+    return jsonify([{'id': BlogPost.id,'longitude': BlogPost.longitude,'latitude': BlogPost.latitude, 'title': BlogPost.title, } for BlogPost in BlogPosts])
 
 
 # TO SPODI JE ZATO DA LAUFA V DEBUG MODE
