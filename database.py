@@ -35,8 +35,8 @@ class BlogPost(db.Model):
     confirmed = db.Column(db.Boolean, default=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     date_updated = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
-    longitude = db.Column(db.Float)
-    latitude = db.Column(db.Float)
+    longitude = db.Column(db.Float, nullable=True)
+    latitude = db.Column(db.Float, nullable=True)
     location = db.Column(db.String(255))
 
     # for categories

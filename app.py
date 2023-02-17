@@ -90,10 +90,12 @@ def save_post():
     post_content = request.form['content']
     post_offer = request.form['offer']
     post_email = request.form['email']
+    post_longitude = request.form['longitude']
+    post_latitude = request.form['latitude']
     post_category_id = int(request.form["category"])
     post_confirmation_id = randbelow(2 ** 31)
 
-    new_post = BlogPost(title=post_title, content=post_content, offer=post_offer,
+    new_post = BlogPost(title=post_title, content=post_content, offer=post_offer,longitude = post_longitude, latitude = post_latitude,
                         email=post_email, category_id=post_category_id, confirmation_id=post_confirmation_id)
 
     # vpise v bazo v trenutno
