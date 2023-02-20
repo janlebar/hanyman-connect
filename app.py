@@ -404,6 +404,7 @@ def test():
     return jsonify([{'id': BlogPost.id,'longitude': BlogPost.longitude,'latitude': BlogPost.latitude, 'title': BlogPost.title, } for BlogPost in BlogPosts])
 
 
+
 # TO SPODI JE ZATO DA LAUFA V DEBUG MODE
 # TO SPODI JE ZATO DA LAUFA V DEBUG MODE
 if __name__ == "__main__":

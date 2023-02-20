@@ -9,9 +9,11 @@
     <!-- Small CSS to Hide elements at 1520px size -->
 
 
-            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
         integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
         crossorigin=""/>
+
 
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
@@ -19,10 +21,6 @@
         crossorigin="">
     </script>
 
-    <script>
-        var map = L.map('map').setView([46.056946, 14.505751], 13);
-
-    </script>
 
 <script>var map = L.map('map').setView([46.056946, 14.505751], 13);
 
@@ -30,24 +28,12 @@
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    L.marker([46.056946, 14.505751]).addTo(map)
-        .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-        .openPopup();
-
-    var marker = L.marker([51.5, -0.09]).addTo(map);
-
-    var circle = L.circle([45.5469, 13.7294], {
-    color: 'red',
-    fillColor: '#f03',
-    fillOpacity: 0.5,
-    radius: 50
-}).addTo(map);
-
 
 </script>
 
-<style>#map { height: 500px; }</style>
 
+
+    <style>#map { height: 500px; }</style>
 
 
     <style>

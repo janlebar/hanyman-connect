@@ -25,6 +25,5 @@ fetch('/coords')
 
 
 
-
 //link
 //   marker.bindPopup(`<a href="/post/${id}">Marker ${id}</a>`).openPopup();
