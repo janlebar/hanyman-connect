@@ -277,7 +277,10 @@ def sendmailconnect(email_applys, emails):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    BlogPosts = BlogPost.query.all()
+    coords=[{'id': BlogPost.id, 'longitude': BlogPost.longitude, 'latitude': BlogPost.latitude, 'title': BlogPost.title, }
+         for BlogPost in BlogPosts]
+    return render_template('index.html', coords=coords)
 
 
 # app.add_url_rule("/", None, view_func=index)

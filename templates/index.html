@@ -556,6 +556,9 @@
 
 
         <div id="map"></div>
+        <script>
+            var coords = JSON.parse('{{ coords | tojson }}');
+        </script>
         <script src='/static/js/map.js'></script>
 
 
