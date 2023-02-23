@@ -79,118 +79,16 @@ def new_post():
     return render_template('new_post.html', categories=categories, action_url=url_for(posts.__name__))
 
 
-
-
-
-
-
-
-
-
-@app.route('/postsa', methods=['GET'])
-def postsa():
+@app.route('/post/<int:id>', methods=['GET'])
+def post(id):
     if request.method == 'GET':
-        blog_filter = BlogPost.confirmed == True
-
         # returns all posts otherwise returns previous posts ordered by date query.order_by date_posted
-        all_posts = BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted).all()
+        all_posts = BlogPost.query.filter_by(id=id).all()
 
-        # urls, dictionary, for all posts id that were queried above transformed with serialiser
+        # urls, dictionary, for all posts id that were queried above transformed with serializer
         urls = {post.id: serializer.dumps(post.id, salt=secret_salt)
                 for post in all_posts}
         return render_template('posts.html', posts=all_posts, urls=urls)
-
-
-# @app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
-# def edit(id):
-#     post = BlogPost.query.get_or_404(id)
-#     # dodal kernc kategorije niso ble definiane z debugerjem
-#     categories = Category.query.all()
-
-#     if request.method == 'POST':
-#         post.title = request.form['title']
-#         post.offer = request.form['offer']
-#         post.content = request.form['content']
-#         post.email = request.form['email']
-#         post.category_id = request.form['category']
-#         db.session.commit()
-#         return redirect('/posts')
-#     else:
-#         # post=post ker rabi prebrisat prejsn povst
-#         return render_template('edit.html', post=post, categories=categories)
-
-
-
-
-
-
-
-
-
-
-
-# @app.route('/postsa/<int:id>', methods=['GET'])
-# def post(id):
-#     if request.method == 'GET':
-
-#         # filter the post by the specified id
-#         all_posts = BlogPost.query.get_or_404(id)
-
-#         return render_template('post.html', posts=all_posts)
-
-
-
-# @app.route('/postsa/<int:id>', methods=['GET'])
-# def postsa(id):
-#     if request.method == 'GET':
-#         blog_filter = BlogPost.confirmed == True
-
-#         # returns all posts otherwise returns previous posts ordered by date query.order_by date_posted
-#         all_posts = BlogPost.query.filter(blog_filter).BlogPost.query.get_or_404(id)
-
-#         # urls, dictionary, for all posts id that were queried above transformed with serialiser
-#         urls = {post.id: serializer.dumps(post.id, salt=secret_salt)
-#                 for post in all_posts}
-#         return render_template('posts.html', posts=all_posts, urls=urls)
-
-
-
-
-
-
-
-
-
-
-
-
-
-# @app.route('/postsa/<int:id>', methods=['GET'])
-# def postsa(id):
-#     if request.method == 'GET':
-#         # returns all posts otherwise returns previous posts ordered by date query.order_by date_posted
-#         all_posts = BlogPost.query.get_or_404(id)
-
-#         # urls, dictionary, for all posts id that were queried above transformed with serialiser
-
-#         return render_template('posts.html', posts=all_posts)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
