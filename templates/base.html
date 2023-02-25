@@ -64,6 +64,42 @@
 
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dist/output.css') }}">
+
+
+
+    {% if cookies_check() %}
+    {# then user has already consented so no requirement for consent banner #}
+{% else %}
+    {# show a cookie consent banner #}
+    <div class="fixed z-10 inset-0 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen">
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <div class="text-lg font-medium mb-4">Cookie Consent</div>
+                <div class="text-sm mb-6">We use cookies to improve your experience on our site. By clicking "I Consent" below, you agree to our use of cookies.</div>
+                <div class="flex items-center mb-4">
+                    <input type="checkbox" id="cookie-consent-checkbox" class="mr-2">
+                    <label for="cookie-consent-checkbox" class="text-sm">I agree to the use of cookies.</label>
+                </div>
+                <div class="text-sm text-gray-500">
+                    <!-- Insert your app's cookie policy or other relevant information here -->
+                </div>
+                <button id="cookie-consent-button" class="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4">I Consent</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        var fn = function () {
+            if (document.getElementById('cookie-consent-checkbox').checked) {
+                document.cookie = "cookie_consent=true";
+                document.querySelector('.fixed').remove();
+            }
+        };
+        document.getElementById('cookie-consent-button').onclick = fn;
+    </script>
+{% endif %}
+
+
+
     {% block head %} {% endblock %}
 </head>
 <body>
