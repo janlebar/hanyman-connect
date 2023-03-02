@@ -1,49 +1,56 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>Objavi delo</title> 
+    <title>Objavi delo</title> 
 {% endblock %}
 
 {% block body %}
-<h1>Oddaj povpraševanje</h1>
+    <h1 class="text-2xl font-bold text-center mb-4">Oddaj povpraševanje</h1>
 
-    <hr>
-
+    <hr class="mb-4">
 
     <!--  formular kamor folk vpise podatke za nov povst-->
-    <form action='/save_post' method='POST' id="newPostForm">
-        <label for="title">Ime:</label>
-        <input class="form-control" type="text" name='title' id='title' placeholder="ime dela" aria-label="Enter Title">
+    <form action='/save_post' method='POST' id="newPostForm" class="mx-auto max-w-md">
+        <div class="mb-4">
+            <label for="title" class="block text-gray-700 font-bold mb-2">Ime:</label>
+            <input class="form-input" type="text" name='title' id='title' placeholder="ime dela" aria-label="Enter Title">
+        </div>
         <!-- jaka naredil da izpiše kategorije-->
-        <label for="category">Kategorija:</label>
-        <select name="category" id="categories">
-        {% for category in categories %}
-            <li>{{category.name}}</li>
-            <option value="{{category.id}}">{{category.name}}</option>
-        {% endfor%}
-        </select>
+        <div class="mb-4">
+            <label for="category" class="block text-gray-700 font-bold mb-2">Kategorija:</label>
+            <select name="category" id="categories" class="form-select">
+                {% for category in categories %}
+                    <option value="{{category.id}}">{{category.name}}</option>
+                {% endfor%}
+            </select>
+        </div>
 
         <!--  -->
-        <br>
-        <label for="offer">Ponudba:</label>
-        <input class="form-control" type="text" name='offer' id='offer' placeholder="vnesi ponudbo" aria-label="Enter Offer">
-        <br>
+        <div class="mb-4">
+            <label for="offer" class="block text-gray-700 font-bold mb-2">Ponudba:</label>
+            <input class="form-input" type="text" name='offer' id='offer' placeholder="vnesi ponudbo" aria-label="Enter Offer">
+        </div>
 
 <!--       FIX THIS OFFERS CAN BE THE SAME <input class="form-control" type="text" name='offer' id='offer' placeholder="vnesi ponudbo" aria-label="Enter Offer" required minlength="1" maxlength="3">-->
 <!--        <br>-->
-        <label for="email">Email:</label>
-        <input class="form-control" type="email" name='email' id='email' placeholder="vnesi svoj email" aria-label="Enter Email" required
+        <div class="mb-4">
+            <label for="email" class="block text-gray-700 font-bold mb-2">Email:</label>
+            <input class="form-input" type="email" name='email' id='email' placeholder="vnesi svoj email" aria-label="Enter Email" required
             oninvalid="this.setCustomValidity('Enter valid email')"
             oninput="this.setCustomValidity('')">
-        <br>
-        <label for="content">Opis dela:</label>
-        <textarea class="form-control" name='content' id="content" placeholder="Opis" aria-label="Enter Content" rows="3"></textarea>
+        </div>
+        <div class="mb-4">
+            <label for="content" class="block text-gray-700 font-bold mb-2">Opis dela:</label>
+            <textarea class="form-textarea" name='content' id="content" placeholder="Opis" aria-label="Enter Content" rows="3"></textarea>
+        </div>
         <input type="hidden" type="text" name='longitude' id='longitude'>
         <input type="hidden" type="text" name='latitude' id='latitude'>
         <script src='/static/js/location.js'></script>
         <!--  spodi sam submita ne poveže pa v bazo-->
-         {{ hcaptcha }}
-        <input type='submit' value='Objavi'>
+        {{ hcaptcha }}
+        <div class="flex justify-center mt-4">
+            <input type='submit' value='Objavi' class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+        </div>
     </form>
 
     <script>
