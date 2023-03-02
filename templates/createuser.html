@@ -3,11 +3,15 @@
 {% block title %}Homepage{% endblock %}
 
 {% block content %}
-  <h1>Hello, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}guest{% endif %}!</h1>
-  {% if current_user.is_authenticated %}
-    <p><a href="{{ url_for('logout') }}">Log out</a></p>
-  {% else %}
-    <p><a href="{{ url_for('login') }}">Log in</a></p>
-    <p><a href="{{ url_for('register') }}">Register</a></p>
-  {% endif %}
+  <div class="flex flex-col justify-center items-center h-screen">
+    <h1 class="text-2xl font-bold mb-4">Hello, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}guest{% endif %}!</h1>
+    {% if current_user.is_authenticated %}
+      <p><a href="{{ url_for('logout') }}" class="underline">Log out</a></p>
+    {% else %}
+      <div class="flex flex-col space-y-4">
+        <a href="{{ url_for('login') }}" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">Log in</a>
+        <a href="{{ url_for('register') }}" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg">Register</a>
+      </div>
+    {% endif %}
+  </div>
 {% endblock %}

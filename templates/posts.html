@@ -3,42 +3,33 @@
 {% block head %}
 <title>Posts</title> 
 {% endblock %}
-{# coment #}
-{% block body %}
-<br>
-<div>
-    <h1 style="display:inline">All Posts</h1>
-    <a style="display:inline" class="btn btn-success float-right" href="/posts/new" >+ New Post</a>
-</div>
-    <hr>
-  
-    {% for post in posts %}
-        <h2>{{ post.title }}</h2>
-        {% if post.author %}
-            <small> Written by {{ post.author }} on {{ post.date_posted }}</small>
-        {% else %}
-            <small> Date; {{ post.date_posted }}</small>
-        {% endif %}
-        <br>
-        <br>
-        {% if post.category %}
-        <br>
-        <p style="white-space:pre-wrap">{{ post.category.name }}</p>
-        <br>
-        {% endif %}
-        <p style="white-space:pre-wrap">{{ post.email }}</p>
-        <br>
-        <p style="white-space:pre-wrap">{{ post.offer }}</p>
-        <br>
-        <p style="white-space:pre-wrap">{{ post.content }}</p>
-        <br>
-        <!--  klice nazaj povezavo na app.py za povsts in delete-->
-        <!-- <a class="btn btn-info" href='/apply/new/{{post.id}}'>Apply</a>  -->
-        <!--  klice nazaj povezavo na app.py za url posts with serailisation -->
-        <a class="btn btn-info" href='/apply/new/{{ urls[post.id] }}'>Apply</a>
-        <br>
-        <hr>
-        <br>
-    {% endfor%}
 
+{% block body %}
+<div class="max-w-3xl mx-auto">
+  <div class="flex justify-between items-center">
+    <h1 class="text-2xl font-bold">All Posts</h1>
+    <a href="/posts/new" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg">+ New Post</a>
+  </div>
+  <hr class="my-4">
+  {% for post in posts %}
+    <div class="mb-4">
+      <h2 class="text-xl font-bold">{{ post.title }}</h2>
+      {% if post.author %}
+        <small>Written by {{ post.author }} on {{ post.date_posted }}</small>
+      {% else %}
+        <small>Date: {{ post.date_posted }}</small>
+      {% endif %}
+      {% if post.category %}
+        <p class="mt-2 text-gray-700">{{ post.category.name }}</p>
+      {% endif %}
+      <p class="mt-2 text-gray-700">{{ post.email }}</p>
+      <p class="mt-2 text-gray-700">{{ post.offer }}</p>
+      <p class="mt-2">{{ post.content }}</p>
+      <div class="mt-4">
+        <a href='/apply/new/{{ urls[post.id] }}' class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">Apply</a>
+      </div>
+    </div>
+    <hr class="my-4">
+  {% endfor %}
+</div>
 {% endblock %}
