@@ -1,12 +1,19 @@
 from secrets import randbelow
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 # flask needs to import request, to get data from database
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, make_response, flash
 from flask_migrate import Migrate
 from flask_mail import Mail
 from flask_mail import Message
 from flask_hcaptcha import hCaptcha
 from database import db, BlogPost, Category, BlogApply
+
+from flask_login import LoginManager, current_user, login_user, logout_user, login_required, UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import DataRequired, Email, EqualTo
+from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 
 app = Flask(__name__)
 
@@ -26,6 +33,85 @@ mail = Mail(app)
 secret_key = app.config.get("SECRET_KEY")
 secret_salt = app.config.get("SECRET_SALT")
 serializer = URLSafeTimedSerializer(secret_key)
+
+# Initialize Flask-Login
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+# Define the User model
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
+
+    def __repr__(self):
+        return '<User {}>'.format(self.username)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+# Define the user_loader function
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+# Define the login route and view
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('createuser'))
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        remember = request.form.get('remember')
+        user = User.query.filter_by(email=email).first()
+        if user is None or not user.check_password(password):
+            flash('Invalid email or password', 'error')
+            return redirect(url_for('login'))
+        login_user(user, remember=remember)
+        return redirect(url_for('createuser'))
+    return render_template('login.html')
+
+# Define the logout route and view
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('createuser'))
+
+# Define the registration route and view
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('createuser'))
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        confirm_password = request.form['confirm_password']
+        if password != confirm_password:
+            flash('Passwords do not match', 'error')
+            return redirect(url_for('register'))
+        user = User.query.filter_by(email=email).first()
+        if user is not None:
+            flash('Email address already exists', 'error')
+            return redirect(url_for('register'))
+        user = User(username=username, email=email)
+        user.set_password(password)
+        db.session.add(user)
+        db.session.commit()
+        flash('Congratulations, you are now a registered user!', 'success')
+        return redirect(url_for('login'))
+    return render_template('register.html')
+
+# Define the createuser route and view
+@app.route('/createuser')
+def createuser():
+    return render_template('createuser.html', current_user=current_user)
 
 @app.route('/search', methods=['GET'])
 def search():
