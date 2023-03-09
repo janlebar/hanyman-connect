@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+  </head>
+  <body>
+    {% if email is none %}
+      <p>Welcome, please <a href="/testregister">register</a> to continue.</p>
+    {% else %}
+      <p>Welcome, {{ email }}!</p>
+    {% endif %}
+  </body>
+</html>
