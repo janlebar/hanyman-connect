@@ -91,3 +91,8 @@ Insert this into initial migrations to create full text search indexes:
 
 
 ![img.png](migrations_indexes.png)
+
+### psycopg2 setup 
+
+sudo apt-get install libpq-dev python-dev
+pip install psycopg2

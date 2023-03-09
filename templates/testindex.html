@@ -1,14 +1,15 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Home</title>
-  </head>
+{% extends 'base.html' %}
+
+{% block title %}
+testindex
+{% endblock %}
+
+{% block content %}
   <body>
     {% if email is none %}
-      <p>Welcome, please <a href="/testregister">register</a> to continue.</p>
+      <p class="text-center">Welcome, please <a href="/testregister" class="text-blue-500 hover:underline">register</a> to continue.</p>
     {% else %}
-      <p>Welcome, {{ email }}!</p>
+      <p class="text-center">Welcome, {{ email }}!</p>
     {% endif %}
   </body>
-</html>
+{% endblock %}
