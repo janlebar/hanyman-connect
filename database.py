@@ -1,5 +1,8 @@
+import uuid
+
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Index, text
+from sqlalchemy.dialects.postgresql import UUID
 from datetime import datetime
 
 # ORM is SQLAlchemy
@@ -25,8 +28,9 @@ class BlogPost(db.Model):
 
     __tablename__ = "blog_post"
     __mapper_args__ = {"eager_defaults": True}
+
     # false means it must not be an empty value, default,"" means that there is nothing inside.
-    id = db.Column(db.Integer, primary_key=True, )
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     title = db.Column(db.String(100), nullable=False, default="")
     content = db.Column(db.Text, nullable=False, default="")
     offer = db.Column(db.Text, nullable=False, default="")
@@ -72,13 +76,15 @@ class BlogApply(db.Model):
 
     __tablename__ = "blog_apply"
     __mapper_args__ = {"eager_defaults": True}
-    id_apply = db.Column(db.Integer, primary_key=True, )
+
+    id_apply = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name_apply = db.Column(db.Text, nullable=False, default="")
     email_apply = db.Column(db.Text, nullable=False, default="")
-    blog_post_id = db.Column(db.Integer, db.ForeignKey('blog_post.id'))
+    blog_post_id = db.Column(UUID(as_uuid=True), db.ForeignKey('blog_post.id'))
     apply_confirmation_id = db.Column(db.Integer, nullable=False)
     apply_confirmed = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         """returns object representative"""
         return 'Blog apply ' + str(self.id_apply)
+

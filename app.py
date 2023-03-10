@@ -1,13 +1,12 @@
 from secrets import randbelow
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 # flask needs to import request, to get data from database
-from flask import Flask, render_template, request, redirect, url_for, jsonify, make_response, flash
+from flask import Flask, render_template, request, redirect, url_for, jsonify, make_response, flash, session
 from flask_migrate import Migrate
 from flask_mail import Mail
 from flask_mail import Message
 from flask_hcaptcha import hCaptcha
 from database import db, BlogPost, Category, BlogApply
-import psycopg2
 
 
 app = Flask(__name__)
@@ -29,74 +28,8 @@ secret_key = app.config.get("SECRET_KEY")
 secret_salt = app.config.get("SECRET_SALT")
 serializer = URLSafeTimedSerializer(secret_key)
 
-# Connect to the PostgreSQL database
-conn = psycopg2.connect(
-    dbname = "postgres",
-    user = "postgres",
-    password = "postgres",
-    host = "localhost",
-    port=5432
-)
-cursor = conn.cursor()
 
-# Create the users table if it doesn't exist
-cursor.execute('''CREATE TABLE IF NOT EXISTS users
-                (id SERIAL PRIMARY KEY, email TEXT)''')
-conn.commit()
 
-@app.route('/testindex')
-def testindex():
-    email = request.cookies.get('email')
-    if email is not None:
-        email = serializer.loads(email)
-    return render_template('testindex.html', email=email)
-
-@app.route('/testregister', methods=['GET', 'POST'])
-def testregister():
-    if request.method == 'POST':
-        email = request.form.get('email')
-        
-        # Save the email to the database
-        cursor.execute("INSERT INTO users (email) VALUES (%s)", (email,))
-        conn.commit()
-        
-        encrypted_email = serializer.dumps(email)
-        response = make_response(render_template('success.html'))
-        response.set_cookie('email', encrypted_email)  # set the encrypted email as a cookie
-        return response
-    return render_template('testregister.html')
-
-@app.before_request
-def before_request():
-    email = request.cookies.get('email')
-    if email is not None:
-        email = serializer.loads(email)
-        
-        # Check if the email exists in the database
-        cursor.execute("SELECT email FROM users WHERE email=%s", (email,))
-        result = cursor.fetchone()
-        
-        if result is None:
-            # Remove the invalid cookie
-            response = make_response(render_template('testregister.html'))
-            response.delete_cookie('email')
-            return response
-
-@app.route('/testlogin', methods=['GET', 'POST'])
-def testlogin():
-    if request.method == 'POST':
-        email = request.form.get('email')
-        
-        # Check if the email exists in the database
-        cursor.execute("SELECT email FROM users WHERE email=%s", (email,))
-        result = cursor.fetchone()
-        
-        if result is not None:
-            encrypted_email = serializer.dumps(email)
-            response = make_response(render_template('success.html'))
-            response.set_cookie('email', encrypted_email)  # set the encrypted email as a cookie
-            return response
-    return render_template('testlogin.html')
 
 @app.route('/search', methods=['GET'])
 def search():
@@ -127,8 +60,7 @@ def search():
     all_posts = BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted).all()
 
     # urls, dictionary, for all posts id that were queried above transformed with serialiser
-    urls = {post.id: serializer.dumps(post.id, salt=secret_salt)
-            for post in all_posts}
+    urls = {post.id: post.id for post in all_posts}
     return render_template('posts.html', posts=all_posts, urls=urls)
 
 @app.route('/posts', methods=['GET'])
@@ -140,8 +72,8 @@ def posts():
         all_posts = BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted).all()
 
         # urls, dictionary, for all posts id that were queried above transformed with serialiser
-        urls = {post.id: serializer.dumps(post.id, salt=secret_salt)
-                for post in all_posts}
+        urls = {post.id: post.id
+                   for post in all_posts}
         return render_template('posts.html', posts=all_posts, urls=urls)
 
 @app.route('/posts/new', methods=['GET', 'POST'])
@@ -150,7 +82,7 @@ def new_post():
     return render_template('new_post.html', categories=categories, action_url=url_for(posts.__name__))
 
 
-@app.route('/post/<int:id>', methods=['GET'])
+@app.route('/post/<string:id>', methods=['GET'])
 def post(id):
     if request.method == 'GET':
         # returns all posts otherwise returns previous posts ordered by date query.order_by date_posted
@@ -283,6 +215,9 @@ def confirm(id):
     # save and commit updated post to database
     db.session.add(post)
     db.session.commit()
+
+    session["email"] = post.email
+
     # redirect to all posts
     # jaka: url_for je neke vrste funkcija ki generira raut in vzame parameter id, čeprav je string url
     return redirect(url_for('editing', id=post.id))
@@ -382,7 +317,7 @@ def index():
 # app.add_url_rule("/", None, view_func=index)
 
 # rout za delete post
-@app.route('/posts/delete/<int:id>')
+@app.route('/posts/delete/<string:id>')
 def delete(id):
     post = BlogPost.query.get_or_404(id)
     db.session.delete(post)
@@ -391,9 +326,13 @@ def delete(id):
 
 
 # route za edit post, ker ga urejas mora bit metoda post ker jo shrani v bazo
-@app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
+@app.route('/posts/edit/<string:id>', methods=['GET', 'POST'])
 def edit(id):
     post = BlogPost.query.get_or_404(id)
+
+    if post.email != session.get("email"):
+        raise Exception("wrong email")
+
     # dodal kernc kategorije niso ble definiane z debugerjem
     categories = Category.query.all()
 
@@ -437,7 +376,7 @@ def chmail():
 # render_template('editing.html', )
 
 
-@app.route('/editing/<int:id>', methods=['GET', 'POST'])
+@app.route('/editing/<string:id>', methods=['GET', 'POST'])
 def editing(id):
     # returns all posts query.order_by date_posted
     post = BlogPost.query.filter(BlogPost.id == id)

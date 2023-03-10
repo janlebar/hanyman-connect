@@ -1,8 +1,8 @@
 """Initial migration.
 
-Revision ID: c2cc1210980f
+Revision ID: 67cf935dfefd
 Revises: 
-Create Date: 2022-12-11 16:28:08.045185
+Create Date: 2023-03-10 14:14:05.945420
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'c2cc1210980f'
+revision = '67cf935dfefd'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -24,7 +24,7 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('blog_post',
-    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('id', sa.UUID(), nullable=False),
     sa.Column('title', sa.String(length=100), nullable=False),
     sa.Column('content', sa.Text(), nullable=False),
     sa.Column('offer', sa.Text(), nullable=False),
@@ -33,9 +33,22 @@ def upgrade():
     sa.Column('confirmed', sa.Boolean(), nullable=True),
     sa.Column('date_posted', sa.DateTime(), nullable=False),
     sa.Column('date_updated', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
+    sa.Column('longitude', sa.Float(), nullable=True),
+    sa.Column('latitude', sa.Float(), nullable=True),
+    sa.Column('location', sa.String(length=255), nullable=True),
     sa.Column('category_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['category_id'], ['work_type.id'], ),
-    sa.PrimaryKeyConstraint('id'),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('blog_apply',
+    sa.Column('id_apply', sa.UUID(), nullable=False),
+    sa.Column('name_apply', sa.Text(), nullable=False),
+    sa.Column('email_apply', sa.Text(), nullable=False),
+    sa.Column('blog_post_id', sa.UUID(), nullable=True),
+    sa.Column('apply_confirmation_id', sa.Integer(), nullable=False),
+    sa.Column('apply_confirmed', sa.Boolean(), nullable=True),
+    sa.ForeignKeyConstraint(['blog_post_id'], ['blog_post.id'], ),
+    sa.PrimaryKeyConstraint('id_apply')
     )
     op.create_index('idx_fulltext_title', 'blog_post',
             [sa.text("to_tsvector('slovenian', title)")],
@@ -46,17 +59,6 @@ def upgrade():
     op.create_index('idx_fulltext_offer', 'blog_post',
             [sa.text("to_tsvector('slovenian', offer)")],
             postgresql_using='gin')
-
-    op.create_table('blog_apply',
-    sa.Column('id_apply', sa.Integer(), nullable=False),
-    sa.Column('name_apply', sa.Text(), nullable=False),
-    sa.Column('email_apply', sa.Text(), nullable=False),
-    sa.Column('blog_post_id', sa.Integer(), nullable=True),
-    sa.Column('apply_confirmation_id', sa.Integer(), nullable=False),
-    sa.Column('apply_confirmed', sa.Boolean(), nullable=True),
-    sa.ForeignKeyConstraint(['blog_post_id'], ['blog_post.id'], ),
-    sa.PrimaryKeyConstraint('id_apply')
-    )
     # ### end Alembic commands ###
 
 
