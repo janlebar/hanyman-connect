@@ -1,0 +1,172 @@
+@app.route('/apply/new/<id>', methods=['GET', 'POST'])
+def new_apply(id):
+    # wtf why dumps works and load does not?
+    return render_template('new_apply.html', blog_post_id=id, action_url=url_for(applys.__name__))
+
+
+# @app.route('/apply/new/<int:id>', methods=['GET', 'POST'])
+# def new_apply(id):
+#         # urls = {post.id: serializer.dumps(post.id, salt=MY_WEB_APP)
+#         blog_post_id = serializer.load(post.id, salt=MY_WEB_APP)
+#         return render_template('new_apply.html',blog_post_id=blog_post_id, action_url=url_for(applys.__name__))
+
+# decorator funkcijo pokiče v ozadju.
+@app.route('/apply/confirmed/<int:apply_confirmation_id>')
+def confirmed(apply_confirmation_id):
+    """Confirm blog post by confirmation id created in POST /posts"""
+    # get post from database where confirmation id matches or return 404
+    apply = BlogApply.query.filter(BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404()
+    # set post to confirmed
+    apply.apply_confirmed = True
+    # save and commit updated post to database
+    db.session.add(apply)
+    db.session.commit()
+
+    # results=session.query(BlogPost).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id)
+    # for result in results:
+
+    #     print(result)
+    # results = sessiondb.query(BlogPost.email).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id)
+    # for result in results:
+    #     print(result)
+    # names = sessiondb.query(BlogPost.title).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id)
+    # for name in names:
+    #
+
+
+
+
+
+# @app.route('/posts', methods=['GET', 'POST'])
+# def posts():
+# # if spodi ipolne form oz ga prebere
+#     # POST /posts
+#     if request.method == 'POST':
+#
+#         post_title = request.form['title']
+#         post_content = request.form['content']
+#         post_offer = request.form['offer']
+#         post_email = request.form['email']
+#         post_category_id = int(request.form["category"])
+#         post_confirmation_id = randbelow(10**10)
+#
+#
+#
+#         new_post = BlogPost(title=post_title, content=post_content, offer=post_offer,
+#                             email=post_email, category_id=post_category_id, confirmation_id=post_confirmation_id)
+#
+#         # vpise v bazo v trenutno
+#         db.session.add(new_post)
+#         # commit ga sele vpise permanentno v bazo
+#         db.session.commit()
+#
+#         #poklical funkcijo sendmail in jo izpolnil z parametri iz posts
+#         sendmail(post_email, post_confirmation_id)
+#
+#         # vrne posodobljen posts page
+#         return redirect('/posts')
+#
+#     # GET /posts?query=stanovanje
+#     else:
+#         # /posts?query=stanovanje
+#         query = request.args.get("query")
+#
+#         #       all_posts = BlogPost.query.filter(
+#         #             # to_tsvector('slovenian', content) @@ to_tsquery('slovenian', 'stanovanje')
+#         #            db.func.to_tsvector('slovenian', BlogPost.content).match(query, postgresql_regconfig='slovenian') &
+#         #            (BlogPost.confirmed == True)).order_by(BlogPost.date_posted).all()
+#
+#         if query:
+#             blog_filter = (
+#                 # to_tsvector('slovenian', content) @@ to_tsquery('slovenian', 'stanovanje')
+#                 db.func.to_tsvector('slovenian', BlogPost.content).match(query, postgresql_regconfig='slovenian') &
+#                 (BlogPost.confirmed == True)
+#             )
+#         else:
+#             blog_filter = BlogPost.confirmed == True
+#
+#         # returns all posts drugace vrne prejsnje povste urejene po datumu query.order_by date_posted
+#         all_posts = BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted).all()
+#
+#         # urls, dictionary, for all posts id that were queried above transformed with serialiser
+#         urls = {post.id: serializer.dumps(post.id, salt=MY_WEB_APP)
+#                 for post in all_posts}
+#         return render_template('posts.html', posts=all_posts, urls=urls)
+
+
+
+#  jan naredil podstran za main post
+# @app.route('/mainposts', methods=['GET', 'POST'])
+# def mainposts():
+#         # returns all posts query.order_by date_posted
+#         all_posts = BlogPost.query.filter(BlogPost.confirmed == True).order_by(BlogPost.date_posted).all()
+#         return render_template('mainposts.html', posts=all_posts)
+
+
+# jan naredil podstran za main post
+# @app.route('/editing/<int:id>', methods=['GET', 'POST'])
+# def editing(id):
+#      post = BlogPost.query.get_or_404(id)
+# render_template('editing.html', )
+
+
+
+
+#       post = BlogPost.query.get_or_404(id)
+#        id = BlogPost.query.filter(BlogPost.confirmed == True).all()
+
+
+# @app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
+# def edit(id):
+
+#     post = BlogPost.query.get_or_404(id)
+#     # dodal kernc kategorije niso ble definiane z debugerjem
+#     categories = Category.query.all()
+
+#     if request.method == 'POST':
+#         post.title = request.form['title']
+#         post.offer = request.form['offer']
+#         post.content = request.form['content']
+#         post.email = request.form['email']
+#         post.category_id = request.form['category']
+#         db.session.commit()
+#         return redirect('/posts')
+#     else:
+#         # post=post ker rabi prebrisat prejsn povst
+#         return render_template('edit.html', post=post, categories=categories)
+
+
+#     if request.method == 'POST':
+
+#         post_title = request.form['title']
+#         post_content = request.form['content']
+#         post_offer = request.form['offer']
+#         post_email = request.form['email']
+#         post_category_id = request.form["category"]
+#         post_confirmation_id = randbelow(10**12)
+#         new_post = BlogPost(title=post_title, content=post_content, offer=post_offer, 
+#                             email=post_email, category_id=post_category_id, confirmation_id=post_confirmation_id)
+
+#         # vpise v bazo v trenutno
+#         db.session.add(new_post)
+#         # commit ga sele vpise permanentno v bazo
+#         db.session.commit()
+
+#         #poklical funkcijo sendmail in jo izpolnil z parametri iz posts
+#         sendmail(post_email, post_confirmation_id)
+
+#         # vrne posodobljen posts page
+#         return redirect('/posts')
+#     else:
+#         # returns all posts drugace vrne prejsnje povste urejene po datumu query.order_by date_posted
+#         all_posts = BlogPost.query.filter(BlogPost.confirmed == True).order_by(BlogPost.date_posted).all()
+#         return render_template('posts.html', posts=all_posts)
+
+# QUERIES ZA BAZO PISES V TERMINAL: python3:from app import db,BlogPost
+# BlogPost.query.get()
+# BlogPost.query.all()
+# BlogPost.query.filter_by(title='naslov').all()
+# db.session.delete(BlogPost.query.get() )
+# db.session.commit
+# BlogPost.query.get().author = 'NOV AVTOR' -----TAKO SPREMENIS NPR AVTORJA
+# db.session.commit
