@@ -77,14 +77,14 @@ def new_post():
     categories = Category.query.all()
     return render_template('new_post.html', categories=categories, action_url=url_for(posts.__name__))
 
+
 @app.route('/post/<string:id>', methods=['GET'])
 def post(id):
     if request.method == 'GET':
         # returns all posts otherwise returns previous posts ordered by date query.order_by date_posted
         all_posts = BlogPost.query.filter_by(id=id).all()
         # urls, dictionary, for all posts id that were queried above transformed with serializer
-        urls = {post.id: serializer.dumps(post.id, salt=secret_salt)
-                for post in all_posts}
+        urls = {post.id: post.id for post in all_posts}
         return render_template('posts.html', posts=all_posts, urls=urls)
 
 @app.route('/save_post', methods=['POST'])
