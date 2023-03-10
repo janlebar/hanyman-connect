@@ -77,7 +77,7 @@ def new_post():
     categories = Category.query.all()
     return render_template('new_post.html', categories=categories, action_url=url_for(posts.__name__))
 
-
+# location/map post
 @app.route('/post/<string:id>', methods=['GET'])
 def post(id):
     if request.method == 'GET':
@@ -117,6 +117,7 @@ def save_post():
     # vrne posodobljen posts page
     return redirect('/posts')
 
+# cookies
 @app.context_processor
 def inject_template_scope():
     injections = dict()
@@ -130,8 +131,7 @@ def inject_template_scope():
     return injections
 
 
-
-# naredil funkcijo ki pošlje mail
+# posts mail function
 def sendmail(email, confirmation_id):
     msg = Message('Hello', sender='handytest753@gmail.com', recipients=[email])
     msg.body = f"Click to confirm http://localhost:5000/posts/confirm/{confirmation_id}"
@@ -148,7 +148,7 @@ def confirm(id):
     # save and commit updated post to database
     db.session.add(post)
     db.session.commit()
-
+    # add cokies session
     session["email"] = post.email
 
     # redirect to all posts
@@ -157,7 +157,6 @@ def confirm(id):
 
 @app.route('/apply/new/<id>', methods=['GET', 'POST'])
 def new_apply(id):
-    # wtf why dumps works and load does not?
     return render_template('new_apply.html', blog_post_id=id, action_url=url_for(applys.__name__))
 
 @app.route('/applys', methods=['GET', 'POST'])
@@ -245,8 +244,7 @@ def edit(id):
 
     if post.email != session.get("email"):
         raise Exception("wrong email")
-
-    # dodal kernc kategorije niso ble definiane z debugerjem
+        
     categories = Category.query.all()
 
     if request.method == 'POST':
@@ -261,6 +259,18 @@ def edit(id):
         # post=post ker rabi prebrisat prejsn povst
         return render_template('edit.html', post=post, categories=categories)
 
+@app.route('/editing/<string:id>', methods=['GET', 'POST'])
+def editing(id):
+    # returns all posts query.order_by date_posted
+    post = BlogPost.query.filter(BlogPost.id == id)
+    return render_template('editing.html', posts=post)
+
+
+@app.route('/coords')
+def test():
+    BlogPosts = BlogPost.query.all()
+    return jsonify([{'id': BlogPost.id,'longitude': BlogPost.longitude,'latitude': BlogPost.latitude, 'title': BlogPost.title, } for BlogPost in BlogPosts])
+
 
 # jan naredil podstran
 @app.route('/about', methods=['GET', 'POST'])
@@ -273,17 +283,6 @@ def about():
 def chmail():
     return render_template('chmail.html')
 
-@app.route('/editing/<string:id>', methods=['GET', 'POST'])
-def editing(id):
-    # returns all posts query.order_by date_posted
-    post = BlogPost.query.filter(BlogPost.id == id)
-    return render_template('editing.html', posts=post)
-
-
-@app.route('/coords')
-def test():
-    BlogPosts = BlogPost.query.all()
-    return jsonify([{'id': BlogPost.id,'longitude': BlogPost.longitude,'latitude': BlogPost.latitude, 'title': BlogPost.title, } for BlogPost in BlogPosts])
 
 # TO SPODI JE ZATO DA LAUFA V DEBUG MODE
 if __name__ == "__main__":
