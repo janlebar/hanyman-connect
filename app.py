@@ -320,6 +320,10 @@ def index():
 @app.route('/posts/delete/<string:id>')
 def delete(id):
     post = BlogPost.query.get_or_404(id)
+
+    if session.get("email") != post.email:
+        raise Exception()
+        
     db.session.delete(post)
     db.session.commit()
     return redirect('/posts')
