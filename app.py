@@ -133,9 +133,14 @@ def inject_template_scope():
 
 # posts mail function
 def sendmail(email, confirmation_id):
-    msg = Message('Hello', sender='handytest753@gmail.com', recipients=[email])
+    msg = Message('Confirm your post', sender='handytest753@gmail.com', recipients=[email])
     msg.body = f"Click to confirm http://localhost:5000/posts/confirm/{confirmation_id}"
+    msg.html = render_template('email_template.html', confirmation_id=confirmation_id)
     mail.send(msg)
+
+
+
+
 
 # decorator funkcijo pokiče v ozadju. 
 @app.route('/posts/confirm/<int:id>')
