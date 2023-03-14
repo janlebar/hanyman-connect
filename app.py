@@ -173,7 +173,8 @@ def applys():
         # # blog_post_id = request.form['blog_post_id']
         # blog_post_id = request.form['blog_post_id']
         apply_confirmation_id = randbelow(2 ** 31)
-        blog_post_id = serializer.loads(request.form['blog_post_id'], salt=secret_salt)
+        # blog_post_id = serializer.loads(request.form['blog_post_id'], salt=secret_salt)
+        blog_post_id = request.form['blog_post_id']
         new_apply = BlogApply(email_apply=email_apply, name_apply=name_apply, blog_post_id=blog_post_id,
                               apply_confirmation_id=apply_confirmation_id)
 
@@ -214,9 +215,11 @@ def confirmed(apply_confirmation_id):
 
 
 def sendmailconnect(email_applys, emails):
-    msg = Message('Hello', sender='handytest753@gmail.com', recipients=[emails])
+    msg = Message('Contact', sender='handytest753@gmail.com', recipients=[emails])
     msg.body = f"Pleas contact {email_applys}"
+    msg.html = render_template('email_template_connect.html', email_applys=email_applys)
     mail.send(msg)
+
 
 
 @app.route('/')
