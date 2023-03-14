@@ -83,6 +83,19 @@ class BlogApply(db.Model):
     blog_post_id = db.Column(UUID(as_uuid=True), db.ForeignKey('blog_post.id'))
     apply_confirmation_id = db.Column(db.Integer, nullable=False)
     apply_confirmed = db.Column(db.Boolean, default=False)
+    
+    # Define one-to-many relationship with Rating model
+    ratings = db.relationship('Rating', backref='apply', lazy=True)
+
+class Rating(db.Model):
+    """Database for rating"""
+
+    __tablename__ = "rating"
+    __mapper_args__ = {"eager_defaults": True}
+
+    id_rating = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    rating = db.Column(db.Integer, nullable=False)
+    apply_id = db.Column(UUID(as_uuid=True), db.ForeignKey('blog_apply.id_apply'))
 
     def __repr__(self):
         """returns object representative"""
