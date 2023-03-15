@@ -6,7 +6,7 @@ from flask_migrate import Migrate
 from flask_mail import Mail
 from flask_mail import Message
 from flask_hcaptcha import hCaptcha
-from database import db, BlogPost, Category, BlogApply
+from database import db, BlogPost, Category, BlogApply, Rating
 
 app = Flask(__name__)
 
