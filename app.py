@@ -202,6 +202,8 @@ def confirmed(apply_confirmation_id):
     # save and commit updated post to database
     db.session.add(apply)
     db.session.commit()
+    
+
     email_applys = ''.join(db.session.query(BlogPost.email).join(BlogApply).filter(
         BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404())
 
@@ -210,14 +212,13 @@ def confirmed(apply_confirmation_id):
     emails = ''.join(db.session.query(BlogApply.email_apply).filter(
         BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404())
 
-    sendmailconnect(email_applys, emails, )
+    sendmailconnect(email_applys, emails,id_apply )
     return redirect(url_for('posts'))
 
 
-def sendmailconnect(email_applys, emails):
+def sendmailconnect(email_applys, emails, id_apply):
     msg = Message('Contact', sender='handytest753@gmail.com', recipients=[emails])
-    msg.body = f"Pleas contact {email_applys}"
-    msg.html = render_template('email_template_connect.html', email_applys=email_applys)
+    msg.body = f"Pleas contact {email_applys} and rate by clicking http://localhost:5000/rating/{id_apply}"
     mail.send(msg)
 
 
@@ -239,7 +240,6 @@ def rating(id_apply):
         db.session.commit()
 
     return render_template('rating.html', apply=apply)
-
 
 
 
