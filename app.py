@@ -192,6 +192,35 @@ def sendmailapply(email_apply, apply_confirmation_id):
 
 
 # decorator funkcijo pokiče v ozadju.
+# @app.route('/apply/confirmed/<int:apply_confirmation_id>')
+# def confirmed(apply_confirmation_id):
+#     """Confirm blog post by confirmation id created in POST /posts"""
+#     # get post from database where confirmation id matches or return 404
+#     apply = BlogApply.query.filter(BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404()
+#     # set post to confirmed
+#     apply.apply_confirmed = True
+#     # save and commit updated post to database
+#     db.session.add(apply)
+#     db.session.commit()
+    
+
+#     email_applys = ''.join(db.session.query(BlogPost.email).join(BlogApply).filter(
+#         BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404())
+
+#     # titles = sessiondb.query(BlogPost.title).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404()
+
+#     emails = ''.join(db.session.query(BlogApply.email_apply).filter(
+#         BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404())
+
+#     sendmailconnect(email_applys, emails,id_apply )
+#     return redirect(url_for('posts'))
+
+
+# def sendmailconnect(email_applys, emails, id_apply):
+#     msg = Message('Contact', sender='handytest753@gmail.com', recipients=[emails])
+#     msg.body = f"Pleas contact {email_applys} and rate by clicking http://localhost:5000/rating/{id_apply}"
+#     mail.send(msg)
+
 @app.route('/apply/confirmed/<int:apply_confirmation_id>')
 def confirmed(apply_confirmation_id):
     """Confirm blog post by confirmation id created in POST /posts"""
@@ -202,26 +231,21 @@ def confirmed(apply_confirmation_id):
     # save and commit updated post to database
     db.session.add(apply)
     db.session.commit()
-    
 
     email_applys = ''.join(db.session.query(BlogPost.email).join(BlogApply).filter(
         BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404())
 
-    # titles = sessiondb.query(BlogPost.title).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404()
-
     emails = ''.join(db.session.query(BlogApply.email_apply).filter(
         BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404())
 
-    sendmailconnect(email_applys, emails,id_apply )
+    sendmailconnect(email_applys, emails, apply.id_apply)
     return redirect(url_for('posts'))
 
 
 def sendmailconnect(email_applys, emails, id_apply):
     msg = Message('Contact', sender='handytest753@gmail.com', recipients=[emails])
-    msg.body = f"Pleas contact {email_applys} and rate by clicking http://localhost:5000/rating/{id_apply}"
+    msg.body = f"Please contact {email_applys} and rate by clicking http://localhost:5000/rating/{id_apply}"
     mail.send(msg)
-
-
 
 
 
