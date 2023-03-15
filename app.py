@@ -206,17 +206,17 @@ def confirmed(apply_confirmation_id):
         BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404())
 
     # titles = sessiondb.query(BlogPost.title).join(BlogApply).filter(BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404()
-
+    apply_id = BlogApply.query.filter(BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404().id_apply
     emails = ''.join(db.session.query(BlogApply.email_apply).filter(
         BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404())
 
-    sendmailconnect(email_applys, emails, )
+    sendmailconnect(email_applys, emails, apply_id)
     return redirect(url_for('posts'))
 
 
-def sendmailconnect(email_applys, emails):
+def sendmailconnect(email_applys, emails, apply_id):
     msg = Message('Contact', sender='handytest753@gmail.com', recipients=[emails])
-    msg.body = f"Pleas contact {email_applys}"
+    msg.body = f"Pleas contact {email_applys} and rate by {apply_id}"
     msg.html = render_template('email_template_connect.html', email_applys=email_applys)
     mail.send(msg)
 
