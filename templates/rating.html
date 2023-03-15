@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+<style> 
+.rating {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    text-align: center;
+  }
+  .rating input {
+    display: none;
+  }
+  .rating label {
+    display: inline-block;
+    padding: 5px;
+    color: #ddd;
+    font-size: 30px;
+    cursor: pointer;
+  }
+  .rating label:hover,
+  .rating label:hover ~ label {
+    color: #FFD700;
+  }
+  .rating input:checked ~ label {
+    color: #FFD700;
+  }</style>
+
+
+{% block content %}
+
+    <h1>Rate "{{ apply.name_apply }}"</h1>
+
+    <form method="post" action="{{ url_for('rating', id_apply=apply.id_apply) }}">
+        <p>Please rate this apply with stars:</p>
+        <div class="rating">
+            <input type="radio" name="rating" id="rating-1" value="1">
+            <label for="rating-1">&#9733;</label>
+
+            <input type="radio" name="rating" id="rating-2" value="2">
+            <label for="rating-2">&#9733;</label>
+
+            <input type="radio" name="rating" id="rating-3" value="3">
+            <label for="rating-3">&#9733;</label>
+
+            <input type="radio" name="rating" id="rating-4" value="4">
+            <label for="rating-4">&#9733;</label>
+
+            <input type="radio" name="rating" id="rating-5" value="5">
+            <label for="rating-5">&#9733;</label>
+        </div>
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}

@@ -222,6 +222,30 @@ def sendmailconnect(email_applys, emails):
 
 
 
+
+
+
+@app.route('/rating/<uuid:id_apply>', methods=['GET', 'POST'])
+def rating(id_apply):
+    """Rate email_apply with stars 1 to 5"""
+    apply = BlogApply.query.filter_by(id_apply=id_apply).first()
+    if apply is None:
+        abort(404)
+
+    if request.method == 'POST':
+        rating_value = int(request.form['rating'])
+        rating = Rating(rating=rating_value, apply=apply)
+        db.session.add(rating)
+        db.session.commit()
+
+    return render_template('rating.html', apply=apply)
+
+
+
+
+
+
+
 @app.route('/')
 def index():
     BlogPosts = BlogPost.query.all()
