@@ -216,11 +216,19 @@ def confirmed(apply_confirmation_id):
 
 def sendmailconnect(email_applys, emails, apply_id):
     msg = Message('Contact', sender='handytest753@gmail.com', recipients=[emails])
-    msg.body = f"Pleas contact {email_applys} and rate by {apply_id}"
-    msg.html = render_template('email_template_connect.html', email_applys=email_applys)
+    msg.body = f"Please contact {email_applys} and rate by {apply_id}"
+    msg.html = render_template('email_template_connect.html', email_applys=email_applys, apply_id=apply_id)
     mail.send(msg)
 
+@app.route('/apply/<int:apply_id>')
+def apply(apply_id):
+    # get blog apply from database where apply_id matches or return 404
+    blog_apply = BlogApply.query.get_or_404(apply_id)
+    
+    # render the rating.html template with the blog apply as a context variable
+    return render_template('rating.html', blog_apply=blog_apply)
 
+    
 
 @app.route('/')
 def index():
