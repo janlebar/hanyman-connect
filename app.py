@@ -262,6 +262,8 @@ def rating(id_apply):
         rating = Rating(rating=rating_value, apply=apply)
         db.session.add(rating)
         db.session.commit()
+        return redirect(url_for('posts'))
+
 
     return render_template('rating.html', apply=apply)
 
