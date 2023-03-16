@@ -1,52 +1,37 @@
 {% extends 'base.html' %}
 
-<style> 
-.rating {
-    unicode-bidi: bidi-override;
-    direction: rtl;
-    text-align: center;
-  }
-  .rating input {
-    display: none;
-  }
-  .rating label {
-    display: inline-block;
-    padding: 5px;
-    color: #ddd;
-    font-size: 30px;
-    cursor: pointer;
-  }
-  .rating label:hover,
-  .rating label:hover ~ label {
-    color: #FFD700;
-  }
-  .rating input:checked ~ label {
-    color: #FFD700;
-  }</style>
-
-
 {% block content %}
 
-    <h1>Rate "{{ apply.name_apply }}"</h1>
-
-    <form method="post" action="{{ url_for('rating', id_apply=apply.id_apply) }}">
-        <p>Please rate this apply with stars:</p>
-        <div class="rating">
-            <input type="radio" name="rating" id="rating-1" value="1" required>
-            <label for="rating-1">&#9733;</label>
-
-            <input type="radio" name="rating" id="rating-2" value="2" required>
-            <label for="rating-2">&#9733;</label>
-
-            <input type="radio" name="rating" id="rating-3" value="3" required>
-            <label for="rating-3">&#9733;</label>
-
-            <input type="radio" name="rating" id="rating-4" value="4" required>
-            <label for="rating-4">&#9733;</label>
-
-            <input type="radio" name="rating" id="rating-5" value="5" required>
-            <label for="rating-5">&#9733;</label>
-        </div>
-        <input type="submit" value="Submit">
-    </form>
+<h1 style="text-align:center;">Rate "{{ apply.name_apply }}"</h1>
+<div style="display:flex; justify-content:center; align-items:center;" class="text-center">
+<form method="post" action="{{ url_for('rating', id_apply=apply.id_apply) }}">
+    <p style="text-align:center;">Please rate this apply with stars:</p>
+    <div class="rating flex" style="display:flex; justify-content:center;">
+        <span class="star" data-value="1">&#9733;</span>
+        <span class="star" data-value="2">&#9733;</span>
+        <span class="star" data-value="3">&#9733;</span>
+        <span class="star" data-value="4">&#9733;</span>
+        <span class="star" data-value="5">&#9733;</span>
+        <input type="hidden" name="rating" id="rating" required>
+    </div>
+    <input type="submit" value="Submit" class="mx-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+</form>
+</div>
+<script>
+  const stars = document.querySelectorAll('.star');
+  const ratingInput = document.getElementById('rating');
+  
+  stars.forEach((star, index) => {
+      star.addEventListener('click', () => {
+          ratingInput.value = star.dataset.value;
+          for(let i=0; i<=index; i++){
+              stars[i].classList.add('text-yellow-500');
+          }
+          for(let i=index+1; i<stars.length; i++){
+              stars[i].classList.remove('text-yellow-500');
+          }
+      });
+  });
+</script> 
 {% endblock %}
+

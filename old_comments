@@ -170,3 +170,12 @@ def confirmed(apply_confirmation_id):
 # db.session.commit
 # BlogPost.query.get().author = 'NOV AVTOR' -----TAKO SPREMENIS NPR AVTORJA
 # db.session.commit
+
+
+# search database for all rating
+
+# SELECT b.name_apply, r.rating
+# FROM blog_apply b
+# JOIN rating r
+# ON b.id_apply = r.apply_id;
+
