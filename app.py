@@ -189,6 +189,7 @@ def sendmailapply(email_apply, apply_confirmation_id):
     msg = Message('Hello', sender='handytest753@gmail.com', recipients=[email_apply])
     msg.body = f"Click to confirm http://localhost:5000/apply/confirmed/{apply_confirmation_id}"
     mail.send(msg)
+  
 
 @app.route('/apply/confirmed/<int:apply_confirmation_id>')
 def confirmed(apply_confirmation_id):
@@ -237,7 +238,18 @@ def rating(id_apply):
     return render_template('rating.html', apply=apply)
 
 
-
+@app.route('/login', methods=['GET'])
+def login():
+    email = request.cookies.get('email')
+    if email:
+        blog_apply = BlogApply.query.filter_by(email_apply=email).first()
+        if blog_apply:
+            ratings = Rating.query.filter_by(apply_id=blog_apply.id_apply).all()
+            return render_template('login.html', ratings=ratings)
+    # if there is no match or no email cookie, redirect to login page
+    response = make_response(render_template('login_page.html'))
+    response.set_cookie('redirected', 'true')
+    return response
 
 
 

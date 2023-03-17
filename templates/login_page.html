@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Ratings for {{ blog_apply.name_apply }}</h1>
+  <ul>
+    {% for rating in ratings %}
+      <li>{{ rating.rating }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
