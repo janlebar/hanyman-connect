@@ -182,6 +182,8 @@ def applys():
         db.session.add(new_apply)
         # commit ga sele vpise permanentno v bazo
         db.session.commit()
+        # add cokies session
+        session["email_apply"] = email_apply
         sendmailapply(email_apply, apply_confirmation_id)
         return redirect('/posts')
 
@@ -189,7 +191,6 @@ def sendmailapply(email_apply, apply_confirmation_id):
     msg = Message('Hello', sender='handytest753@gmail.com', recipients=[email_apply])
     msg.body = f"Click to confirm http://localhost:5000/apply/confirmed/{apply_confirmation_id}"
     mail.send(msg)
-  
 
 @app.route('/apply/confirmed/<int:apply_confirmation_id>')
 def confirmed(apply_confirmation_id):
@@ -240,7 +241,7 @@ def rating(id_apply):
 
 @app.route('/login', methods=['GET'])
 def login():
-    email = request.cookies.get('email')
+    email = request.cookies.get('email_apply')
     if email:
         blog_apply = BlogApply.query.filter_by(email_apply=email).first()
         if blog_apply:
