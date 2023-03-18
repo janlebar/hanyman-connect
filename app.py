@@ -239,19 +239,29 @@ def rating(id_apply):
     return render_template('rating.html', apply=apply)
 
 
-@app.route('/login', methods=['GET'])
-def login():
-    email = request.cookies.get('email_apply')
-    if email:
-        blog_apply = BlogApply.query.filter_by(email_apply=email).first()
-        if blog_apply:
-            ratings = Rating.query.filter_by(apply_id=blog_apply.id_apply).all()
-            return render_template('login.html', ratings=ratings)
-    # if there is no match or no email cookie, redirect to login page
-    response = make_response(render_template('login_page.html'))
-    response.set_cookie('redirected', 'true')
-    return response
 
+
+@app.route('/my_portfolio')
+def my_portfolio():
+    # Get the email from the session
+    email_apply = session.get('email_apply')
+    
+    # Check if the email exists in the BlogApply database
+    apply = BlogApply.query.filter_by(email_apply=email_apply).first()
+    
+    if apply:
+        # Get all the ratings for the given apply
+        ratings = Rating.query.filter_by(apply_id=apply.id_apply).all()
+        
+        # Render the my_portfolio template with the ratings
+        return render_template('my_portfolio.html', ratings=ratings)
+    else:
+        # Redirect to the login template if the email is not found
+        return redirect('login')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    return render_template('login.html')
 
 
 @app.route('/')
