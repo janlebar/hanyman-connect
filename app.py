@@ -183,8 +183,8 @@ def applys():
         # commit ga sele vpise permanentno v bazo
         db.session.commit()
         # add cokies session
-        session["email_apply"] = email_apply
         sendmailapply(email_apply, apply_confirmation_id)
+        session['email_apply'] = email_apply
         return redirect('/posts')
 
 def sendmailapply(email_apply, apply_confirmation_id):
@@ -212,13 +212,10 @@ def confirmed(apply_confirmation_id):
     sendmailconnect(email_applys, emails, apply.id_apply)
     return redirect(url_for('posts'))
 
-
 def sendmailconnect(email_applys, emails, id_apply):
     msg = Message('Contact', sender='handytest753@gmail.com', recipients=[emails])
     msg.body = f"Please contact {email_applys} and rate by clicking http://localhost:5000/rating/{id_apply}"
     mail.send(msg)
-
-
 
 
 @app.route('/rating/<uuid:id_apply>', methods=['GET', 'POST'])
@@ -238,9 +235,6 @@ def rating(id_apply):
 
     return render_template('rating.html', apply=apply)
 
-
-
-
 @app.route('/my_portfolio')
 def my_portfolio():
     # Get the email from the session
@@ -257,7 +251,12 @@ def my_portfolio():
         return render_template('my_portfolio.html', ratings=ratings)
     else:
         # Redirect to the login template if the email is not found
-        return redirect('login')
+        # return redirect('login')
+        return "No portfolio found for this email address."
+
+
+
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
