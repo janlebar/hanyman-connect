@@ -235,24 +235,83 @@ def rating(id_apply):
 
     return render_template('rating.html', apply=apply)
 
-@app.route('/my_portfolio')
+# @app.route('/my_portfolio', methods=['GET'])
+# def my_portfolio():
+#     # Get the email from the session
+#     email_apply = session.get('email_apply')
+    
+#     # Check if the email exists in the BlogApply database
+#     apply = BlogApply.query.filter_by(email_apply=email_apply).first()
+    
+#     if apply:
+#         # Get all the ratings for the given apply
+#         ratings = Rating.query.filter_by(apply_id=apply.id_apply).all()
+        
+#         # Render the my_portfolio template with the ratings
+#         return render_template('my_portfolio.html', ratings=ratings)
+#     else:
+#         # Redirect to the login template if the email is not found
+#         return redirect('login')
+
+# @app.route('/my_portfolio', methods=['GET'])
+# def my_portfolio():
+#     # Get the email from the session
+#     email_apply = session.get('email_apply')
+    
+
+#     # Check if the email exists in the BlogApply database
+#     applyrating = BlogApply.query.filter_by(email_apply=email_apply).all()
+
+#     if applyrating:
+#         # Get all the ratings associated with this email
+#         ratings = session.query(BlogApply.name_apply, Rating.rating)\
+#                .join(Rating, BlogApply.id_apply == Rating.apply_id)\
+#                .all()
+
+#         # Render the my_portfolio template with the ratings
+#         return render_template('my_portfolio.html', ratings=ratings)
+#     else:
+#         flash("No ratings found for this email.")
+
+@app.route('/my_portfolio', methods=['GET'])
 def my_portfolio():
     # Get the email from the session
     email_apply = session.get('email_apply')
-    
+
     # Check if the email exists in the BlogApply database
     apply = BlogApply.query.filter_by(email_apply=email_apply).first()
-    
+
     if apply:
-        # Get all the ratings for the given apply
+        # Get all the ratings associated with this apply object
         ratings = Rating.query.filter_by(apply_id=apply.id_apply).all()
-        
+
         # Render the my_portfolio template with the ratings
         return render_template('my_portfolio.html', ratings=ratings)
     else:
-        # Redirect to the login template if the email is not found
-        # return redirect('login')
-        return "No portfolio found for this email address."
+        flash("No ratings found for this email.")
+
+
+# @app.route('/posts', methods=['GET', 'POST'])
+# def posts():
+# # if spodi ipolne form oz ga prebere 
+#     if request.method == 'POST':
+#         post_title = request.form['title']
+#         post_content = request.form['content']
+#         post_author = request.form['author']
+#         post_longitude = request.form['longitude']
+#         post_latitude = request.form['latitude']
+#         new_post = BlogPost(title=post_title, content=post_content, author=post_author, longitude=post_longitude, latitude=post_latitude)
+# # vpise v bazo v trenutno
+#         db.session.add(new_post)
+# # commit ga sele vpise permanentno v bazo
+#         db.session.commit()
+# # vrne posodobljen posts page
+#         return redirect('/posts')
+#     else:
+# # drugace vrne prejsnje povste urejene po datumu query.order_by date_posted
+#         all_posts = BlogPost.query.order_by(BlogPost.date_posted).all()
+#         return render_template('posts.html', posts=all_posts)
+
 
 
 

@@ -174,8 +174,8 @@ def confirmed(apply_confirmation_id):
 
 # search database for all rating
 
-# SELECT b.name_apply, r.rating
-# FROM blog_apply b
-# JOIN rating r
-# ON b.id_apply = r.apply_id;
+SELECT b.name_apply, r.rating
+FROM blog_apply b
+JOIN rating r
+ON b.id_apply = r.apply_id;
 
