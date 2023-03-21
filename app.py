@@ -7,6 +7,8 @@ from flask_mail import Mail
 from flask_mail import Message
 from flask_hcaptcha import hCaptcha
 from database import db, BlogPost, Category, BlogApply, Rating
+from sqlalchemy import or_
+
 
 app = Flask(__name__)
 
@@ -276,14 +278,32 @@ def rating(id_apply):
 @app.route('/my_portfolio', methods=['GET'])
 def my_portfolio():
     # Get the email from the session
-    email_apply = session.get('email_apply')
+    a = session.get('email_apply')
 
     # Check if the email exists in the BlogApply database
-    apply = BlogApply.query.filter_by(email_apply=email_apply).first()
+    apply = BlogApply.query.filter_by(email_apply=a).first()
 
     if apply:
         # Get all the ratings associated with this apply object
-        ratings = Rating.query.filter_by(apply_id=apply.id_apply).all()
+        # query = db.session.query(BlogApply.name_apply, Rating.rating)\
+        #          .join(Rating, BlogApply.id_apply == Rating.apply_id)\
+        #          .all()
+
+        # query = db.session.query(BlogApply.name_apply, Rating.rating)\
+        #          .join(Rating, BlogApply.id_apply == Rating.apply_id)\
+        #          .filter(a.in_(BlogApply.email_apply))\
+        #          .all()
+
+        ratings = db.session.query(BlogApply.name_apply, Rating.rating)\
+                  .join(Rating, BlogApply.id_apply == Rating.apply_id)\
+                  .filter(BlogApply.email_apply == a)\
+                  .all()
+
+
+        ratings = apply.ratings
+        
+        # # Get all the emails associated with the ratings
+        # emails = [rating.apply.email_apply for rating in ratings]
 
         # Render the my_portfolio template with the ratings
         return render_template('my_portfolio.html', ratings=ratings)
