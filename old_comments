@@ -179,3 +179,42 @@ FROM blog_apply b
 JOIN rating r
 ON b.id_apply = r.apply_id;
 
+@app.route('/my_portfolio', methods=['GET'])
+def my_portfolio():
+    # Get the email from the session
+    email_apply_cookie = session.get('email_apply')
+
+    # Check if the email exists in the BlogApply database
+    apply = BlogApply.query.filter_by(email_apply=email_apply_cookie).first()
+
+    if apply:
+        # Get all the ratings associated with this apply object
+        # query = db.session.query(BlogApply.name_apply, Rating.rating)\
+        #          .join(Rating, BlogApply.id_apply == Rating.apply_id)\
+        #          .all()
+
+        # query = db.session.query(BlogApply.name_apply, Rating.rating)\
+        #          .join(Rating, BlogApply.id_apply == Rating.apply_id)\
+        #          .filter(a.in_(BlogApply.email_apply))\
+        #          .all()
+
+        # ratings = db.session.query(BlogApply.name_apply, Rating.rating)\
+        #           .join(Rating, BlogApply.id_apply == Rating.apply_id)\
+        #           .filter(BlogApply.email_apply == a)\
+        #           .all()
+
+        # rating = db.session.query(Rating.rating)\
+        #                 .join(BlogApply, BlogApply.id_apply == Rating.apply_id)\
+        #                 .filter(BlogApply.email_apply == a)\
+        #                 .all()
+        ratings = [r[0] for r in db.session.query(Rating.rating)\
+                            .join(BlogApply, BlogApply.id_apply == Rating.apply_id)\
+                            .filter(BlogApply.email_apply == email_apply_cookie)\
+                            .all()]
+
+        # Render the my_portfolio template with the ratings
+        return render_template('my_portfolio.html', ratings=ratings)
+    else:
+        flash("No ratings found for this email.")
+        # Redirect to the login template if the email is not found
+        # return redirect('login')

@@ -1,21 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>My Portfolio</h1>
+  <h1>My Rating</h1>
 
   {% if ratings %}
     <table>
       <thead>
         <tr>
-          <th>Blog Post Name</th>
-          <th>Rating</th>
+          <th> Rating of {{ email_apply_cookie }} </th>
         </tr>
       </thead>
       <tbody>
         {% for rating in ratings %}
           <tr>
-            <td>{{ rating.apply.name_apply }}</td>
-            <td>{{ rating.rating }}</td>
+            <td>{{ rating }}</td>
           </tr>
         {% endfor %}
       </tbody>
