@@ -251,6 +251,10 @@ def my_portfolio():
                             .join(BlogApply, BlogApply.id_apply == Rating.apply_id)\
                             .filter(BlogApply.email_apply == email_apply_cookie)\
                             .all()]
+        # ratings = db.session.query(Rating)\
+        #             .join(BlogApply, BlogApply.id_apply == Rating.apply_id)\
+        #             .filter(BlogApply.email_apply == email_apply_cookie)\
+        #             .all()
 
         # Render the my_portfolio template with the ratings
         return render_template('my_portfolio.html', ratings=ratings, email_apply_cookie=email_apply_cookie)
