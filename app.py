@@ -266,7 +266,39 @@ def my_portfolio():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if request.method == 'POST':
+        email_apply = request.form.get('email_apply')
+        # Check if email exists in the database
+        if BlogApply.query.filter_by(email_apply=email_apply).first():
+            # Set email to session
+            session['email_apply'] = email_apply
+            return redirect(url_for('my_portfolio'))
+        else:
+            # If email not in database, call sendmail function
+            name_apply = request.form['name_apply']
+            email_apply = request.form['email_apply']
+            # # blog_post_id = request.form['blog_post_id']
+            # blog_post_id = request.form['blog_post_id']
+            apply_confirmation_id = randbelow(2 ** 31)
+            # blog_post_id = serializer.loads(request.form['blog_post_id'], salt=secret_salt)
+            blog_post_id = request.form['blog_post_id']
+            new_apply = BlogApply(email_apply=email_apply, name_apply=name_apply, blog_post_id=blog_post_id,
+                                apply_confirmation_id=apply_confirmation_id)
+
+            # vpise v bazo v trenutno
+            db.session.add(new_apply)
+            # commit ga sele vpise permanentno v bazo
+            db.session.commit()
+            # add cokies session
+            sendmailogin(email_apply, apply_confirmation_id)
+            session['email_apply'] = email_apply
+            return "Please check your email for confirmation"
     return render_template('login.html')
+
+def sendmailogin(email_apply, apply_confirmation_id):
+    msg = Message('Hello', sender='handytest753@gmail.com', recipients=[email_apply])
+    msg.body = f"Click to confirm http://localhost:5000/apply/confirmed/{apply_confirmation_id}"
+    mail.send(msg)
 
 
 @app.route('/')

@@ -9,7 +9,7 @@
         <table class="w-full mb-6">
           <thead>
             <tr>
-              <th class="text-lg font-semibold text-center">Rating of {{ email_apply_cookie }}</th>
+              <th class="text-lg font-semibold text-center">{{ email_apply_cookie }}</th>
             </tr>
           </thead>
           <tbody>
@@ -19,13 +19,9 @@
                   <div class="flex items-center">
                     {% for i in range(1, 6) %}
                       {% if i <= rating %}
-                        <svg class="h-5 w-5 text-black fill-current mr-1" viewBox="0 0 20 20">
-                          <path d="M10 13.758l2.443 1.484-.585-2.699L16 8.899l-2.852-.247L10 3.75 6.852 8.652 4 8.899l3.142 3.644-.585 2.699L10 13.758z"/>
-                        </svg>
+                        <span class="text-black mr-1" style="font-size: 1rem;">&#9733;</span>
                       {% else %}
-                        <svg class="h-5 w-5 text-gray-300 fill-current mr-1" viewBox="0 0 20 20">
-                          <path d="M10 13.758l2.443 1.484-.585-2.699L16 8.899l-2.852-.247L10 3.75 6.852 8.652 4 8.899l3.142 3.644-.585 2.699L10 13.758z"/>
-                        </svg>
+                        <span class="text-gray-300 mr-1" style="font-size: 1rem;">&#9733;</span>
                       {% endif %}
                     {% endfor %}
                   </div>
