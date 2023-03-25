@@ -79,15 +79,18 @@ def new_post():
     categories = Category.query.all()
     return render_template('new_post.html', categories=categories, action_url=url_for(posts.__name__))
 
-# location/map post
-@app.route('/post/<string:id>', methods=['GET'])
-def post(id):
-    if request.method == 'GET':
-        # returns all posts otherwise returns previous posts ordered by date query.order_by date_posted
-        all_posts = BlogPost.query.filter_by(id=id).all()
-        # urls, dictionary, for all posts id that were queried above transformed with serializer
-        urls = {post.id: post.id for post in all_posts}
-        return render_template('posts.html', posts=all_posts, urls=urls)
+@app.route('/post', methods=['GET'])
+def post():
+    # calculate the date from one month ago
+    one_month_ago = datetime.utcnow() - timedelta(days=30)
+    
+    # query for posts from the last month
+    all_posts = BlogPost.query.filter(BlogPost.date_posted >= one_month_ago).all()
+    
+    # urls, dictionary, for all posts id that were queried above transformed with serializer
+    urls = {post.id: post.id for post in all_posts}
+    
+    return render_template('posts.html', posts=all_posts, urls=urls)
 
 @app.route('/save_post', methods=['POST'])
 def save_post():
