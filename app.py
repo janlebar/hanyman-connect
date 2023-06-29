@@ -10,6 +10,7 @@ from database import db, BlogPost, Category, BlogApply, Rating
 from sqlalchemy import or_
 
 
+
 app = Flask(__name__)
 
 # app config with private data excluded from git
@@ -83,13 +84,10 @@ def new_post():
 def post():
     # calculate the date from one month ago
     one_month_ago = datetime.utcnow() - timedelta(days=30)
-    
     # query for posts from the last month
     all_posts = BlogPost.query.filter(BlogPost.date_posted >= one_month_ago).all()
-    
     # urls, dictionary, for all posts id that were queried above transformed with serializer
     urls = {post.id: post.id for post in all_posts}
-    
     return render_template('posts.html', posts=all_posts, urls=urls)
 
 @app.route('/save_post', methods=['POST'])
