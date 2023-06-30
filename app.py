@@ -8,7 +8,12 @@ from flask_mail import Message
 from flask_hcaptcha import hCaptcha
 from database import db, BlogPost, Category, BlogApply, Rating
 from sqlalchemy import or_
+from transformers import pipeline
 
+
+# Load the text classification pipeline for hugging face
+model_name = "distilbert-base-uncased"
+classifier = pipeline("text-classification", model=model_name)
 
 
 app = Flask(__name__)
