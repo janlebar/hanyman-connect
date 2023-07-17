@@ -122,7 +122,7 @@ def save_post():
 
     for word in swear_words:
         if word[:4].lower() in post_title.lower():
-                return "Swearing is not allowed."
+                 return render_template('swearingnotallowed.html')
 
     new_post = BlogPost(title=post_title, content=post_content, offer=post_offer,longitude = post_longitude, latitude = post_latitude,
                         email=post_email, category_id=post_category_id, confirmation_id=post_confirmation_id)
