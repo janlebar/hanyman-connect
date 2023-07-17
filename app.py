@@ -35,6 +35,15 @@ secret_key = app.config.get("SECRET_KEY")
 secret_salt = app.config.get("SECRET_SALT")
 serializer = URLSafeTimedSerializer(secret_key)
 
+swear_words = []  # Global variable to store the loaded list of swear words
+
+@app.before_first_request
+def load_swear_words():
+    global swear_words
+    with open('swear_words.txt', 'r') as file:
+        swear_words = [word.strip() for word in file.readlines()]
+
+
 @app.route('/search', methods=['GET'])
 def search():
     query = request.args.get("query")
@@ -110,6 +119,10 @@ def save_post():
     post_latitude = request.form['latitude']
     post_category_id = int(request.form["category"])
     post_confirmation_id = randbelow(2 ** 31)
+
+    for word in swear_words:
+        if word[:4].lower() in post_title.lower():
+                return "Swearing is not allowed."
 
     new_post = BlogPost(title=post_title, content=post_content, offer=post_offer,longitude = post_longitude, latitude = post_latitude,
                         email=post_email, category_id=post_category_id, confirmation_id=post_confirmation_id)
