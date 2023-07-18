@@ -1,0 +1,5 @@
+posible use of 
+sloberta-frenk-hate 
+model:
+https://huggingface.co/classla/sloberta-frenk-hate?fbclid=IwAR3ItYGFv4Yqt6poz0MNsGSnxriyi9VrI_fcmg0yHuqLUlm-iyNIJqPzdsU&text=omara+je+za+obleke
+if not using uninstall tensorflow...
