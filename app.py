@@ -135,6 +135,8 @@ def save_post():
     # poklical funkcijo sendmail in jo izpolnil z parametri iz posts
     sendmail(post_email, post_confirmation_id)
 
+    flash("Check mail!")
+
     # vrne posodobljen posts page
     return redirect('/posts')
 
