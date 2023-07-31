@@ -254,7 +254,10 @@
                 </div>
             </form>
         </div>
-
+        <select onchange="location = this.value;">
+            <option value="{{ url_for('change_language', lang='en') }}" {% if session['language'] == 'en' %}selected{% endif %}>English</option>
+            <option value="{{ url_for('change_language', lang='sl') }}" {% if session['language'] == 'sl' %}selected{% endif %}>Slovenian</option>
+        </select>
 
 
         <div id="nav-mobile-btn"

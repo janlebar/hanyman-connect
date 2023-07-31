@@ -8,6 +8,7 @@ from flask_mail import Message
 from flask_hcaptcha import hCaptcha
 from database import db, BlogPost, Category, BlogApply, Rating
 from sqlalchemy import or_
+from flask_babel import Babel
 # from transformers import pipeline
 
 
@@ -17,6 +18,7 @@ from sqlalchemy import or_
 
 
 app = Flask(__name__)
+babel = Babel(app)
 
 # app config with private data excluded from git
 app.config.from_pyfile('config.cfg')
@@ -44,16 +46,15 @@ swear_words = []  # Global variable to store the loaded list of swear words
 
 
 
-# @babel.localeselector
-# def get_locale():
-#     # Check if the user explicitly selected a language
-#     user_language = session.get('language')
-#     if user_language is not None:
-#         return user_language
+def get_locale():
+    # Check if the user explicitly selected a language
+    user_language = session.get('language')
+    if user_language is not None:
+        return user_language
 
-#     # If the user didn't select a language, use the Accept-Language header from the browser
-#     accept_languages = request.accept_languages.best_match(['en', 'sl'])
-#     return accept_languages
+    # If the user didn't select a language, use the Accept-Language header from the browser
+    accept_languages = request.accept_languages.best_match(['en', 'sl'])
+    return accept_languages
 
 
 @app.route('/change_language/<lang>')
