@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Landmark</title>
+    <title>Handyman</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.8.10/tailwind.min.css">
     <!-- Small CSS to Hide elements at 1520px size -->
 
@@ -74,11 +74,11 @@
     <div class="fixed z-10 inset-0 overflow-y-auto">
         <div class="flex items-center justify-center min-h-screen">
             <div class="bg-white p-6 rounded-lg shadow-lg">
-                <div class="text-lg font-medium mb-4">Cookie Consent</div>
-                <div class="text-sm mb-6">We use cookies to improve your experience on our site. By clicking "I Consent" below, you agree to our use of cookies.</div>
+                <div class="text-lg font-medium mb-4">{{ gettext("Cookie Consent") }}</div>
+                <div class="text-sm mb-6">{{ gettext('We use cookies to improve your experience on our site. By clicking "I Consent" below, you agree to our use of cookies.') }}</div>
                 <div class="flex items-center mb-4">
                     <input type="checkbox" id="cookie-consent-checkbox" class="mr-2">
-                    <label for="cookie-consent-checkbox" class="text-sm">I agree to the use of cookies.</label>
+                    <label for="cookie-consent-checkbox" class="text-sm">{{ gettext("I agree to the use of cookies.") }}</label>
                 </div>
                 <div class="text-sm text-gray-500">
                     <!-- Insert your app's cookie policy or other relevant information here -->
@@ -146,22 +146,22 @@
         <nav id="nav"
              class="absolute left-0 w-full md:w-auto text-gray-800 flex-col md:flex-row h-64 md:h-24 justify-between text-sm lg:text-base bg-white md:bg-transparent top-0 mt-24 md:mt-0 border-t md:border-none border-gray-200 pt-5 md:py-0 z-50 flex hidden md:flex items-center md:relative">
             <a href="/"
-               class="font-bold ml-0 md:ml-12 mr-0 md:mr-3 lg:mr-8 transition-color duration-100 hover:text-indigo-600">Home</a>
+               class="font-bold ml-0 md:ml-12 mr-0 md:mr-3 lg:mr-8 transition-color duration-100 hover:text-indigo-600">{{ gettext("Home") }}</a>
             <a href="/posts"
-               class="font-bold mr-0 md:mr-3 lg:mr-8 transition-color duration-100 hover:text-indigo-600">Posts</a>
+               class="font-bold mr-0 md:mr-3 lg:mr-8 transition-color duration-100 hover:text-indigo-600">{{ gettext("Posts") }}</a>
             <a href="/about"
-               class="font-bold mr-0 md:mr-3 lg:mr-8 transition-color duration-100 hover:text-indigo-600">About</a>
+               class="font-bold mr-0 md:mr-3 lg:mr-8 transition-color duration-100 hover:text-indigo-600">{{ gettext("About") }}</a>
             <a href="#testimonials"
-               class="font-bold transition-color duration-100 hover:text-indigo-600">Testimonials</a>
+               class="font-bold transition-color duration-100 hover:text-indigo-600">{{ gettext("Testimonials") }}</a>
             <a class="px-5 py-1 rounded theme-switch" onclick="theme()"><img id="theme-switch"
                                                                              src="https://img.icons8.com/ios-glyphs/30/000000/moon-symbol.png"
                                                                              style="width:20px;"
                                                                              class="inver" id="im"></a>
             <div class="block md:hidden border-t border-gray-200 font-medium flex flex-col w-full">
-                <a href="#_" class="py-2 text-pink-500 w-full text-center font-bold">Login</a>
+                <a href="#_" class="py-2 text-pink-500 w-full text-center font-bold">{{ gettext("Login") }}</a>
                 <a href="#_"
                 <form>
-                    <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                    <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">{{ gettext("Search") }}</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                             <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none"
@@ -187,7 +187,7 @@
                 class="absolute left-0 md:relative w-full md:w-auto md:bg-transparent border-b md:border-none borde
                 r-gray-200 mt-48 md:mt-0 flex-col md:flex-row pb-8 md:p-0 justify-center items-center md:items-end hidden md:flex md:justify-between">
             <a href="#_"
-               class="px-3 md:px-5 py-2 text-sm text-pink-500 lg:text-white font-bold mr-0 sm:mr-3 relative z-40 md:mt-0">Login</a>
+               class="px-3 md:px-5 py-2 text-sm text-pink-500 lg:text-white font-bold mr-0 sm:mr-3 relative z-40 md:mt-0">{{ gettext("Login") }}</a>
 
             <svg class="hidden lg:block absolute w-screen max-w-l -mt-64 -ml-12 left-0 top-0"
                  viewBox="0 0 818 815" xmlns="http://www.w3.org/2000/svg"
