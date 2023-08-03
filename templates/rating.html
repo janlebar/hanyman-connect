@@ -2,10 +2,10 @@
 
 {% block content %}
 
-<h1 style="text-align:center;" class="text-3xl font-bold mb-6">Rate "{{ apply.name_apply }}"</h1>
+<h1 style="text-align:center;" class="text-3xl font-bold mb-6">{{ gettext("Rate") }} "{{ apply.name_apply }}"</h1>
 <div style="display:flex; justify-content:center; align-items:center;" class="text-center">
 <form method="post" action="{{ url_for('rating', id_apply=apply.id_apply) }}">
-    <p style="text-align:center;">Please rate this apply with stars:</p>
+    <p style="text-align:center;">{{ gettext("Please rate this apply with stars:") }} </p>
     <div class="rating flex" style="display:flex; justify-content:center;">
         <span class="star" data-value="1">&#9733;</span>
         <span class="star" data-value="2">&#9733;</span>

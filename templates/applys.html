@@ -7,7 +7,7 @@
 {% block body %}
 <br>
 <div>
-    <h1 style="display:inline">APPLY TEST</h1>
+    <h1 style="display:inline">{{ gettext("Apply for work") }}</h1>
 </div>
     <hr>
   
@@ -20,7 +20,7 @@
         <p style="white-space:pre-wrap">{{ apply.email_apply }}</p>
         <br>
         <!--  klice nazaj povezavo na app.py za povsts in delete-->
-        <a class="btn btn-info" href='/apply/apply/{{apply.id}}'>Apply</a>
+        <a class="btn btn-info" href='/apply/apply/{{apply.id}}'>{{ gettext("Apply") }}</a>
         <br>
         <hr>
         <br>

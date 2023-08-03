@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>Objavi delo</title> 
+<title>{{ gettext("Apply for the offer") }}</title> 
 {% endblock %}
 
 {% block body %}
@@ -14,10 +14,10 @@
     <form action='{{ action_url }}' method='POST'>
         <!--  -->
         <br>
-        <label for="offer">Name:</label>
+        <label for="offer">{{ gettext("Name:") }}</label>
         <input class="form-control" type="name_apply" name='name_apply' id='name_apply' placeholder="input name" aria-label="Enter Name" required minlength="1" maxlength="15">
         <br>
-        <label for="email">Email:</label>
+        <label for="email">{{ gettext("Email:") }}</label>
         <input class="form-control" type="email_apply" name='email_apply' id='email_apply' placeholder="vnesi svoj email" aria-label="Enter Email" required
             oninvalid="this.setCustomValidity('Enter valid email')"
             oninput="this.setCustomValidity('')">

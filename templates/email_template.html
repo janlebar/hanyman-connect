@@ -18,11 +18,11 @@
     </style>
   </head>
   <body>
-    <h1>Confirm your post</h1>
-    <p>Hello,</p>
-    <p>Thank you for creating a post. Please click the link below to confirm your post:</p>
-    <p><a href="http://localhost:5000/posts/confirm/{{ confirmation_id }}">Confirm post</a></p>
-    <p>If you did not create this post, please ignore this email.</p>
-    <p>Thanks for reading!</p>
+    <h1>{{ gettext("Confirm your post") }}</h1>
+    <p>{{ gettext("Hello,") }}</p>
+    <p>{{ gettext("Thank you for creating a post. Please click the link below to confirm your post:") }}</p>
+    <p><a href="http://localhost:5000/posts/confirm/{{ confirmation_id }}">{{ gettext("Confirm post") }}</a></p>
+    <p>{{ gettext("If you did not create this post, please ignore this email.") }}</p>
+    <p>{{ gettext("Thanks for reading!") }}</p>
   </body>
 </html>
