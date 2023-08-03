@@ -6,7 +6,7 @@
 
 {% block body %}
 <!--  formular za edit-->
-<h1>Spremeni povpraševanje</h1>
+<h1>{{ gettext("Spremeni povpraševanje") }}</h1>
 
 
 
@@ -26,17 +26,17 @@
 
 
 
-        <label for="title">Title:</label>
+        <label for="title">{{ gettext("Title") }}:</label>
     <!--  value je post title kar jinja pobere iz baze kar je blo v bazi pod prejsnji povst-->
         <input class="form-control" type="text" name='title' id='title' value="{{ post.title }}" aria-label="Enter Title">
         <br>
-        <label for="offer">Offer:</label>
+        <label for="offer">{{ gettext("Offer") }}:</label>
         <input class="form-control" type="text" name='offer' id='offer' value="{{ post.offer }}" aria-label="Enter Offer">
         <br>
-        <label for="email">Email:</label>
+        <label for="email">{{ gettext("Email") }}:</label>
         <input class="form-control" type="text" name='email' id='email' value="{{ post.email }}" aria-label="Enter Email">
         <br>
-        <label for="content">Post:</label>
+        <label for="content">{{ gettext("Post") }}:</label>
         <textarea class="form-control" name='content' id="content" aria-label="Enter Content" rows="3">{{ post.content }}</textarea>
         <br>
         <!--  save gumb zato value save-->
