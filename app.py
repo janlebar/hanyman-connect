@@ -79,6 +79,8 @@ def load_swear_words():
         swear_words = [word.strip() for word in file.readlines()]
 
 
+# SEARCH
+
 @app.route('/search', methods=['GET'])
 def search():
     query = request.args.get("query")
@@ -110,6 +112,10 @@ def search():
     # urls, dictionary, for all posts id that were queried above transformed with serialiser
     urls = {post.id: post.id for post in all_posts}
     return render_template('posts.html', posts=all_posts, urls=urls)
+
+
+# POSTS    
+
 
 @app.route('/posts', methods=['GET'])
 def posts():
@@ -175,18 +181,6 @@ def save_post():
     # vrne posodobljen posts page
     return redirect('/posts')
 
-# cookies
-@app.context_processor
-def inject_template_scope():
-    injections = dict()
-
-    def cookies_check():
-        value = request.cookies.get('cookie_consent')
-        return value == 'true'
-
-    injections.update(cookies_check=cookies_check)
-
-    return injections
 
 
 # posts mail function
@@ -221,6 +215,11 @@ def confirm(id):
 @app.route('/apply/new/<id>', methods=['GET', 'POST'])
 def new_apply(id):
     return render_template('new_apply.html', blog_post_id=id, action_url=url_for(applys.__name__))
+
+
+
+# APPLYS
+
 
 @app.route('/applys', methods=['GET', 'POST'])
 def applys():
@@ -419,7 +418,19 @@ def about():
 def chmail():
     return render_template('chmail.html')
 
+# cookies
+@app.context_processor
+def inject_template_scope():
+    injections = dict()
 
+    def cookies_check():
+        value = request.cookies.get('cookie_consent')
+        return value == 'true'
+
+    injections.update(cookies_check=cookies_check)
+
+    return injections
+    
 # TO SPODI JE ZATO DA LAUFA V DEBUG MODE
 if __name__ == "__main__":
     app.run(debug=True)
