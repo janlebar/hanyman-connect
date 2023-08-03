@@ -10,6 +10,7 @@ from database import db, BlogPost, Category, BlogApply, Rating
 from sqlalchemy import or_
 from flask_babel import Babel
 # from transformers import pipeline
+from datetime import datetime, timedelta
 
 
 # # Load the text classification pipeline for hugging face
@@ -63,21 +64,22 @@ def change_language(lang):
     session['language'] = lang
     return redirect(url_for('index'))
 
+# INDEX
 
+@app.route('/')
+def index():
+    BlogPosts = BlogPost.query.all()
+    coords=[{'id': BlogPost.id, 'longitude': BlogPost.longitude, 'latitude': BlogPost.latitude, 'title': BlogPost.title, }
+         for BlogPost in BlogPosts]
+    return render_template('index.html', coords=coords)
 
-
-
-
-
-
-
+# SWEARING PREWENTION
 
 @app.before_first_request
 def load_swear_words():
     global swear_words
     with open('swear_words.txt', 'r') as file:
         swear_words = [word.strip() for word in file.readlines()]
-
 
 # SEARCH
 
@@ -113,9 +115,7 @@ def search():
     urls = {post.id: post.id for post in all_posts}
     return render_template('posts.html', posts=all_posts, urls=urls)
 
-
 # POSTS    
-
 
 @app.route('/posts', methods=['GET'])
 def posts():
@@ -135,15 +135,7 @@ def new_post():
     categories = Category.query.all()
     return render_template('new_post.html', categories=categories, action_url=url_for(posts.__name__))
 
-@app.route('/post', methods=['GET'])
-def post():
-    # calculate the date from one month ago
-    one_month_ago = datetime.utcnow() - timedelta(days=30)
-    # query for posts from the last month
-    all_posts = BlogPost.query.filter(BlogPost.date_posted >= one_month_ago).all()
-    # urls, dictionary, for all posts id that were queried above transformed with serializer
-    urls = {post.id: post.id for post in all_posts}
-    return render_template('posts.html', posts=all_posts, urls=urls)
+
 
 @app.route('/save_post', methods=['POST'])
 def save_post():
@@ -181,18 +173,12 @@ def save_post():
     # vrne posodobljen posts page
     return redirect('/posts')
 
-
-
 # posts mail function
 def sendmail(email, confirmation_id):
     msg = Message('Confirm your post', sender='handytest753@gmail.com', recipients=[email])
     msg.body = f"Click to confirm http://localhost:5000/posts/confirm/{confirmation_id}"
     msg.html = render_template('email_template.html', confirmation_id=confirmation_id)
     mail.send(msg)
-
-
-
-
 
 # decorator funkcijo pokiče v ozadju. 
 @app.route('/posts/confirm/<int:id>')
@@ -212,14 +198,66 @@ def confirm(id):
     # jaka: url_for je neke vrste funkcija ki generira raut in vzame parameter id, čeprav je string url
     return redirect(url_for('editing', id=post.id))
 
-@app.route('/apply/new/<id>', methods=['GET', 'POST'])
-def new_apply(id):
-    return render_template('new_apply.html', blog_post_id=id, action_url=url_for(applys.__name__))
+@app.route('/editing/<string:id>', methods=['GET', 'POST'])
+def editing(id):
+    # returns all posts query.order_by date_posted
+    post = BlogPost.query.filter(BlogPost.id == id)
+    return render_template('editing.html', posts=post)
 
+    # rout za delete post
+@app.route('/posts/delete/<string:id>')
+def delete(id):
+    post = BlogPost.query.get_or_404(id)
+
+    if session.get("email") != post.email:
+        raise Exception()
+        
+    db.session.delete(post)
+    db.session.commit()
+    return redirect('/posts')
+
+
+# route za edit post, ker ga urejas mora bit metoda post ker jo shrani v bazo
+@app.route('/posts/edit/<string:id>', methods=['GET', 'POST'])
+def edit(id):
+    post = BlogPost.query.get_or_404(id)
+
+    if post.email != session.get("email"):
+        raise Exception("wrong email")
+        
+    categories = Category.query.all()
+
+    if request.method == 'POST':
+        post.title = request.form['title']
+        post.offer = request.form['offer']
+        post.content = request.form['content']
+        post.email = request.form['email']
+        post.category_id = request.form['category']
+        db.session.commit()
+        return redirect('/posts')
+    else:
+        # post=post ker rabi prebrisat prejsn povst
+        return render_template('edit.html', post=post, categories=categories)
+
+# POSTS WITH TIME LIMIT
+
+@app.route('/post', methods=['GET'])
+def post():
+    # calculate the date from one month ago
+    one_month_ago = datetime.utcnow() - timedelta(days=30)
+    # query for posts from the last month
+    all_posts = BlogPost.query.filter(BlogPost.date_posted >= one_month_ago).all()
+    # urls, dictionary, for all posts id that were queried above transformed with serializer
+    urls = {post.id: post.id for post in all_posts}
+    return render_template('posts.html', posts=all_posts, urls=urls)
 
 
 # APPLYS
 
+
+@app.route('/apply/new/<id>', methods=['GET', 'POST'])
+def new_apply(id):
+    return render_template('new_apply.html', blog_post_id=id, action_url=url_for(applys.__name__))
 
 @app.route('/applys', methods=['GET', 'POST'])
 def applys():
@@ -274,6 +312,7 @@ def sendmailconnect(email_applys, emails, id_apply):
     msg.body = f"Please contact {email_applys} and rate by clicking http://localhost:5000/rating/{id_apply}"
     mail.send(msg)
 
+# RATING APPLYS
 
 @app.route('/rating/<uuid:id_apply>', methods=['GET', 'POST'])
 def rating(id_apply):
@@ -349,56 +388,11 @@ def sendmailogin(email_apply, apply_confirmation_id):
 
 
 
-@app.route('/')
-def index():
-    BlogPosts = BlogPost.query.all()
-    coords=[{'id': BlogPost.id, 'longitude': BlogPost.longitude, 'latitude': BlogPost.latitude, 'title': BlogPost.title, }
-         for BlogPost in BlogPosts]
-    return render_template('index.html', coords=coords)
 
 
 # app.add_url_rule("/", None, view_func=index)
 
-# rout za delete post
-@app.route('/posts/delete/<string:id>')
-def delete(id):
-    post = BlogPost.query.get_or_404(id)
 
-    if session.get("email") != post.email:
-        raise Exception()
-        
-    db.session.delete(post)
-    db.session.commit()
-    return redirect('/posts')
-
-
-# route za edit post, ker ga urejas mora bit metoda post ker jo shrani v bazo
-@app.route('/posts/edit/<string:id>', methods=['GET', 'POST'])
-def edit(id):
-    post = BlogPost.query.get_or_404(id)
-
-    if post.email != session.get("email"):
-        raise Exception("wrong email")
-        
-    categories = Category.query.all()
-
-    if request.method == 'POST':
-        post.title = request.form['title']
-        post.offer = request.form['offer']
-        post.content = request.form['content']
-        post.email = request.form['email']
-        post.category_id = request.form['category']
-        db.session.commit()
-        return redirect('/posts')
-    else:
-        # post=post ker rabi prebrisat prejsn povst
-        return render_template('edit.html', post=post, categories=categories)
-
-@app.route('/editing/<string:id>', methods=['GET', 'POST'])
-def editing(id):
-    # returns all posts query.order_by date_posted
-    post = BlogPost.query.filter(BlogPost.id == id)
-    return render_template('editing.html', posts=post)
 
 
 @app.route('/coords')
@@ -418,7 +412,8 @@ def about():
 def chmail():
     return render_template('chmail.html')
 
-# cookies
+# COOKIES 
+
 @app.context_processor
 def inject_template_scope():
     injections = dict()
@@ -430,7 +425,7 @@ def inject_template_scope():
     injections.update(cookies_check=cookies_check)
 
     return injections
-    
+
 # TO SPODI JE ZATO DA LAUFA V DEBUG MODE
 if __name__ == "__main__":
     app.run(debug=True)
