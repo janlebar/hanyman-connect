@@ -7,8 +7,8 @@
 {% block body %}
 <div class="max-w-xl mx-auto">
   <div class="flex justify-between items-center">
-    <h1 class="text-2xl font-bold">{{ gettext("All Posts") }}</h1>
-    <a href="/posts/new" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg" style="z-index: 9999;">+ {{ gettext("New Post") }}</a>
+    <h1 class="text-2xl font-bold">{{ gettext("All Listings") }}</h1>
+    <a href="/posts/new" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg" style="z-index: 9999;">+ {{ gettext("New Listing") }}</a>
   </div>
   <hr class="my-4">
   {% for post in posts %}
@@ -22,7 +22,6 @@
       {% if post.category %}
         <p class="mt-2 text-gray-700">{{ post.category.name }}</p>
       {% endif %}
-      <p class="mt-2 text-gray-700">{{ post.email }}</p>
       <p class="mt-2 text-gray-700">{{ post.offer }}</p>
       <p class="mt-2">{{ post.content }}</p>
       <div class="mt-4">

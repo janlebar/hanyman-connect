@@ -13,7 +13,7 @@
     <form action='/save_post' method='POST' id="newPostForm" class="mx-auto max-w-md">
         <div class="mb-4">
             <label for="title" class="block text-gray-700 font-bold mb-2">{{ gettext("Name:") }}</label>
-            <input class="form-input" type="text" name='title' id='title' placeholder="ime dela" aria-label="Enter Title">
+            <input class="form-input" type="text" name='title' id='title' placeholder="{{ gettext('Work Tytle:') }}" aria-label="Enter Title">
         </div>
         <!-- jaka naredil da izpiše kategorije-->
         <div class="mb-4">
@@ -28,20 +28,20 @@
         <!--  -->
         <div class="mb-4">
             <label for="offer" class="block text-gray-700 font-bold mb-2">{{ gettext("Offer:") }}</label>
-            <input class="form-input" type="text" name='offer' id='offer' placeholder="vnesi ponudbo" aria-label="Enter Offer">
+            <input class="form-input" type="text" name="offer" id="offer" placeholder="{{ gettext('Your Offer:') }}" aria-label="{{ gettext('Enter Offer') }}">
         </div>
 
 <!--       FIX THIS OFFERS CAN BE THE SAME <input class="form-control" type="text" name='offer' id='offer' placeholder="vnesi ponudbo" aria-label="Enter Offer" required minlength="1" maxlength="3">-->
 <!--        <br>-->
         <div class="mb-4">
             <label for="email" class="block text-gray-700 font-bold mb-2">{{ gettext("Email:") }}</label>
-            <input class="form-input" type="email" name='email' id='email' placeholder="vnesi svoj email" aria-label="Enter Email" required
+            <input class="form-input" type="email" name='email' id='email' placeholder="{{ gettext('Write Your Email:') }}" aria-label="Enter Email" required
             oninvalid="this.setCustomValidity('Enter valid email')"
             oninput="this.setCustomValidity('')">
         </div>
         <div class="mb-4">
             <label for="content" class="block text-gray-700 font-bold mb-2">{{ gettext("Work description:") }}</label>
-            <textarea class="form-textarea" name='content' id="content" placeholder="Opis" aria-label="Enter Content" rows="3"></textarea>
+            <textarea class="form-textarea" name='content' id="content" placeholder="{{ gettext('Describe what You are looking for:') }}" aria-label="Enter Content" rows="3"></textarea>
         </div>
         <input type="hidden" type="text" name='longitude' id='longitude'>
         <input type="hidden" type="text" name='latitude' id='latitude'>

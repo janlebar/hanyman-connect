@@ -120,7 +120,7 @@
 
 
 
-             <svg class="h-6 w-auto fill-current text-indigo-600" viewBox="0 0 194 116"
+             <svg class="h-6 w-auto fill-current text-indigo-600 " viewBox="0 0 194 116"
                  xmlns="http://www.w3.org/2000/svg">
                 <g fill-rule="evenodd">
                   <path d="M13.9,65.9c-1,0-1.8,0-2.5,0c-1.7-0.1-2.9-1.2-2.9-2.8c-0.1-3.3-0.1-6.7,0-10c0-1.6,1.2-2.8,2.9-2.9c0.8-0.1,1.6,0,2.6,0
@@ -148,7 +148,7 @@
             <a href="/"
                class="font-bold ml-0 md:ml-12 mr-0 md:mr-3 lg:mr-8 transition-color duration-100 hover:text-indigo-600">{{ gettext("Home") }}</a>
             <a href="/posts"
-               class="font-bold mr-0 md:mr-3 lg:mr-8 transition-color duration-100 hover:text-indigo-600">{{ gettext("Posts") }}</a>
+               class="font-bold mr-0 md:mr-3 lg:mr-8 transition-color duration-100 hover:text-indigo-600">{{ gettext("Listings") }}</a>
             <a href="/about"
                class="font-bold mr-0 md:mr-3 lg:mr-8 transition-color duration-100 hover:text-indigo-600">{{ gettext("About") }}</a>
             <a href="#testimonials"
@@ -189,7 +189,7 @@
             <a href="#_"
                class="px-3 md:px-5 py-2 text-sm text-pink-500 lg:text-white font-bold mr-0 sm:mr-3 relative z-40 md:mt-0">{{ gettext("Login") }}</a>
 
-            <svg class="hidden lg:block absolute w-screen max-w-l -mt-64 -ml-12 left-0 top-0"
+            <svg class="hidden lg:block absolute w-screen max-w-l -mt-64 -ml-12 left-0 top-0 z-0"
                  viewBox="0 0 818 815" xmlns="http://www.w3.org/2000/svg"
                  xmlns:xlink="http://www.w3.org/1999/xlink">
                 <defs>
@@ -254,10 +254,12 @@
                 </div>
             </form>
         </div>
-        <select onchange="location = this.value;">
+        <label for="language-select" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white z-50">Select Language</label>
+        <select id="language-select" onchange="location = this.value;" class="mb-2 text-sm font-medium text-gray-900 dark:text-white border rounded-md p-1 z-50">
             <option value="{{ url_for('change_language', lang='en') }}" {% if session['language'] == 'en' %}selected{% endif %}>English</option>
             <option value="{{ url_for('change_language', lang='sl') }}" {% if session['language'] == 'sl' %}selected{% endif %}>Slovenian</option>
         </select>
+        
 
 
         <div id="nav-mobile-btn"
