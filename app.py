@@ -44,18 +44,21 @@ swear_words = []  # Global variable to store the loaded list of swear words
 
 
 
-
-
-
 def get_locale():
-    # Check if the user explicitly selected a language
-    user_language = session.get('language')
-    if user_language is not None:
-        return user_language
+    return 'sl'
 
-    # If the user didn't select a language, use the Accept-Language header from the browser
-    accept_languages = request.accept_languages.best_match(['en', 'sl'])
-    return accept_languages
+babel.init_app(app, locale_selector=get_locale)
+
+# @babel.localeselector
+# def get_locale():
+#     # Check if the user explicitly selected a language
+#     user_language = session.get('language')
+#     if user_language is not None:
+#         return user_language
+
+#     # If the user didn't select a language, use the Accept-Language header from the browser
+#     accept_languages = request.accept_languages.best_match(['en', 'sl'])
+#     return accept_languages
 
 
 @app.route('/change_language/<lang>')
@@ -63,6 +66,10 @@ def change_language(lang):
     # Assuming you are storing the language preference in the user's session
     session['language'] = lang
     return redirect(url_for('index'))
+
+
+
+
 
 # INDEX
 
