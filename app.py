@@ -9,6 +9,7 @@ from flask_hcaptcha import hCaptcha
 from database import db, BlogPost, Category, BlogApply, Rating
 from sqlalchemy import or_
 from flask_babel import Babel
+from flask_babel import gettext
 # from transformers import pipeline
 from datetime import datetime, timedelta
 
@@ -19,7 +20,9 @@ from datetime import datetime, timedelta
 
 
 app = Flask(__name__)
-babel = Babel(app)
+babel = Babel(app, locale_selector=get_locale)
+
+
 
 # app config with private data excluded from git
 app.config.from_pyfile('config.cfg')
@@ -43,9 +46,10 @@ swear_words = []  # Global variable to store the loaded list of swear words
 
 
 
-
 def get_locale():
     return 'sl'
+
+
 
 babel.init_app(app, locale_selector=get_locale)
 
