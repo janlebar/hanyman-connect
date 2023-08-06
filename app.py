@@ -20,7 +20,7 @@ from datetime import datetime, timedelta
 
 
 app = Flask(__name__)
-babel = Babel(app, locale_selector=get_locale)
+babel = Babel(app)
 
 
 
