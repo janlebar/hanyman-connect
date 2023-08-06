@@ -113,21 +113,20 @@ def save_location():
 @app.route('/')
 def index():
     # Retrieve longitude and latitude from session
-    post_longitude_localisation = session.get('longitude')
-    post_latitude_localisation = session.get('latitude')
+    longitude_localisation = session.get('longitude')
+    latitude_localisation = session.get('latitude')
 
     # Query the BlogPost objects
     blog_posts = BlogPost.query.all()
 
+
     coords = [{'id': post.id,
                'longitude': post.longitude,
                'latitude': post.latitude,
-               'title': post.title,
-               'post_longitude_localisation': post_longitude_localisation,
-               'post_latitude_localisation': post_latitude_localisation}
+               'title': post.title,}
               for post in blog_posts]
 
-    return render_template('index.html', coords=coords)
+    return render_template('index.html', coords=coords,longitude_localisation=longitude_localisation,latitude_localisation=latitude_localisation)
 
 
 # SWEARING PREWENTION

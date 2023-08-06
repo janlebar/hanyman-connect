@@ -1,3 +1,6 @@
+// var map = L.map('map').setView([{{ longitude_localisation }}, {{ latitude_localisation }}], neki);
+
+
 var map = L.map('map').setView([46.056946, 14.505751], 8);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
