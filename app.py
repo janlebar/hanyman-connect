@@ -20,6 +20,7 @@ from datetime import datetime, timedelta
 
 
 app = Flask(__name__)
+
 babel = Babel(app)
 
 
@@ -70,6 +71,38 @@ def change_language(lang):
     # Assuming you are storing the language preference in the user's session
     session['language'] = lang
     return redirect(url_for('index'))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# LOCALIZE MAP
+@app.route('/save_location', methods=['POST'])
+def save_location():
+    longitude = request.form['longitude']
+    latitude = request.form['latitude']
+    
+    # Save the values to the session
+    session['longitude'] = longitude
+    session['latitude'] = latitude
+    
+    return redirect(url_for('index'))
+
+
+
+
+
+
+
 
 
 
@@ -153,14 +186,19 @@ def save_post():
     # if spodi ipolne form oz ga prebere
     # POST /posts
 
+
+
     if not hcaptcha.verify():
         return redirect("/error?message=invalid captcha")
     post_title = request.form['title']
     post_content = request.form['content']
     post_offer = request.form['offer']
     post_email = request.form['email']
-    post_longitude = request.form['longitude']
-    post_latitude = request.form['latitude']
+     # Retrieve longitude and latitude from session
+    post_longitude = session.get('longitude')
+    post_latitude = session.get('latitude')
+    # post_longitude = request.form['longitude']
+    # post_latitude = request.form['latitude']
     post_category_id = int(request.form["category"])
     post_confirmation_id = randbelow(2 ** 31)
 

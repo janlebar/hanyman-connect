@@ -260,7 +260,12 @@
             <option value="{{ url_for('change_language', lang='sl') }}" {% if session['language'] == 'sl' %}selected{% endif %}>Slovenian</option>
         </select>
         
-
+        <form id="locationForm" method="post" action="/save_location">
+            <input type="hidden" name="longitude" id="longitude">
+            <input type="hidden" name="latitude" id="latitude">
+        </form>
+    
+        <script src="{{ url_for('static', filename='js/location.js') }}"></script>
 
         <div id="nav-mobile-btn"
              class="w-6 absolute block md:hidden right-0 top-0 mr-10 mt-8 sm:mt-10 z-50 cursor-pointer select-none">
