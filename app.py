@@ -29,7 +29,7 @@ app.config.from_pyfile('config.cfg', silent=True)
 app.config.from_prefixed_env()
 
 if os.getenv("DATABASE_URL"):
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
+    app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://" + os.getenv("DATABASE_URL").removeprefix("postgres://")
 
 
 babel = Babel(app)

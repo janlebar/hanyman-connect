@@ -96,3 +96,14 @@ Insert this into initial migrations to create full text search indexes:
 
 sudo apt-get install libpq-dev python-dev
 pip install psycopg2
+
+### flyctl
+
+flyctl auth login
+
+flyctl deploy
+
+flyctl ssh console
+        flask db upgrade
+
+flyctl postgres connect -a handyman-db -d handyman
