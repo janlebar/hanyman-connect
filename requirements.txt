@@ -22,4 +22,5 @@ zipp==3.11.0
 flask_hcaptcha
 psycopg2
 Babel==2.12.1
+flask_babel
 gunicorn

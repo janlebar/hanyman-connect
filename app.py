@@ -25,7 +25,7 @@ app = Flask(__name__)
 
 # app config with private data excluded from git
 app.config.from_pyfile('config.defaults.cfg')
-app.config.from_pyfile('config.cfg')
+app.config.from_pyfile('config.cfg', silent=True)
 app.config.from_prefixed_env()
 
 if os.getenv("DATABASE_URL"):
