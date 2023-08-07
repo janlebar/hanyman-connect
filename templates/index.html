@@ -94,7 +94,7 @@
             <p class="text-base sm:text-lg xl:text-xl text-gray-600 mb-8 pr-0 lg:pr-20">{{ gettext("Are you ready to start?") }} </p>
             <div id="map" style="width: 200%; margin: 0 auto; border-radius: 20px; overflow: hidden;"></div>
             <script>
-                var coords = JSON.parse('{{ coords | tojson }}');
+                const coords = JSON.parse('{{ coords | tojson }}');
             </script>
             <script src='/static/js/map.js'></script>
             <!-- Integrates with section -->
@@ -509,7 +509,7 @@
         <script>
             var coords = JSON.parse('{{ coords | tojson }}');
         </script>
-        <script src='/static/js/map.js'></script> -->
+        <script src='/static/js/map.js'></script> -->   
 
 
 

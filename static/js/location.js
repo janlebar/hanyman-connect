@@ -1,22 +1,23 @@
   window.onload = function() {
     const status = document.querySelector('.status');
-    let longitude;
-    let latitude;
+
+    const dispatchLocation = (longitude, latitude) => {
+        const event = new CustomEvent("location", {detail: { longitude, latitude }});
+
+        document.dispatchEvent(event);
+    };
 
     const success = (position) => {
-        longitude = position.coords.longitude;
-        latitude = position.coords.latitude;
-        document.getElementById("longitude").value = longitude;
-        document.getElementById("latitude").value = latitude;
+        dispatchLocation(position.coords.longitude, position.coords.latitude);
     }
 
     const error = () => {
         status.textContent = 'Unable to retrieve your location';
     }
 
-    navigator.geolocation.getCurrentPosition(success, error);
+    if (!longitude || !latitude) {
+        navigator.geolocation.getCurrentPosition(success, error);
+    } else {
+        dispatchLocation(longitude, latitude);
+    }
 };
-
-
-
-
