@@ -21,6 +21,5 @@ Werkzeug==2.2.2
 zipp==3.11.0
 flask_hcaptcha
 psycopg2
-transformers==4.30.2
-tensorflow==2.12.
 Babel==2.12.1
+gunicorn

@@ -1,3 +1,5 @@
+import os
+
 from secrets import randbelow
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 # flask needs to import request, to get data from database
@@ -21,12 +23,16 @@ from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
-babel = Babel(app)
-
-
-
 # app config with private data excluded from git
+app.config.from_pyfile('config.defaults.cfg')
 app.config.from_pyfile('config.cfg')
+app.config.from_prefixed_env()
+
+if os.getenv("DATABASE_URL"):
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
+
+
+babel = Babel(app)
 
 db.init_app(app)
 
