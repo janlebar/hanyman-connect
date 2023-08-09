@@ -1,8 +1,11 @@
   window.onload = function() {
     const status = document.querySelector('.status');
 
+
+
+
     const dispatchLocation = (longitude, latitude) => {
-        const event = new CustomEvent("location", {detail: { longitude, latitude }});
+        const event = new CustomEvent("location", {detail: { latitude, longitude }});
 
         document.dispatchEvent(event);
     };

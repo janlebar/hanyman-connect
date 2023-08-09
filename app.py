@@ -113,7 +113,18 @@ def save_location():
 
 
 
+# @app.route('/posts', methods=['GET'])
+# def posts():
+#     if request.method == 'GET':
+#         blog_filter = BlogPost.confirmed == True
 
+#         # returns all posts otherwise returns previous posts ordered by date query.order_by date_posted
+#         all_posts = BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted).all()
+
+#         # urls, dictionary, for all posts id that were queried above transformed with serialiser
+#         urls = {post.id: post.id
+#                    for post in all_posts}
+#         return render_template('posts.html', posts=all_posts, urls=urls)
 
 
 
