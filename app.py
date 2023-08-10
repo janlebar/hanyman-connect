@@ -107,6 +107,28 @@ def save_location():
 
 @app.route('/', methods=['GET'])
 def index():
+
+    items = [
+            "Help Moving",
+            "Yard Work",
+            "Heavy Lifting",
+            "Electrical help",
+            "Snow Removal",
+            "Lawn Care and Yard Work",
+            "Pet Care",
+            "Tech Help",
+            "Childcare",
+            "Elderly Assistance",
+            "Car Wash and Detailing",
+            "Painting and Repairs",
+            "Tutoring",
+            "Personal Shopping",
+            "Plant Care",
+            "House Sitting"
+        ]
+
+
+
     buttons = request.args.getlist("buttons")
 
     if buttons:
@@ -143,7 +165,7 @@ def index():
                    'title': post.title}
                   for post in blog_posts]
 
-        return render_template('index.html', coords=coords, longitude_localisation=longitude_localisation, latitude_localisation=latitude_localisation)
+        return render_template('index.html', coords=coords, longitude_localisation=longitude_localisation, latitude_localisation=latitude_localisation,items=items)
 
 
 
