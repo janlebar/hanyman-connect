@@ -6,7 +6,20 @@
 
 {% block body %}
 
+<style>
 
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    width: 200%;
+}
+
+.buttons button {
+    flex: 0 0 calc(33.333% - 1rem); /* Adjust this value based on your design */
+    margin: 0.5rem;
+}
+
+</style>
 
 
 
@@ -14,11 +27,10 @@
 
 
         <!-- BEGIN HERO SECTION -->
-        <div class="w-full justify-center items-center relative  overflow-x-hidden lg:pt-40 lg:pb-40 xl:pt-40 xl:pb-64">
-            <div
-                class="container max-w-6xl mx-auto h-full flex flex-col lg:flex-row justify-between items-center -mt-32 px-8 xl:px-0">
+        <div class="w-full justify-center items-center relative  overflow-x-hidden lg:pt-40 lg:pb-40 xl:pt-40 xl:pb-64 z-5">
+            <div class="container max-w-6xl mx-auto h-full flex flex-col lg:flex-row justify-between items-center -mt-32 px-8 xl:px-0">
                 <div
-                    class="flex flex-col items-center lg:items-start w-full max-w-xl lg:w-1/2 pt-48 lg:pt-20 xl:pt-40 text-center lg:text-left z-30">
+                    class="flex flex-col items-center lg:items-start w-full max-w-xl lg:w-1/2 pt-48 lg:pt-20 xl:pt-40 text-center lg:text-left z-5">
                     <h1 class="text-gray-900 font-black text-3xl sm:text-6xl leading-tight relative mb-4 xl:mb-8">{{ gettext("Find help for what You need") }}</h1>
                     <p class="text-base sm:text-lg xl:text-xl text-gray-600 mb-8 pr-0 lg:pr-20">{{ gettext("Get help today") }} </p>
                     <a href="/posts"
@@ -76,9 +88,9 @@
                     </svg>
                 </div>
                 <div class="flex flex-col items-end justify-center h-full w-full lg:w-1/2 ms:pl-10 relative z-50">
-                    <div class="relative lg:absolute max-w-4xl xl:max-w-6xl left-0 container lg:w-screen w-full">
+                    <div class="relative lg:absolute max-w-4xl xl:max-w-6xl left-0 container lg:w-screen w-full ">
                         <img src="/static/images/handy.svg"
-                            class="mt-20 lg:mt-24 xl:mt-40 w-full h-auto mb-20 lg:mb-0 lg:h-full ml-0 lg:-ml-12 h-auto">
+                            class="mt-20 lg:mt-24 xl:mt-40 w-full h-auto mb-20 lg:mb-0 lg:h-full ml-0 lg:-ml-12 h-auto ">
                     </div>
                 </div>
             </div>
@@ -89,9 +101,42 @@
 
 <div class="w-full relative py-10 md:py-16 lg:py-24 xl:py-40 border-t border-gray-200 px-8 xl:px-0">
     <div class="container max-w-6xl mx-auto h-full flex flex-col lg:flex-row justify-between items-center -mt-32 px-8 xl:px-0">
-        <div class="flex flex-col items-center lg:items-start w-full max-w-xl lg:w-1/2 pt-48 lg:pt-20 xl:pt-40 text-center lg:text-left z-30">
+        <div class="flex flex-col items-center lg:items-start w-full max-w-xl lg:w-1/2 pt-48 lg:pt-20 xl:pt-40 text-center lg:text-left z-5">
             <h1 class="text-gray-900 font-black text-3xl sm:text-6xl leading-tight relative mb-4 xl:mb-8">{{ gettext("Find your next opportunity!") }}</h1>
             <p class="text-base sm:text-lg xl:text-xl text-gray-600 mb-8 pr-0 lg:pr-20">{{ gettext("Are you ready to start?") }} </p>
+
+
+
+
+            <div class="buttons">
+                <!-- Help Moving -->
+                <a href="?buttons=Help%20Moving" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    Help Moving
+                </a>
+            
+                <!-- Yard Work -->
+                <a href="?buttons=Yard%20Work" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    Yard Work
+                </a>
+            
+                <!-- Heavy Lifting -->
+                <a href="?buttons=Heavy%20Lifting" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    Heavy Lifting
+                </a>
+                <!-- ... Add more buttons here ... -->
+            </div>
+            
+            
+                
+
+
+
+
+
+
+
+
+
             <div id="map" style="width: 200%; margin: 0 auto; border-radius: 20px; overflow: hidden;"></div>
             <script>
                 const coords = JSON.parse('{{ coords | tojson }}');

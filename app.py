@@ -86,18 +86,6 @@ def change_language(lang):
     return redirect(url_for('index'))
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 # LOCALIZE MAP
 @app.route('/save_location', methods=['POST'])
 def save_location():
@@ -113,44 +101,79 @@ def save_location():
 
 
 
-# @app.route('/posts', methods=['GET'])
-# def posts():
-#     if request.method == 'GET':
-#         blog_filter = BlogPost.confirmed == True
-
-#         # returns all posts otherwise returns previous posts ordered by date query.order_by date_posted
-#         all_posts = BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted).all()
-
-#         # urls, dictionary, for all posts id that were queried above transformed with serialiser
-#         urls = {post.id: post.id
-#                    for post in all_posts}
-#         return render_template('posts.html', posts=all_posts, urls=urls)
 
 
 
 
-
-
-
-# INDEX
-
-@app.route('/')
+@app.route('/', methods=['GET'])
 def index():
-    # Retrieve longitude and latitude from session
-    longitude_localisation = session.get('longitude')
-    latitude_localisation = session.get('latitude')
+    buttons = request.args.getlist("buttons")
 
-    # Query the BlogPost objects
-    blog_posts = BlogPost.query.all()
+    if buttons:
+        filters = []
+
+        for button in buttons:
+            button_filter = (
+                (
+                    db.func.to_tsvector('slovenian', BlogPost.content).match(button, postgresql_regconfig='slovenian') |
+                    db.func.to_tsvector('slovenian', BlogPost.title).match(button, postgresql_regconfig='slovenian') |
+                    db.func.to_tsvector('slovenian', BlogPost.offer).match(button, postgresql_regconfig='slovenian') |
+                    BlogPost.content.ilike(f'%{button}%') |
+                    BlogPost.category.has(Category.name.ilike(f'%{button}%'))
+                ) &
+                (BlogPost.confirmed == True)
+            )
+            filters.append(button_filter)
+
+        blog_filter = db.or_(*filters)
+        all_posts = BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted).all()
+        urls = {post.id: post.id for post in all_posts}
+        return render_template('posts.html', posts=all_posts, urls=urls)
+    else:
+        # Retrieve longitude and latitude from session
+        longitude_localisation = session.get('longitude')
+        latitude_localisation = session.get('latitude')
+
+        # Query the BlogPost objects
+        blog_posts = BlogPost.query.all()
+
+        coords = [{'id': post.id,
+                   'longitude': post.longitude,
+                   'latitude': post.latitude,
+                   'title': post.title}
+                  for post in blog_posts]
+
+        return render_template('index.html', coords=coords, longitude_localisation=longitude_localisation, latitude_localisation=latitude_localisation)
 
 
-    coords = [{'id': post.id,
-               'longitude': post.longitude,
-               'latitude': post.latitude,
-               'title': post.title,}
-              for post in blog_posts]
 
-    return render_template('index.html', coords=coords,longitude_localisation=longitude_localisation,latitude_localisation=latitude_localisation)
+
+
+
+
+
+
+
+
+# # INDEX
+
+# @app.route('/')
+# def index():
+#     # Retrieve longitude and latitude from session
+#     longitude_localisation = session.get('longitude')
+#     latitude_localisation = session.get('latitude')
+
+#     # Query the BlogPost objects
+#     blog_posts = BlogPost.query.all()
+
+
+#     coords = [{'id': post.id,
+#                'longitude': post.longitude,
+#                'latitude': post.latitude,
+#                'title': post.title,}
+#               for post in blog_posts]
+
+#     return render_template('index.html', coords=coords,longitude_localisation=longitude_localisation,latitude_localisation=latitude_localisation)
 
 
 # SWEARING PREWENTION
