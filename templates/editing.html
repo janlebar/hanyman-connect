@@ -1,42 +1,48 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>{{ gettext("Post") }}</title> 
+<title>{{ gettext("Post") }}</title>
 {% endblock %}
-{# coment #}
+
 {% block body %}
-<br>
-    <hr>
-  
-    {% for post in posts %}
-        <h2>{{ post.title }}</h2>
-        {% if post.author %}
-            <small> Written by {{ post.author }} on {{ post.date_posted }}</small>
-        {% else %}
-            <small> Date; {{ post.date_posted }}</small>
-        {% endif %}
-        <br>
-        <br>
-        {% if post.category %}
-        <br>
-        <p style="white-space:pre-wrap">{{ post.category.name }}</p>
-        <br>
-        {% endif %}
-        <p style="white-space:pre-wrap">{{ post.email }}</p>
-        <br>
-        <p style="white-space:pre-wrap">{{ post.offer }}</p>
-        <br>
-        <p style="white-space:pre-wrap">{{ post.content }}</p>
-        <br>
-        <!--  klice nazaj povezavo na app.py za povsts in delete-->
-        <a class="btn btn-outline-danger" href='/posts/delete/{{post.id}}'>{{ gettext("Delete") }}</a>
-        <!--  klice nazaj povezavo na app.py za povsts in edit + id ker ureja sam en povst-->
-        <a class="btn btn-outline-primary" href='/posts/edit/{{post.id}}'>{{ gettext("Edit") }}</a>
-        <!--  klice nazaj povezavo na app.py za povsts in edit + id ker ureja sam en povst-->
-        <a class="btn btn-outline-success" href='/posts'>{{ gettext("Post") }}</a>
+<div class="flex justify-center ">
+    <div class="w-full max-w-xl p-4">
         <br>
         <hr>
-        <br>
-    {% endfor%}
 
+        {% for post in posts %}
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold">{{ post.title }}</h2>
+            {% if post.author %}
+            <small class="text-gray-500">Written by {{ post.author }} on {{ post.date_posted }}</small>
+            {% else %}
+            <small class="text-gray-500">Date: {{ post.date_posted }}</small>
+            {% endif %}
+            <br>
+            <br>
+            {% if post.category %}
+            <br>
+            <p class="whitespace-pre-wrap">{{ post.category.name }}</p>
+            <br>
+            {% endif %}
+            <p class="whitespace-pre-wrap">{{ post.email }}</p>
+            <br>
+            <p class="whitespace-pre-wrap">{{ post.offer }}</p>
+            <br>
+            <p class="whitespace-pre-wrap">{{ post.content }}</p>
+            <br>
+            <!-- Delete button -->
+            <a class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg" href='/posts/delete/{{post.id}}'>{{ gettext("Delete") }}</a>
+            <!-- Edit button -->
+            <a class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg" href='/posts/edit/{{post.id}}'>{{ gettext("Edit") }}</a>
+            <!-- Return to Posts button -->
+            <a class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg" href='/posts'>{{ gettext("Post") }}</a>
+            <br>
+            <hr>
+            <br>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
 {% endblock %}

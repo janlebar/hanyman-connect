@@ -5,42 +5,47 @@
 {% endblock %}
 
 {% block body %}
-<!--  formular za edit-->
-<h1>{{ gettext("Edit the post") }}</h1>
-
-
-
-
+<div class="flex justify-center">
+    <!-- Form for editing -->
+    <h1>{{ gettext("Edit the post") }}</h1>
     <hr>
-    <form action='/posts/edit/{{post.id}}' method='POST'>
-
-
-        <select name="category" id="categories">
-            {% for category in categories %}
-                {% set is_selected = 'selected' if category == post.category else ''%}
-                <option value="{{category.id}}" {{is_selected}}>{{category.name}}</option>
-            {% endfor%}
-            </select>
     
-
-
-
-
-        <label for="title">{{ gettext("Title") }}:</label>
-    <!--  value je post title kar jinja pobere iz baze kar je blo v bazi pod prejsnji povst-->
-        <input class="form-control" type="text" name='title' id='title' value="{{ post.title }}" aria-label="Enter Title">
+    <form action='/posts/edit/{{post.id}}' method='POST'>
         <br>
-        <label for="offer">{{ gettext("Offer") }}:</label>
-        <input class="form-control" type="text" name='offer' id='offer' value="{{ post.offer }}" aria-label="Enter Offer">
+        <div>
+            <label class="text-2xl font-semibold" for="title">{{ gettext("Title") }}:</label>
+            <input class="form-control" type="text" name='title' id='title' value="{{ post.title }}" aria-label="Enter Title">
+        </div>
         <br>
-        <label for="email">{{ gettext("Email") }}:</label>
-        <input class="form-control" type="text" name='email' id='email' value="{{ post.email }}" aria-label="Enter Email">
+        <div>
+            <select name="category" id="categories">
+                {% for category in categories %}
+                    {% set is_selected = 'selected' if category == post.category else '' %}
+                    <option value="{{ category.id }}" {{ is_selected }}>{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
         <br>
-        <label for="content">{{ gettext("Post") }}:</label>
-        <textarea class="form-control" name='content' id="content" aria-label="Enter Content" rows="3">{{ post.content }}</textarea>
+        <div>
+            <label for="offer">{{ gettext("Offer") }}:</label>
+            <input class="form-control" type="text" name='offer' id='offer' value="{{ post.offer }}" aria-label="Enter Offer">
+        </div>
         <br>
-        <!--  save gumb zato value save-->
-        <input type='submit' value='Save'>
+        <div>
+            <label for="email">{{ gettext("Email") }}:</label>
+            <input class="form-control" type="text" name='email' id='email' value="{{ post.email }}" aria-label="Enter Email">
+        </div>
+        <br>
+        <div>
+            <label for="content">{{ gettext("Post") }}:</label>
+            <textarea class="form-control" name='content' id="content" aria-label="Enter Content" rows="3">{{ post.content }}</textarea>
+        </div>
+        <br>
+        <!-- Styled "Save" button as a link button -->
+        <div>
+            <a class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg" href='/posts'>{{ gettext("Save") }}</a>
+        </div>
     </form>
     <hr>
+</div>
 {% endblock %}
