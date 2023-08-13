@@ -6,19 +6,20 @@
 
 {% block body %}
 <div class="flex justify-center">
-    <!-- Form for editing -->
-    <h1>{{ gettext("Edit the post") }}</h1>
+
     <hr>
     
-    <form action='/posts/edit/{{post.id}}' method='POST'>
-        <br>
+    <form class="border border-gray-300 rounded-lg p-4" action='/posts/edit/{{post.id}}' method='POST'>
         <div>
-            <label class="text-2xl font-semibold" for="title">{{ gettext("Title") }}:</label>
-            <input class="form-control" type="text" name='title' id='title' value="{{ post.title }}" aria-label="Enter Title">
+                <!-- Form for editing -->
+    <h1 class="text-2xl font-semibold">{{ gettext("Edit the post") }}</h1>
+    <br>
+            <label class="text-1xl font-semibold" for="title">{{ gettext("Title") }}:</label>
+            <input class="form-control mt-2 p-2 border rounded-lg w-full" type="text" name='title' id='title' value="{{ post.title }}" aria-label="Enter Title">
         </div>
         <br>
         <div>
-            <select name="category" id="categories">
+            <select name="category" id="categories" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-full">
                 {% for category in categories %}
                     {% set is_selected = 'selected' if category == post.category else '' %}
                     <option value="{{ category.id }}" {{ is_selected }}>{{ category.name }}</option>
@@ -27,23 +28,23 @@
         </div>
         <br>
         <div>
-            <label for="offer">{{ gettext("Offer") }}:</label>
-            <input class="form-control" type="text" name='offer' id='offer' value="{{ post.offer }}" aria-label="Enter Offer">
+            <label for="offer" class="text-1xl font-semibold">{{ gettext("Offer") }}:</label>
+            <input class="form-control mt-2 p-2 border rounded-lg w-full" type="text" name='offer' id='offer' value="{{ post.offer }}" aria-label="Enter Offer">
         </div>
         <br>
         <div>
-            <label for="email">{{ gettext("Email") }}:</label>
-            <input class="form-control" type="text" name='email' id='email' value="{{ post.email }}" aria-label="Enter Email">
+            <label for="email" class="text-1xl font-semibold" >{{ gettext("Email") }}:</label>
+            <input class="form-control mt-2 p-2 border rounded-lg w-full" type="text" name='email' id='email' value="{{ post.email }}" aria-label="Enter Email">
         </div>
         <br>
         <div>
-            <label for="content">{{ gettext("Post") }}:</label>
-            <textarea class="form-control" name='content' id="content" aria-label="Enter Content" rows="3">{{ post.content }}</textarea>
+            <label for="content" class="text-1xl font-semibold">{{ gettext("Post") }}:</label>
+            <textarea class="form-control mt-2 p-2 border rounded-lg w-full" name='content' id="content" aria-label="Enter Content" rows="3">{{ post.content }}</textarea>
         </div>
         <br>
         <!-- Styled "Save" button as a link button -->
         <div>
-            <a class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg" href='/posts'>{{ gettext("Save") }}</a>
+            <a class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" href='/posts'>{{ gettext("Save") }}</a>
         </div>
     </form>
     <hr>
