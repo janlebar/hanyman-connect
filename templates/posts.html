@@ -8,7 +8,7 @@
 <div class="max-w-xl mx-auto">
   <div class="flex justify-between items-center">
     <h1 class="text-2xl font-bold">{{ gettext("All Listings") }}</h1>
-    <a href="/posts/new" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg" style="z-index: 9999;">+ {{ gettext("New Listing") }}</a>
+    <a href="/posts/new" class="text-white bg-green-500 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-green-600 dark:hover:bg-blue-700 dark:focus:ring-green-800" style="z-index: 9999;">+ {{ gettext("New Listing") }}</a>
   </div>
   <hr class="my-4">
   {% for post in posts %}
@@ -25,7 +25,7 @@
       <p class="mt-2 text-gray-700">{{ post.offer }}</p>
       <p class="mt-2">{{ post.content }}</p>
       <div class="mt-4">
-        <a href='/apply/new/{{ urls[post.id] }}' class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">{{ gettext("Apply") }} </a>
+        <a href='/apply/new/{{ urls[post.id] }}' class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-full">{{ gettext("Apply") }} </a>
       </div>
     </div>
     <hr class="my-4">
