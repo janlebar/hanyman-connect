@@ -9,7 +9,7 @@ from flask_mail import Mail
 from flask_mail import Message
 from flask_hcaptcha import hCaptcha
 from database import db, BlogPost, Category, BlogApply, Rating
-from sqlalchemy import or_
+from sqlalchemy import or_,func
 from flask_babel import Babel
 from flask_babel import gettext
 # from transformers import pipeline
@@ -107,27 +107,24 @@ def save_location():
 
 @app.route('/', methods=['GET'])
 def index():
-
     items = [
-            "Help Moving",
-            "Yard Work",
-            "Heavy Lifting",
-            "Electrical help",
-            "Snow Removal",
-            "Lawn Care and Yard Work",
-            "Pet Care",
-            "Tech Help",
-            "Childcare",
-            "Elderly Assistance",
-            "Car Wash and Detailing",
-            "Painting and Repairs",
-            "Tutoring",
-            "Personal Shopping",
-            "Plant Care",
-            "House Sitting"
-        ]
-
-
+        "Help Moving",
+        "Yard Work",
+        "Heavy Lifting",
+        "Electrical help",
+        "Snow Removal",
+        "Lawn Care and Yard Work",
+        "Pet Care",
+        "Tech Help",
+        "Childcare",
+        "Elderly Assistance",
+        "Car Wash and Detailing",
+        "Painting and Repairs",
+        "Tutoring",
+        "Personal Shopping",
+        "Plant Care",
+        "House Sitting"
+    ]
 
     buttons = request.args.getlist("buttons")
 
@@ -137,17 +134,17 @@ def index():
         for button in buttons:
             button_filter = (
                 (
-                    db.func.to_tsvector('slovenian', BlogPost.content).match(button, postgresql_regconfig='slovenian') |
-                    db.func.to_tsvector('slovenian', BlogPost.title).match(button, postgresql_regconfig='slovenian') |
-                    db.func.to_tsvector('slovenian', BlogPost.offer).match(button, postgresql_regconfig='slovenian') |
+                    func.to_tsvector('slovenian', BlogPost.content).match(button, postgresql_regconfig='slovenian') |
+                    func.to_tsvector('slovenian', BlogPost.title).match(button, postgresql_regconfig='slovenian') |
+                    func.to_tsvector('slovenian', BlogPost.offer).match(button, postgresql_regconfig='slovenian') |
                     BlogPost.content.ilike(f'%{button}%') |
-                    BlogPost.category.has(Category.name.ilike(f'%{button}%'))
+                    BlogPost.category.ilike(f'%{button}%')
                 ) &
                 (BlogPost.confirmed == True)
             )
             filters.append(button_filter)
 
-        blog_filter = db.or_(*filters)
+        blog_filter = or_(*filters)
         all_posts = BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted).all()
         urls = {post.id: post.id for post in all_posts}
         return render_template('posts.html', posts=all_posts, urls=urls)
@@ -165,7 +162,7 @@ def index():
                    'title': post.title}
                   for post in blog_posts]
 
-        return render_template('index.html', coords=coords, longitude_localisation=longitude_localisation, latitude_localisation=latitude_localisation,items=items)
+        return render_template('index.html', coords=coords, longitude_localisation=longitude_localisation, latitude_localisation=latitude_localisation, items=items)
 
 
 
