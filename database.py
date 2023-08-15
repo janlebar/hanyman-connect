@@ -42,10 +42,11 @@ class BlogPost(db.Model):
     longitude = db.Column(db.Float, nullable=True)
     latitude = db.Column(db.Float, nullable=True)
     location = db.Column(db.String(255))
+    category = db.Column(db.Text, nullable=False, default="")
 
-    # for categories
-    category_id = db.Column(db.Integer, db.ForeignKey('work_type.id'), nullable=True)
-    category = db.relationship('Category', backref=db.backref('work_type', lazy=True))
+    # # for categories
+    # category_id = db.Column(db.Integer, db.ForeignKey('work_type.id'), nullable=True)
+    # category = db.relationship('Category', backref=db.backref('work_type', lazy=True))
 
     # create full text search index
     __table_args__ = (
