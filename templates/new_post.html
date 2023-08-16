@@ -17,12 +17,24 @@
         </div>
         <!-- jaka naredil da izpiše kategorije-->
         <div class="mb-4">
-            <label for="category" class="block text-gray-700 font-bold mb-2">{{ gettext("Category:") }}</label>
+            <!-- <label for="category" class="block text-gray-700 font-bold mb-2">{{ gettext("Category:") }}</label>
             <select name="category" id="categories" class="form-select">
                 {% for category in categories %}
                     <option value="{{category.id}}">{{category.name}}</option>
                 {% endfor%}
+            </select> -->
+
+
+            <label for="category">Category:</label>
+            <select name="category" id="category">
+                <option value="1">Category 1</option>
+                <option value="2">Category 2</option>
+                <!-- Add more options as needed -->
             </select>
+
+
+
+            
         </div>
 
         <!--  -->
