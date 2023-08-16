@@ -277,7 +277,7 @@ def save_post():
     post_latitude = session.get('latitude')
     # post_longitude = request.form['longitude']
     # post_latitude = request.form['latitude']
-    post_category_id = int(request.form["category"])
+    # post_category_id = int(request.form["category"])
     post_confirmation_id = randbelow(2 ** 31)
 
     for word in swear_words:
@@ -285,7 +285,7 @@ def save_post():
                  return render_template('swearingnotallowed.html')
 
     new_post = BlogPost(title=post_title, content=post_content, offer=post_offer,longitude = post_longitude, latitude = post_latitude,
-                        email=post_email, category_id=post_category_id, confirmation_id=post_confirmation_id)
+                        email=post_email, confirmation_id=post_confirmation_id)
 
     # vpise v bazo v trenutno
     db.session.add(new_post)
