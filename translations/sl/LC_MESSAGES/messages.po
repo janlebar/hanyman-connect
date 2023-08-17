@@ -2,12 +2,13 @@
 # Copyright (C) 2023 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-08-07 14:07+0200\n"
-"PO-Revision-Date: 2023-08-05 20:38+0200\n"
+"POT-Creation-Date: 2023-08-17 23:11+0200\n"
+"PO-Revision-Date: 2023-08-17 23:40+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: sl\n"
 "Language-Team: sl <LL@li.org>\n"
@@ -18,86 +19,157 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.12.1\n"
 
+#: app.py:51
+msgid "Help Moving"
+msgstr "Pomoč pri selitvi"
+
+#: app.py:52
+msgid "Yard Work"
+msgstr "Vrtičkarska dela"
+
+#: app.py:53
+msgid "Heavy Lifting"
+msgstr "Težko dvigovanje"
+
+#: app.py:54
+msgid "Electrical help"
+msgstr "Električna pomoč"
+
+#: app.py:55
+msgid "Snow Removal"
+msgstr "Odstranjevanje snega"
+
+#: app.py:56
+msgid "Lawn Care and Yard Work"
+msgstr "Nega trate in vrtnih del"
+
+#: app.py:57
+msgid "Pet Care"
+msgstr "Skrb za hišne ljubljenčke"
+
+#: app.py:58
+msgid "Tech Help"
+msgstr "Tehnična pomoč"
+
+#: app.py:59
+msgid "Childcare"
+msgstr "Varstvo otrok"
+
+#: app.py:60
+msgid "Elderly Assistance"
+msgstr "Pomoč starejšim osebam"
+
+#: app.py:61
+msgid "Car Wash and Detailing"
+msgstr "Pranje avtomobila in detajli"
+
+#: app.py:62
+msgid "Painting and Repairs"
+msgstr "Slikanje in popravila"
+
+#: app.py:63
+msgid "Tutoring"
+msgstr "Nastavljanje"
+
+#: app.py:64
+msgid "Personal Shopping"
+msgstr "Osebno nakupovanje"
+
+#: app.py:65
+msgid "Plant Care"
+msgstr "Skrb za rastline"
+
+#: app.py:66
+msgid "House Sitting"
+msgstr "Varovanje hiše"
+
 #: templates/applys.html:10
 msgid "Apply for work"
 msgstr "Prijavite se za delo"
 
-#: templates/applys.html:23 templates/posts.html:28
+#: templates/applys.html:23 templates/posts.html:29
 msgid "Apply"
 msgstr "Prijavite se"
 
-#: templates/base.html:77
+#: templates/base.html:78
 msgid "Cookie Consent"
 msgstr "Soglasje za piškotke"
 
-#: templates/base.html:78
+#: templates/base.html:79
 msgid ""
 "We use cookies to improve your experience on our site. By clicking \"I "
 "Consent\" below, you agree to our use of cookies."
 msgstr ""
-"Uporabljamo piškotke, da izboljšamo vašo izkušnjo na našem spletnem "
-"mestu. S klikom na \"Soglašam\" spodaj se strinjate z našo uporabo "
-"piškotkov."
+"Uporabljamo piškotke, da izboljšamo vašo izkušnjo na našem mestu. S "
+"klikom na \"Strinjam se\" spodaj se strinjate z uporabo piškotkov."
 
-#: templates/base.html:81
+#: templates/base.html:82
 msgid "I agree to the use of cookies."
-msgstr "Soglašam z uporabo piškotkov."
+msgstr "Strinjam se z uporabo piškotkov."
 
-#: templates/base.html:149
+#: templates/base.html:143
 msgid "Home"
 msgstr "Domov"
 
-#: templates/base.html:151
+#: templates/base.html:145
 msgid "Listings"
-msgstr "Ponudbe"
+msgstr "Oglasi"
 
-#: templates/base.html:153
+#: templates/base.html:147
 msgid "About"
 msgstr "O nas"
 
-#: templates/base.html:155 templates/index.html:332
+#: templates/base.html:149 templates/index.html:211
 msgid "Testimonials"
-msgstr "Pričevanja"
+msgstr "Izjave strank"
 
-#: templates/base.html:161 templates/base.html:190
+#: templates/base.html:155 templates/base.html:183
 msgid "Login"
 msgstr "Prijava"
 
-#: templates/base.html:164
+#: templates/base.html:157 templates/base.html:171 templates/base.html:200
 msgid "Search"
 msgstr "Iskanje"
 
-#: templates/edit.html:9
+#: templates/edit.html:15
 msgid "Edit the post"
 msgstr "Uredi objavo"
 
-#: templates/edit.html:29
+#: templates/edit.html:17
 msgid "Title"
 msgstr "Naslov"
+
+#: templates/edit.html:22 templates/new_post.html:19 templates/posts.html:25
+msgid "Category:"
+msgstr "Kategorija:"
 
 #: templates/edit.html:33
 msgid "Offer"
 msgstr "Ponudba"
 
-#: templates/edit.html:36
+#: templates/edit.html:38
 msgid "Email"
 msgstr "E-pošta"
 
-#: templates/edit.html:39 templates/editing.html:4 templates/editing.html:36
+#: templates/edit.html:43 templates/editing.html:4 templates/editing.html:39
 msgid "Post"
 msgstr "Objava"
 
-#: templates/editing.html:32
+#: templates/edit.html:49
+msgid "Save"
+msgstr "Shrani"
+
+#: templates/editing.html:35
 msgid "Delete"
 msgstr "Izbriši"
 
-#: templates/editing.html:34
+#: templates/editing.html:37
 msgid "Edit"
 msgstr "Uredi"
 
 #: templates/email_template.html:21
 msgid "Confirm your post"
-msgstr "Potrdite svojo objavo"
+msgstr "Potrdite vašo objavo"
 
 #: templates/email_template.html:22
 msgid "Hello,"
@@ -108,8 +180,8 @@ msgid ""
 "Thank you for creating a post. Please click the link below to confirm "
 "your post:"
 msgstr ""
-"Hvala, ker ste ustvarili objavo. Prosimo, kliknite spodnjo povezavo, da "
-"potrdite svojo objavo:"
+"Hvala vam za ustvarjanje objave. Kliknite spodnjo povezavo, da potrdite "
+"svojo objavo:"
 
 #: templates/email_template.html:24
 msgid "Confirm post"
@@ -117,7 +189,7 @@ msgstr "Potrdi objavo"
 
 #: templates/email_template.html:25
 msgid "If you did not create this post, please ignore this email."
-msgstr "Če niste ustvarili te objave, ta e-pošta ni pomembna."
+msgstr "Če niste ustvarili te objave, prosimo, prezrite to e-pošto."
 
 #: templates/email_template.html:26 templates/email_template_connect.html:25
 msgid "Thanks for reading!"
@@ -125,7 +197,7 @@ msgstr "Hvala za branje!"
 
 #: templates/email_template_connect.html:23
 msgid "Please contact"
-msgstr "Za več informacij se obrnite na"
+msgstr "Prosimo, kontaktirajte"
 
 #: templates/email_template_connect.html:23
 msgid "for more information."
@@ -133,41 +205,45 @@ msgstr "za več informacij."
 
 #: templates/email_template_connect.html:24
 msgid "If you did not request this information, please ignore this email."
-msgstr "Če niste zahtevali teh informacij, ignorirajte to sporočilo."
+msgstr "Če niste zahtevali teh informacij, prosimo, prezrite to e-pošto."
 
-#: templates/index.html:22
+#: templates/index.html:37
 msgid "Find help for what You need"
-msgstr "Najdite pomoč za to, kar potrebujete"
+msgstr "Poiščite pomoč za to, kar potrebujete"
 
-#: templates/index.html:23
+#: templates/index.html:38
 msgid "Get help today"
-msgstr "Dobite pomoč danes"
+msgstr "Danes poiščite pomoč"
 
-#: templates/index.html:28
+#: templates/index.html:40
+msgid "Find a helping hand"
+msgstr "Najdite pomočno roko"
+
+#: templates/index.html:43
 msgid "Integrates With"
-msgstr "Integrira se z"
+msgstr "Integrirano z"
 
-#: templates/index.html:93
+#: templates/index.html:84
 msgid "Find your next opportunity!"
-msgstr "Najdite svojo naslednjo priložnost!"
+msgstr "Poiščite naslednjo priložnost!"
 
-#: templates/index.html:94
+#: templates/index.html:85
 msgid "Are you ready to start?"
 msgstr "Ste pripravljeni začeti?"
 
-#: templates/index.html:118
+#: templates/index.html:110
 msgid "Make Your offer, that suits You"
-msgstr "Oddajte svojo ponudbo, ki vam ustreza"
+msgstr "Ponudite svojo ponudbo, ki vam ustreza"
 
-#: templates/index.html:121
+#: templates/index.html:113
 msgid "Find help and make an offer"
-msgstr "Najdite pomoč in oddajte ponudbo"
+msgstr "Poiščite pomoč in ponudite ponudbo"
 
-#: templates/index.html:182
+#: templates/index.html:145
 msgid "Your pick of contractors at your prices"
-msgstr "Izberite izvajalce po svojih cenah"
+msgstr "Izberite izvajalce po vaših cenah"
 
-#: templates/index.html:183
+#: templates/index.html:146
 msgid ""
 "No matter where you are, find the perfect solution for the help you need "
 "at prices you set."
@@ -175,86 +251,81 @@ msgstr ""
 "Ne glede na to, kje ste, poiščite popolno rešitev za pomoč, ki jo "
 "potrebujete, po cenah, ki jih določite."
 
-#: templates/index.html:184 templates/index.html:247 templates/index.html:310
+#: templates/index.html:147 templates/index.html:168 templates/index.html:189
 msgid ""
 "Learn\n"
 "                                More"
-msgstr ""
-"Poglejte\n"
-"                                več"
+msgstr "Poglejte več"
 
-#: templates/index.html:245
+#: templates/index.html:166
 msgid "Scroll, click, tap and go!"
-msgstr "Pomaknite, kliknite, tapnite in pojdite!"
+msgstr "Pomikajte, klikajte, tapnite in začnite!"
 
-#: templates/index.html:246
+#: templates/index.html:167
 msgid ""
 "Finding help has never been easier! Thanks to our simple app, you can "
 "find a help close to you in just minutes."
 msgstr ""
-"Najti pomoč še nikoli ni bilo lažje! Zahvaljujoč naši preprosti "
+"Poiščite pomoč še nikoli ni bilo lažje! Zahvaljujoč naši preprosti "
 "aplikaciji lahko v samo nekaj minutah poiščete pomoč blizu vas."
 
-#: templates/index.html:308
+#: templates/index.html:187
 msgid "Smart notifications"
 msgstr "Pametna obvestila"
 
-#: templates/index.html:309
+#: templates/index.html:188
 msgid "Our smart notifications will notify you when users convert."
-msgstr ""
-"Naša pametna obvestila vas bodo obvestila, ko uporabniki opravijo "
-"pretvorbo."
+msgstr "Naša pametna obvestila vas bodo obvestila, ko se uporabniki preoblikujejo."
 
-#: templates/index.html:328
+#: templates/index.html:207
 msgid ""
 "Our customers\n"
 "                            love\n"
 "                            our product"
 msgstr ""
-"Naši kupci\n"
+"Naše stranke\n"
 "                            obožujejo\n"
 "                            naš izdelek"
 
-#: templates/index.html:334
+#: templates/index.html:213
 msgid ""
 "Don't just take our word for it, read from our\n"
 "                            extensive list of case studies and customer "
 "testimonials."
 msgstr ""
-"Ne verjemite nam kar tako, preberite naš\n"
-"                            obsežen seznam primerov in pričevanj strank."
+"Ne verjemite le nam, preberite iz našega obsežnega seznama primerov "
+"študij in izjav strank."
 
-#: templates/index.html:350
+#: templates/index.html:229
 msgid "I'm like that I can find someone who can help me when moving"
 msgstr "Všeč mi je, da lahko najdem nekoga, ki mi lahko pomaga pri selitvi"
 
-#: templates/index.html:353
+#: templates/index.html:232
 msgid "- Client Solutions Manager"
 msgstr "- Vodja rešitev za stranke"
 
-#: templates/index.html:369
+#: templates/index.html:248
 msgid ""
 "Really digging this service. Now I can\n"
 "                                            quickly find someone for any "
 "project."
 msgstr ""
-"Res sem navdušen nad to storitvijo. Sedaj lahko\n"
-"                                            hitro najdem nekoga za vsak "
-"projekt."
+"Zelo mi je všeč ta storitev. Zdaj lahko hitro najdem nekoga za kateri "
+"koli projekt."
 
-#: templates/index.html:373
+#: templates/index.html:252
 msgid "- Hobbyist"
-msgstr "- Hobist"
+msgstr "- Hobijist"
 
-#: templates/index.html:391
+#: templates/index.html:270
 msgid "- Extremely helpful in every way."
-msgstr "- Izjemno koristno na vse načine."
+msgstr "- Izjemno koristno na vsak način."
 
-#: templates/index.html:394
+#: templates/index.html:273
 msgid "Jure"
 msgstr "Jure"
 
-#: templates/index.html:395
+#: templates/index.html:274
 msgid ""
 " - \n"
 "                                            Photographer"
@@ -262,45 +333,45 @@ msgstr ""
 " - \n"
 "                                            Fotograf"
 
-#: templates/index.html:412
+#: templates/index.html:291
 msgid "Finally a quick and easy way to find help."
-msgstr "Končno hitra in enostavna pot do pomoči."
+msgstr "Končno hitra in enostavna pot za iskanje pomoči."
 
-#: templates/index.html:415
+#: templates/index.html:294
 msgid "Maria"
-msgstr "Marija"
+msgstr "Maria"
 
-#: templates/index.html:416
+#: templates/index.html:295
 msgid "Retired"
 msgstr "Upokojenec"
 
-#: templates/index.html:459
+#: templates/index.html:338
 msgid ""
 "Connecting skilled professionals and experienced ones with the needs of "
 "the people."
-msgstr "Povezovanje strokovnjakov in izkušenih oseb z potrebami ljudi."
+msgstr "Povezovanje izkušenih strokovnjakov in izkušenih oseb z potrebami ljudi."
 
-#: templates/index.html:469
+#: templates/index.html:348
 msgid "FAQ"
 msgstr "Pogosta vprašanja"
 
-#: templates/index.html:472
+#: templates/index.html:351
 msgid "Privacy"
 msgstr "Zasebnost"
 
-#: templates/index.html:475
+#: templates/index.html:354
 msgid ""
 "Terms\n"
 "                                of Service"
 msgstr ""
 "Pogoji\n"
-"                                uporabe"
+"                                storitve"
 
-#: templates/index.html:481
+#: templates/index.html:360
 msgid "Follow Us"
 msgstr "Sledite nam"
 
-#: templates/index.html:497
+#: templates/index.html:376
 msgid ""
 "All rights\n"
 "                reserved."
@@ -315,16 +386,16 @@ msgstr "Objavite svojo ponudbo"
 #: templates/login.html:15
 msgid "Email not found in database. Please fill out the following form to apply:"
 msgstr ""
-"E-pošta ni najdena v bazi podatkov. Prosimo, izpolnite spodnji obrazec za"
-" prijavo:"
+"Elektronske pošte ni bilo mogoče najti v bazi podatkov. Izpolnite "
+"naslednji obrazec za prijavo:"
 
 #: templates/login.html:17 templates/login.html:32 templates/new_apply.html:17
-#: templates/new_post.html:15
+#: templates/new_post.html:14
 msgid "Name:"
 msgstr "Ime:"
 
 #: templates/login.html:25 templates/new_apply.html:20
-#: templates/new_post.html:37
+#: templates/new_post.html:34
 msgid "Email:"
 msgstr "E-pošta:"
 
@@ -334,7 +405,7 @@ msgstr "Moja ocena"
 
 #: templates/my_portfolio.html:34
 msgid "No ratings found for this email."
-msgstr "Ni najdenih ocen za to e-pošto."
+msgstr "Ni najdenih ocen za to elektronsko pošto."
 
 #: templates/new_apply.html:4
 msgid "Apply for the offer"
@@ -346,39 +417,39 @@ msgstr "Objavite ponudbo"
 
 #: templates/new_post.html:8
 msgid "Submit Your inquiry"
-msgstr "Oddajte svoje povpraševanje"
+msgstr "Pošljite svoje povpraševanje"
 
-#: templates/new_post.html:16
-msgid "Work Tytle:"
-msgstr "Delovno mesto:"
+#: templates/new_post.html:15
+msgid "Work Title:"
+msgstr "Naslov dela:"
 
-#: templates/new_post.html:20
-msgid "Category:"
-msgstr "Kategorija:"
-
-#: templates/new_post.html:30
+#: templates/new_post.html:29 templates/posts.html:26
 msgid "Offer:"
 msgstr "Ponudba:"
 
-#: templates/new_post.html:31
+#: templates/new_post.html:30
 msgid "Your Offer:"
 msgstr "Vaša ponudba:"
 
-#: templates/new_post.html:31
+#: templates/new_post.html:30
 msgid "Enter Offer"
 msgstr "Vnesite ponudbo"
 
-#: templates/new_post.html:38
+#: templates/new_post.html:35
 msgid "Write Your Email:"
 msgstr "Vpišite svojo e-pošto:"
 
-#: templates/new_post.html:43
+#: templates/new_post.html:41 templates/posts.html:27
 msgid "Work description:"
 msgstr "Opis dela:"
 
-#: templates/new_post.html:44
+#: templates/new_post.html:42
 msgid "Describe what You are looking for:"
 msgstr "Opišite, kaj iščete:"
+
+#: templates/new_post.html:57
+msgid "Submit"
+msgstr "Pošlji"
 
 #: templates/posts.html:4
 msgid "Posts"
@@ -386,11 +457,11 @@ msgstr "Objave"
 
 #: templates/posts.html:10
 msgid "All Listings"
-msgstr "Vse ponudbe"
+msgstr "Vsi oglasi"
 
 #: templates/posts.html:11
 msgid "New Listing"
-msgstr "Nova ponudba"
+msgstr "Nov oglas"
 
 #: templates/posts.html:18
 msgid "Written by"
@@ -398,7 +469,7 @@ msgstr "Napisal"
 
 #: templates/posts.html:18
 msgid "on"
-msgstr "dne"
+msgstr "na dan"
 
 #: templates/posts.html:20
 msgid "Date:"
@@ -410,9 +481,13 @@ msgstr "Oceni"
 
 #: templates/rating.html:8
 msgid "Please rate this apply with stars:"
-msgstr "Prosim, ocenite to prijavo z zvezdicami:"
+msgstr "Prosimo, ocenite to prijavo z zvezdicami:"
+
+#: templates/swearingnotallowed.html:10
+msgid "Please be polite, Your post was not delivered"
+msgstr "Prosim, bodite vljudni, vaša objava ni bila dostavljena"
 
 #: templates/swearingnotallowed.html:10
 msgid "Please be polite, Your post was not dellivered"
-msgstr "Prosimo, bodite vljudni. Vaša objava ni bila shranjena."
+msgstr ""
 

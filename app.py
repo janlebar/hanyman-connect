@@ -47,24 +47,25 @@ serializer = URLSafeTimedSerializer(secret_key)
 
 swear_words = []  # Global variable to store the loaded list of swear words
 
+
 items = [
-        "Help Moving",
-        "Yard Work",
-        "Heavy Lifting",
-        "Electrical help",
-        "Snow Removal",
-        "Lawn Care and Yard Work",
-        "Pet Care",
-        "Tech Help",
-        "Childcare",
-        "Elderly Assistance",
-        "Car Wash and Detailing",
-        "Painting and Repairs",
-        "Tutoring",
-        "Personal Shopping",
-        "Plant Care",
-        "House Sitting"
-    ]
+    gettext("Help Moving"),
+    gettext("Yard Work"),
+    gettext("Heavy Lifting"),
+    gettext("Electrical help"),
+    gettext("Snow Removal"),
+    gettext("Lawn Care and Yard Work"),
+    gettext("Pet Care"),
+    gettext("Tech Help"),
+    gettext("Childcare"),
+    gettext("Elderly Assistance"),
+    gettext("Car Wash and Detailing"),
+    gettext("Painting and Repairs"),
+    gettext("Tutoring"),
+    gettext("Personal Shopping"),
+    gettext("Plant Care"),
+    gettext("House Sitting")
+]
 
 def get_locale():
        # Check if the user explicitly selected a language
