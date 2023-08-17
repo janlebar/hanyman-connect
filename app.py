@@ -15,11 +15,9 @@ from flask_babel import gettext
 # from transformers import pipeline
 from datetime import datetime, timedelta
 
-
 # # Load the text classification pipeline for hugging face
 # model_name = "distilbert-base-uncased"
 # classifier = pipeline("text-classification", model=model_name)
-
 
 app = Flask(__name__)
 
@@ -30,7 +28,6 @@ app.config.from_prefixed_env()
 
 if os.getenv("DATABASE_URL"):
     app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://" + os.getenv("DATABASE_URL").removeprefix("postgres://")
-
 
 babel = Babel(app)
 
@@ -69,7 +66,6 @@ items = [
         "House Sitting"
     ]
 
-
 def get_locale():
        # Check if the user explicitly selected a language
     user_language = session.get('language')
@@ -80,10 +76,7 @@ def get_locale():
     accept_languages = request.accept_languages.best_match(['en', 'sl'])
     return accept_languages
 
-
-
 babel.init_app(app, locale_selector=get_locale)
-
 
 @app.route('/change_language/<lang>')
 def change_language(lang):
@@ -91,8 +84,8 @@ def change_language(lang):
     session['language'] = lang
     return redirect(url_for('index'))
 
-
 # LOCALIZE MAP
+
 @app.route('/save_location', methods=['POST'])
 def save_location():
     longitude = request.form['longitude']
@@ -104,12 +97,7 @@ def save_location():
     
     return redirect(url_for('index'))
 
-
-
-
-
-
-
+# INDEX
 
 @app.route('/', methods=['GET'])
 def index():
@@ -152,37 +140,6 @@ def index():
 
         return render_template('index.html', coords=coords, longitude_localisation=longitude_localisation, latitude_localisation=latitude_localisation, items=items)
 
-
-
-
-
-
-
-
-
-
-
-# # INDEX
-
-# @app.route('/')
-# def index():
-#     # Retrieve longitude and latitude from session
-#     longitude_localisation = session.get('longitude')
-#     latitude_localisation = session.get('latitude')
-
-#     # Query the BlogPost objects
-#     blog_posts = BlogPost.query.all()
-
-
-#     coords = [{'id': post.id,
-#                'longitude': post.longitude,
-#                'latitude': post.latitude,
-#                'title': post.title,}
-#               for post in blog_posts]
-
-#     return render_template('index.html', coords=coords,longitude_localisation=longitude_localisation,latitude_localisation=latitude_localisation)
-
-
 # SWEARING PREWENTION
 
 @app.before_first_request
@@ -192,38 +149,6 @@ def load_swear_words():
         swear_words = [word.strip() for word in file.readlines()]
 
 # SEARCH
-
-# @app.route('/search', methods=['GET'])
-# def search():
-#     query = request.args.get("query")
-
-#     if query:
-#         blog_filter = (
-#             (
-#                     # full text search # to_tsvector('slovenian', content) @@ to_tsquery('slovenian', 'stanovanje')
-#                     db.func.to_tsvector('slovenian', BlogPost.content).match(query, postgresql_regconfig='slovenian') |
-#                     db.func.to_tsvector('slovenian', BlogPost.title).match(query, postgresql_regconfig='slovenian') |
-#                     db.func.to_tsvector('slovenian', BlogPost.offer).match(query, postgresql_regconfig='slovenian') |
-
-#                     # partial match string
-#                     BlogPost.content.ilike(f'%{query}%') |
-
-#                     # filter blog categories
-#                     BlogPost.category.has(Category.name.ilike(f'%{query}%'))
-#              ) &
-#             (BlogPost.confirmed == True)
-#         )
-
-#         # print(BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted))
-#     else:
-#         blog_filter = BlogPost.confirmed == True
-
-#     # returns all posts drugace vrne prejsnje povste urejene po datumu query.order_by date_posted
-#     all_posts = BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted).all()
-
-#     # urls, dictionary, for all posts id that were queried above transformed with serialiser
-#     urls = {post.id: post.id for post in all_posts}
-#     return render_template('posts.html', posts=all_posts, urls=urls)
 
 @app.route('/search', methods=['GET'])
 def search():
@@ -260,8 +185,6 @@ def search():
     urls = {post.id: post.id for post in all_posts}
     return render_template('posts.html', posts=all_posts, urls=urls)
 
-    
-
 # POSTS    
 
 @app.route('/posts', methods=['GET'])
@@ -281,8 +204,6 @@ def posts():
 def new_post():
     # categories = Category.query.all()
     return render_template('new_post.html', items=items, action_url=url_for(posts.__name__))
-
-
 
 @app.route('/save_post', methods=['POST'])
 def save_post():
@@ -383,11 +304,6 @@ def edit(id):
         # post_item = post.category  # Assign the current category value
         return render_template('edit.html', post=post,items=items)
 
-
-
-
-
-
 # POSTS WITH TIME LIMIT
 
 @app.route('/post', methods=['GET'])
@@ -400,9 +316,7 @@ def post():
     urls = {post.id: post.id for post in all_posts}
     return render_template('posts.html', posts=all_posts, urls=urls)
 
-
 # APPLYS
-
 
 @app.route('/apply/new/<id>', methods=['GET', 'POST'])
 def new_apply(id):
@@ -477,9 +391,7 @@ def rating(id_apply):
         db.session.commit()
         return redirect(url_for('posts'))
 
-
     return render_template('rating.html', apply=apply)
-
 
 @app.route('/my_portfolio', methods=['GET'])
 def my_portfolio():
@@ -535,31 +447,24 @@ def sendmailogin(email_apply, apply_confirmation_id):
     msg.body = f"Click to confirm http://localhost:5000/apply/confirmed/{apply_confirmation_id}"
     mail.send(msg)
 
-
-
-
-
 # app.add_url_rule("/", None, view_func=index)
-
-
-
 
 @app.route('/coords')
 def test():
     BlogPosts = BlogPost.query.all()
     return jsonify([{'id': BlogPost.id,'longitude': BlogPost.longitude,'latitude': BlogPost.latitude, 'title': BlogPost.title, } for BlogPost in BlogPosts])
 
+# ABOUT
 
-# jan naredil podstran
 @app.route('/about', methods=['GET', 'POST'])
 def about():
     return render_template('about.html')
 
+# CHECK MAIL
 
-# jan naredil podstran
-@app.route('/chmail', methods=['GET', 'POST'])
-def chmail():
-    return render_template('chmail.html')
+# @app.route('/chmail', methods=['GET', 'POST'])
+# def chmail():
+#     return render_template('chmail.html')
 
 # COOKIES 
 
@@ -575,7 +480,8 @@ def inject_template_scope():
 
     return injections
 
-# TO SPODI JE ZATO DA LAUFA V DEBUG MODE
+# DEBUG MODE
+
 if __name__ == "__main__":
     app.run(debug=True)
 
