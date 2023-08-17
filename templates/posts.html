@@ -13,7 +13,7 @@
   <hr class="my-4">
   {% for post in posts %}
     <div class="mb-4">
-      <h2 class="text-xl font-bold">{{ post.title }}</h2>
+      <h2 class="text-xl font-bold mb-2">{{ post.title }}</h2>
       {% if post.author %}
         <small>{{ gettext("Written by") }} {{ post.author }} {{ gettext("on") }} {{ post.date_posted }}</small>
       {% else %}
@@ -22,9 +22,9 @@
       <!-- {% if post.category %}
         <p class="mt-2 text-gray-700">{{ post.category.name }}</p>
       {% endif %} -->
-      <p class="mt-2 text-gray-700">{{ post.category }}</p>
-      <p class="mt-2 text-gray-700">{{ post.offer }}</p>
-      <p class="mt-2">{{ post.content }}</p>
+      <p class="mt-2 text-gray-700 font-bold">Category: <span class="font-normal">{{ post.category }}</span></p>
+      <p class="mt-2 text-gray-700 font-bold">Offer: <span class="font-normal">{{ post.offer }}</span></p>      
+      <p class="mt-2 text-gray-700 font-bold">Work description:<span class="font-normal">{{ post.content }}</span></p> 
       <div class="mt-4">
         <a href='/apply/new/{{ urls[post.id] }}' class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-full">{{ gettext("Apply") }} </a>
       </div>
