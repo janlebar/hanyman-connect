@@ -127,7 +127,7 @@ msgstr "Izjave strank"
 msgid "Login"
 msgstr "Prijava"
 
-#: templates/base.html:157 templates/base.html:171 templates/base.html:200
+#: templates/base.html:157 templates/base.html:171 templates/base.html:200 templates/base.html:214
 msgid "Search"
 msgstr "Iskanje"
 
