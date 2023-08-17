@@ -193,37 +193,74 @@ def load_swear_words():
 
 # SEARCH
 
+# @app.route('/search', methods=['GET'])
+# def search():
+#     query = request.args.get("query")
+
+#     if query:
+#         blog_filter = (
+#             (
+#                     # full text search # to_tsvector('slovenian', content) @@ to_tsquery('slovenian', 'stanovanje')
+#                     db.func.to_tsvector('slovenian', BlogPost.content).match(query, postgresql_regconfig='slovenian') |
+#                     db.func.to_tsvector('slovenian', BlogPost.title).match(query, postgresql_regconfig='slovenian') |
+#                     db.func.to_tsvector('slovenian', BlogPost.offer).match(query, postgresql_regconfig='slovenian') |
+
+#                     # partial match string
+#                     BlogPost.content.ilike(f'%{query}%') |
+
+#                     # filter blog categories
+#                     BlogPost.category.has(Category.name.ilike(f'%{query}%'))
+#              ) &
+#             (BlogPost.confirmed == True)
+#         )
+
+#         # print(BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted))
+#     else:
+#         blog_filter = BlogPost.confirmed == True
+
+#     # returns all posts drugace vrne prejsnje povste urejene po datumu query.order_by date_posted
+#     all_posts = BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted).all()
+
+#     # urls, dictionary, for all posts id that were queried above transformed with serialiser
+#     urls = {post.id: post.id for post in all_posts}
+#     return render_template('posts.html', posts=all_posts, urls=urls)
+
 @app.route('/search', methods=['GET'])
 def search():
     query = request.args.get("query")
 
     if query:
-        blog_filter = (
-            (
-                    # full text search # to_tsvector('slovenian', content) @@ to_tsquery('slovenian', 'stanovanje')
-                    db.func.to_tsvector('slovenian', BlogPost.content).match(query, postgresql_regconfig='slovenian') |
-                    db.func.to_tsvector('slovenian', BlogPost.title).match(query, postgresql_regconfig='slovenian') |
-                    db.func.to_tsvector('slovenian', BlogPost.offer).match(query, postgresql_regconfig='slovenian') |
-
-                    # partial match string
-                    BlogPost.content.ilike(f'%{query}%') |
-
-                    # filter blog categories
-                    BlogPost.category.has(Category.name.ilike(f'%{query}%'))
-             ) &
-            (BlogPost.confirmed == True)
+        slovenian_full_text_search = (
+            func.to_tsvector('slovenian', BlogPost.content).match(query, postgresql_regconfig='slovenian') |
+            func.to_tsvector('slovenian', BlogPost.title).match(query, postgresql_regconfig='slovenian') |
+            func.to_tsvector('slovenian', BlogPost.offer).match(query, postgresql_regconfig='slovenian') |
+            func.to_tsvector('slovenian', BlogPost.category).match(query, postgresql_regconfig='slovenian')
+        )
+        
+        english_full_text_search = (
+            func.to_tsvector('english', BlogPost.content).match(query, postgresql_regconfig='english') |
+            func.to_tsvector('english', BlogPost.title).match(query, postgresql_regconfig='english') |
+            func.to_tsvector('english', BlogPost.offer).match(query, postgresql_regconfig='english') |
+            func.to_tsvector('english', BlogPost.category).match(query, postgresql_regconfig='english')
         )
 
-        # print(BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted))
+        partial_match = or_(
+            BlogPost.content.ilike(f'%{query}%'),
+            BlogPost.title.ilike(f'%{query}%'),
+            BlogPost.offer.ilike(f'%{query}%'),
+            BlogPost.category.ilike(f'%{query}%')
+        )
+        
+        blog_filter = slovenian_full_text_search | english_full_text_search | partial_match
     else:
         blog_filter = BlogPost.confirmed == True
 
-    # returns all posts drugace vrne prejsnje povste urejene po datumu query.order_by date_posted
     all_posts = BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted).all()
 
-    # urls, dictionary, for all posts id that were queried above transformed with serialiser
     urls = {post.id: post.id for post in all_posts}
     return render_template('posts.html', posts=all_posts, urls=urls)
+
+    
 
 # POSTS    
 
@@ -338,7 +375,7 @@ def edit(id):
         post.offer = request.form['offer']
         post.content = request.form['content']
         post.email = request.form['email']
-        post.category = request.form['item']
+        post.category = request.form['category']  # Change 'item' to 'category'
         db.session.commit()
         return redirect('/posts')
     else:
