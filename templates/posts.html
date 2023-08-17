@@ -19,9 +19,10 @@
       {% else %}
         <small>{{ gettext("Date:") }}  {{ post.date_posted }}</small>
       {% endif %}
-      {% if post.category %}
+      <!-- {% if post.category %}
         <p class="mt-2 text-gray-700">{{ post.category.name }}</p>
-      {% endif %}
+      {% endif %} -->
+      <p class="mt-2 text-gray-700">{{ post.category }}</p>
       <p class="mt-2 text-gray-700">{{ post.offer }}</p>
       <p class="mt-2">{{ post.content }}</p>
       <div class="mt-4">

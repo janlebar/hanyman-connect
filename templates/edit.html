@@ -18,14 +18,16 @@
             <input class="form-control mt-2 p-2 border rounded-lg w-full" type="text" name='title' id='title' value="{{ post.title }}" aria-label="Enter Title">
         </div>
         <br>
-        <div>
-            <select name="category" id="categories" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-full">
-                {% for category in categories %}
-                    {% set is_selected = 'selected' if category == post.category else '' %}
-                    <option value="{{ category.id }}" {{ is_selected }}>{{ category.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
+                <div class="mb-4">
+                    <label for="category" class="block text-gray-700 font-bold mb-2">{{ gettext("Category:") }}</label>
+                    <select name="category" id="category" class="form-select text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <option value="{{ post.category }}">{{ post.category }}</option>
+                        {% for item in items %}
+                            <option value="{{ item }}">{{ item }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
         <br>
         <div>
             <label for="offer" class="text-1xl font-semibold">{{ gettext("Offer") }}:</label>

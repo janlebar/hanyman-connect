@@ -84,17 +84,6 @@ def get_locale():
 
 babel.init_app(app, locale_selector=get_locale)
 
-# @babel.localeselector
-# def get_locale():
-#     # Check if the user explicitly selected a language
-#     user_language = session.get('language')
-#     if user_language is not None:
-#         return user_language
-
-#     # If the user didn't select a language, use the Accept-Language header from the browser
-#     accept_languages = request.accept_languages.best_match(['en', 'sl'])
-#     return accept_languages
-
 
 @app.route('/change_language/<lang>')
 def change_language(lang):
@@ -263,15 +252,13 @@ def save_post():
     # if spodi ipolne form oz ga prebere
     # POST /posts
 
-
-
     post_title = request.form['title']
     post_content = request.form['content']
     post_offer = request.form['offer']
     post_email = request.form['email']
     post_longitude = session.get('longitude')
     post_latitude = session.get('latitude')
-    post_item = request.form['item']  # Retrieve the selected item
+    post_item = request.form['item']  
     post_confirmation_id = randbelow(2 ** 31)
 
     for word in swear_words:
@@ -345,20 +332,24 @@ def edit(id):
 
     if post.email != session.get("email"):
         raise Exception("wrong email")
-        
-    categories = Category.query.all()
-
+    
     if request.method == 'POST':
         post.title = request.form['title']
         post.offer = request.form['offer']
         post.content = request.form['content']
         post.email = request.form['email']
-        post.category_id = request.form['category']
+        post.category = request.form['item']
         db.session.commit()
         return redirect('/posts')
     else:
         # post=post ker rabi prebrisat prejsn povst
-        return render_template('edit.html', post=post, categories=categories)
+        # post_item = post.category  # Assign the current category value
+        return render_template('edit.html', post=post,items=items)
+
+
+
+
+
 
 # POSTS WITH TIME LIMIT
 
