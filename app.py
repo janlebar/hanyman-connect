@@ -50,7 +50,24 @@ serializer = URLSafeTimedSerializer(secret_key)
 
 swear_words = []  # Global variable to store the loaded list of swear words
 
-
+items = [
+        "Help Moving",
+        "Yard Work",
+        "Heavy Lifting",
+        "Electrical help",
+        "Snow Removal",
+        "Lawn Care and Yard Work",
+        "Pet Care",
+        "Tech Help",
+        "Childcare",
+        "Elderly Assistance",
+        "Car Wash and Detailing",
+        "Painting and Repairs",
+        "Tutoring",
+        "Personal Shopping",
+        "Plant Care",
+        "House Sitting"
+    ]
 
 
 def get_locale():
@@ -107,24 +124,6 @@ def save_location():
 
 @app.route('/', methods=['GET'])
 def index():
-    items = [
-        "Help Moving",
-        "Yard Work",
-        "Heavy Lifting",
-        "Electrical help",
-        "Snow Removal",
-        "Lawn Care and Yard Work",
-        "Pet Care",
-        "Tech Help",
-        "Childcare",
-        "Elderly Assistance",
-        "Car Wash and Detailing",
-        "Painting and Repairs",
-        "Tutoring",
-        "Personal Shopping",
-        "Plant Care",
-        "House Sitting"
-    ]
 
     buttons = request.args.getlist("buttons")
 
@@ -254,8 +253,8 @@ def posts():
 
 @app.route('/posts/new', methods=['GET', 'POST'])
 def new_post():
-    categories = Category.query.all()
-    return render_template('new_post.html', categories=categories, action_url=url_for(posts.__name__))
+    # categories = Category.query.all()
+    return render_template('new_post.html', items=items, action_url=url_for(posts.__name__))
 
 
 
@@ -266,26 +265,21 @@ def save_post():
 
 
 
-    if not hcaptcha.verify():
-        return redirect("/error?message=invalid captcha")
     post_title = request.form['title']
     post_content = request.form['content']
     post_offer = request.form['offer']
     post_email = request.form['email']
-     # Retrieve longitude and latitude from session
     post_longitude = session.get('longitude')
     post_latitude = session.get('latitude')
-    # post_longitude = request.form['longitude']
-    # post_latitude = request.form['latitude']
-    # post_category_id = int(request.form["category"])
+    post_item = request.form['item']  # Retrieve the selected item
     post_confirmation_id = randbelow(2 ** 31)
 
     for word in swear_words:
         if word[:4].lower() in post_title.lower():
                  return render_template('swearingnotallowed.html')
 
-    new_post = BlogPost(title=post_title, content=post_content, offer=post_offer,longitude = post_longitude, latitude = post_latitude,
-                        email=post_email, confirmation_id=post_confirmation_id)
+    new_post = BlogPost(title=post_title,content=post_content,offer=post_offer,longitude=post_longitude,latitude=post_latitude,email=post_email,
+    confirmation_id=post_confirmation_id,category=post_item)
 
     # vpise v bazo v trenutno
     db.session.add(new_post)
