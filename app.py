@@ -48,28 +48,12 @@ serializer = URLSafeTimedSerializer(secret_key)
 swear_words = []  # Global variable to store the loaded list of swear words
 
 
-items = [
-    gettext("Help Moving"),
-    gettext("Yard Work"),
-    gettext("Heavy Lifting"),
-    gettext("Electrical help"),
-    gettext("Snow Removal"),
-    gettext("Lawn Care and Yard Work"),
-    gettext("Pet Care"),
-    gettext("Tech Help"),
-    gettext("Childcare"),
-    gettext("Elderly Assistance"),
-    gettext("Car Wash and Detailing"),
-    gettext("Painting and Repairs"),
-    gettext("Tutoring"),
-    gettext("Personal Shopping"),
-    gettext("Plant Care"),
-    gettext("House Sitting")
-]
+items = []
 
 def get_locale():
        # Check if the user explicitly selected a language
     user_language = session.get('language')
+    print(user_language)
     if user_language is not None:
         return user_language
 
@@ -78,6 +62,29 @@ def get_locale():
     return accept_languages
 
 babel.init_app(app, locale_selector=get_locale)
+
+@app.before_request
+def init_items():
+    global items
+
+    items = [
+        gettext("Help Moving"),
+        gettext("Yard Work"),
+        gettext("Heavy Lifting"),
+        gettext("Electrical help"),
+        gettext("Snow Removal"),
+        gettext("Lawn Care and Yard Work"),
+        gettext("Pet Care"),
+        gettext("Tech Help"),
+        gettext("Childcare"),
+        gettext("Elderly Assistance"),
+        gettext("Car Wash and Detailing"),
+        gettext("Painting and Repairs"),
+        gettext("Tutoring"),
+        gettext("Personal Shopping"),
+        gettext("Plant Care"),
+        gettext("House Sitting")
+    ]
 
 @app.route('/change_language/<lang>')
 def change_language(lang):
@@ -203,6 +210,7 @@ def posts():
 
 @app.route('/posts/new', methods=['GET', 'POST'])
 def new_post():
+    print(items)
     # categories = Category.query.all()
     return render_template('new_post.html', items=items, action_url=url_for(posts.__name__))
 
