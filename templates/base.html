@@ -67,36 +67,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dist/output.css') }}">
 
 
-
     {% if cookies_check() %}
     {# then user has already consented so no requirement for consent banner #}
 {% else %}
     {# show a cookie consent banner #}
-    <div class="fixed inset-0 overflow-y-auto z-50">
-        <div class="flex items-center justify-center min-h-screen">
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-                <div class="text-lg font-medium mb-4">{{ gettext("Cookie Consent") }}</div>
-                <div class="text-sm mb-6">{{ gettext('We use cookies to improve your experience on our site. By clicking "I Consent" below, you agree to our use of cookies.') }}</div>
-                <div class="flex items-center mb-4">
-                    <input type="checkbox" id="cookie-consent-checkbox" class="mr-2">
-                    <label for="cookie-consent-checkbox" class="text-sm">{{ gettext("I agree to the use of cookies.") }}</label>
-                </div>
-                <div class="text-sm text-gray-500">
-                    <!-- Insert your app's cookie policy or other relevant information here -->
-                </div>
-                <button id="cookie-consent-button" class="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4">I Consent</button>
-            </div>
-        </div>
-    </div>
-    <script>
-        var fn = function () {
-            if (document.getElementById('cookie-consent-checkbox').checked) {
-                document.cookie = "cookie_consent=true";
-                document.querySelector('.fixed').remove();
-            }
-        };
-        document.getElementById('cookie-consent-button').onclick = fn;
-    </script>
+    {% include "cookie_consent_banner.html" %}
 {% endif %}
 
 
@@ -145,7 +120,7 @@
                class="font-bold mr-0 md:mr-3 lg:mr-8 transition-color duration-100 hover:text-indigo-600">{{ gettext("Listings") }}</a>
             <a href="/about"
                class="font-bold mr-0 md:mr-3 lg:mr-8 transition-color duration-100 hover:text-indigo-600">{{ gettext("About") }}</a>
-            <a href="#testimonials"
+            <a href="/#testimonials"
                class="font-bold transition-color duration-100 hover:text-indigo-600">{{ gettext("Testimonials") }}</a>
             <a class="px-5 py-1 rounded theme-switch" onclick="theme()"><img id="theme-switch"
                                                                              src="https://img.icons8.com/ios-glyphs/30/000000/moon-symbol.png"
@@ -181,21 +156,6 @@
                 r-gray-200 mt-48 md:mt-0 flex-col md:flex-row pb-8 md:p-0 justify-center items-center md:items-end hidden md:flex md:justify-between">
             <a href="#_"
                class="px-3 md:px-5 py-2 text-sm text-pink-500 lg:text-white font-bold mr-0 sm:mr-3 relative z-40 md:mt-0">{{ gettext("Login") }}</a>
-
-        
-               <div class="relative z-0">
-                <!-- Your content here -->
-
-                <div class="hidden lg:block absolute w-screen max-w-l -mt-80 -ml-32 left-0 top-0 z-0">
-                    <img src="/static/images/SQUARE.SVG"
-                         class="mt-20 lg:mt-24 xl:mt-40 w-full h-auto mb-20 lg:mb-0 lg:h-full ml-0 lg:-ml-12 h-auto"
-                         style="margin-top: -13%; margin-left: 7%;">
-                </div>
-                
-                
-        
-
-            </div>
             <form method="GET" action="{{url_for('search')}}">
                 <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">{{ gettext("Search") }}</label>
                 <div class="relative">
@@ -236,7 +196,6 @@
             <span class="w-full h-1 mt-1 bg-gray-800 rounded-full block  transform duration-200"></span>
         </div>
 
-    </div>
 
 </header>
 <!-- End Header Section-->
@@ -258,3 +217,16 @@
 
     <!-- a little JS for black theme -->
     <script src='/static/js/theme.js'></script>
+
+    <div class="absolute top-0 left-0 w-full h-full" style="z-index: -999;">
+        <div class="relative z-0">
+            <!-- Your content here -->
+    
+            <div class="hidden lg:block relative w-screen max-w-l -mt-80 -ml-32 right-20 top-0 z-0">
+                <img src="/static/images/SQUARE.SVG"
+                     class="mt-20 lg:mt-24 xl:mt-40 w-full h-auto mb-20 lg:mb-0 lg:h-full ml-0 lg:-ml-12 h-auto"
+                     style="margin-top: -13%; margin-left: 70%;">
+            </div>
+        </div>
+    </div>
+    

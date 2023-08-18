@@ -1,36 +1,40 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>{{ gettext("Apply for the offer") }}</title> 
+    <title>{{ gettext("Apply for the offer") }}</title> 
 {% endblock %}
 
 {% block body %}
-<h1>Oddaj povpraševanje</h1>
-
-    <hr>
-
-
-    <!--  formular kamor folk vpise podatke za nov povst-->
-    <form action='{{ action_url }}' method='POST'>
-        <!--  -->
-        <br>
-        <label for="offer">{{ gettext("Name:") }}</label>
-        <input class="form-control" type="name_apply" name='name_apply' id='name_apply' placeholder="input name" aria-label="Enter Name" required minlength="1" maxlength="15">
-        <br>
-        <label for="email">{{ gettext("Email:") }}</label>
-        <input class="form-control" type="email_apply" name='email_apply' id='email_apply' placeholder="vnesi svoj email" aria-label="Enter Email" required
-            oninvalid="this.setCustomValidity('Enter valid email')"
-            oninput="this.setCustomValidity('')">
-        <input type="hidden" id="blog_post_id" name="blog_post_id" value="{{ blog_post_id }}">    
-        <br>
-         <!--  spodi sam submita ne poveže pa v bazo-->
-        {{ hcaptcha }}
-        <input type='submit' value='Objavi'>
-
-        
-
-    </form>
-
-    
-    <hr>
+<div class="flex justify-center items-center ">
+    <div class="max-w-md w-full mx-4">
+        <div class="bg-white shadow-md rounded-lg px-6 py-8">
+            <h1 class="text-2xl font-bold mb-4">{{ gettext("Oddaj povpraševanje") }}</h1>
+            
+            <hr class="my-4">
+            
+            <form action='{{ action_url }}' method='POST'>
+                <div class="mb-4">
+                    <label for="name_apply" class="block font-semibold">{{ gettext("Name:") }}</label>
+                    <input class="form-input mt-1 block w-full" type="text" name='name_apply' id='name_apply' placeholder="{{ gettext('Input name') }}" required minlength="1" maxlength="15">
+                </div>
+                
+                <div class="mb-4">
+                    <label for="email_apply" class="block font-semibold">{{ gettext("Email:") }}</label>
+                    <input class="form-input mt-1 block w-full" type="email" name='email_apply' id='email_apply' placeholder="{{ gettext('Enter email') }}" required
+                        oninvalid="this.setCustomValidity('{{ gettext('Enter valid email') }}')"
+                        oninput="this.setCustomValidity('')">
+                    <input type="hidden" id="blog_post_id" name="blog_post_id" value="{{ blog_post_id }}">    
+                </div>
+                
+                {{ hcaptcha }}
+                
+                <div class="flex justify-center mt-6">
+                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">{{ gettext('Objavi') }}</button>
+                </div>
+            </form>
+            
+            <hr class="my-4">
+        </div>
+    </div>
+</div>
 {% endblock %}

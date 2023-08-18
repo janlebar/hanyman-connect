@@ -37,7 +37,7 @@
                     <h1 class="text-gray-900 font-black text-3xl sm:text-6xl leading-tight relative mb-4 xl:mb-8">{{ gettext("Find help for what You need") }}</h1>
                     <p class="text-base sm:text-lg xl:text-xl text-gray-600 mb-8 pr-0 lg:pr-20">{{ gettext("Get help today") }} </p>
                     <a href="/posts/new"
-                        class="mt-0 sm:mt-1 px-8 py-4 rounded-md fold-bold text-base bg-blue-500 hover:bg-blue-800 shadow-xl text-white border-t border-gray-200 w-auto font-bold relative self-start inline-block lg:mx-0 mx-auto">{{ gettext("Find a helping hand") }}</a>
+                        class="mt-0 sm:mt-1 px-8 py-4 rounded-md fold-bold text-base bg-blue-500 hover:bg-blue-800 shadow-xl text-white border-t border-gray-200 w-auto font-bold relative self-start inline-block lg:mx-0 mx-auto z-40">{{ gettext("Find a helping hand") }}</a>
                     <!-- Integrates with section -->
                     <div class="hidden sm:flex flex-col mt-12 lg:mt-24">
                         <p class="text-gray-500 uppercase font-medium tracking-widest mb-4 text-sm">{{ gettext("Integrates With") }}</p>
@@ -65,7 +65,7 @@
                     <img src="/static/images/SQUARE4.svg" class="absolute left-0 max-w-md -ml-64 mt-24 left-svg ">
                                   
                 </div>
-                <div class="flex flex-col items-end justify-center h-full w-full lg:w-1/2 ms:pl-10 relative z-50">
+                <div class="flex flex-col items-end justify-center h-full w-full lg:w-1/2 ms:pl-10 relative z-10">
                     <div class="relative lg:absolute max-w-4xl xl:max-w-6xl left-0 container lg:w-screen w-full ">
                         <img src="/static/images/handy.svg"
                             class="mt-20 lg:mt-24 xl:mt-40 w-full h-auto mb-20 lg:mb-0 lg:h-full ml-0 lg:-ml-12 h-auto ">
@@ -83,7 +83,7 @@
             <!-- Main Content -->
             <h1 class="text-gray-900 font-black text-3xl sm:text-6xl leading-tight relative mb-4 xl:mb-8">{{ gettext("Find your next opportunity!") }}</h1>
             <p class="text-base sm:text-lg xl:text-xl text-gray-600 mb-8 pr-0 lg:pr-20">{{ gettext("Are you ready to start?") }}</p>
-            <div id="map" style="width: 200%; margin: 0 auto; border-radius: 20px; overflow: hidden;"></div>
+            <div id="map" style="width: 200%; margin: 0 auto; border-radius: 20px; overflow: hidden; z-index: 20;"></div>
             <script>
                 const coords = JSON.parse('{{ coords | tojson }}');
             </script>
@@ -99,6 +99,7 @@
     </div>
 </div>
 
+
 <!-- HERO SECTION TWO END -->
 
 
@@ -110,7 +111,7 @@
                 <h2 class="text-indigo-500 uppercase text-base font-medium tracking-tight my-5">{{ gettext("Make Your offer, that suits You") }}</h2>
                 <h3
                     class="font-black text-3xl mt-2 sm:mt-0 px-5 sm:px-0 sm:text-6xl max-w-2xl leading-tight text-gray-900 text-center">
-                    {{ gettext("Find help and make an offer") }}</h3>
+                    {{ gettext("Find help or make an offer") }}</h3>
                     <br>
                     <br>
                     <style>
