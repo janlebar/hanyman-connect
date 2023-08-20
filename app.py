@@ -227,13 +227,14 @@ def save_post():
     post_latitude = session.get('latitude')
     post_item = request.form['item']  
     post_confirmation_id = randbelow(2 ** 31)
+    post_phonenumber = request.form['phonenumber']
 
     for word in swear_words:
         if word[:4].lower() in post_title.lower():
                  return render_template('swearingnotallowed.html')
 
     new_post = BlogPost(title=post_title,content=post_content,offer=post_offer,longitude=post_longitude,latitude=post_latitude,email=post_email,
-    confirmation_id=post_confirmation_id,category=post_item)
+    confirmation_id=post_confirmation_id,category=post_item,phonenumber=post_phonenumber)
 
     # vpise v bazo v trenutno
     db.session.add(new_post)
@@ -305,6 +306,7 @@ def edit(id):
         post.offer = request.form['offer']
         post.content = request.form['content']
         post.email = request.form['email']
+        post.phonenumber = request.form['phonenumber']
         post.category = request.form['category']  # Change 'item' to 'category'
         db.session.commit()
         return redirect('/posts')

@@ -40,6 +40,11 @@
         </div>
         <br>
         <div>
+            <label for="phonenumber" class="text-1xl font-semibold" >{{ gettext("Contact number") }}:</label>
+            <input class="form-control mt-2 p-2 border rounded-lg w-full" type="text" name='phonenumber' id='phonenumber' value="{{ post.phonenumber }}" aria-label="Enter Your number">
+        </div>
+        <br>
+        <div>
             <label for="content" class="text-1xl font-semibold">{{ gettext("Post") }}:</label>
             <textarea class="form-control mt-2 p-2 border rounded-lg w-full" name='content' id="content" aria-label="Enter Content" rows="3">{{ post.content }}</textarea>
         </div>

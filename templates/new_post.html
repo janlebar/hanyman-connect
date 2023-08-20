@@ -36,7 +36,10 @@
             oninvalid="this.setCustomValidity('Enter valid email')"
             oninput="this.setCustomValidity('')">
         </div>
-
+        <div class="mb-4">
+            <label for="phonenumber" class="block text-gray-700 font-bold mb-2">{{ gettext("Contact mobile number:") }}</label>
+            <input class="form-input" type="text" name="phonenumber" id="phonenumber" placeholder="{{ gettext('Optional phone number:') }}" aria-label="{{ gettext('Enter Your contact number') }}">
+        </div>
         <div class="mb-4">
             <label for="content" class="block text-gray-700 font-bold mb-2">{{ gettext("Work description:") }}</label>
             <textarea class="form-textarea" name='content' id="content" placeholder="{{ gettext('Describe what You are looking for:') }}" aria-label="Enter Content" rows="3"></textarea>
