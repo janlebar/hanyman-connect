@@ -252,7 +252,7 @@ def save_post():
 # posts mail function
 def sendmail(email, confirmation_id):
     msg = Message('Confirm your post', sender='handytest753@gmail.com', recipients=[email])
-    msg.body = f"Click to confirm http://localhost:5000/posts/confirm/{confirmation_id}"
+    msg.body = f"Click to confirm {BASE_URL}/posts/confirm/{confirmation_id}"
     msg.html = render_template('email_template.html', confirmation_id=confirmation_id)
     mail.send(msg)
 
@@ -358,7 +358,7 @@ def applys():
 
 def sendmailapply(email_apply, apply_confirmation_id):
     msg = Message('Hello', sender='handytest753@gmail.com', recipients=[email_apply])
-    msg.body = f"Click to confirm http://localhost:5000/apply/confirmed/{apply_confirmation_id}"
+    msg.body = f"Click to confirm {BASE_URL}/apply/confirmed/{apply_confirmation_id}"
     mail.send(msg)
 
 @app.route('/apply/confirmed/<int:apply_confirmation_id>')
@@ -383,7 +383,7 @@ def confirmed(apply_confirmation_id):
 
 def sendmailconnect(email_applys, emails, id_apply):
     msg = Message('Contact', sender='handytest753@gmail.com', recipients=[emails])
-    msg.body = f"Please contact {email_applys} and rate by clicking http://localhost:5000/rating/{id_apply}"
+    msg.body = f"Please contact {email_applys} and rate by clicking {BASE_URL}/rating/{id_apply}"
     mail.send(msg)
 
 # RATING APPLYS
@@ -455,7 +455,8 @@ def login():
 
 def sendmailogin(email_apply, apply_confirmation_id):
     msg = Message('Hello', sender='handytest753@gmail.com', recipients=[email_apply])
-    msg.body = f"Click to confirm http://localhost:5000/apply/confirmed/{apply_confirmation_id}"
+    confirmation_url = f"{BASE_URL}/apply/confirmed/{apply_confirmation_id}"
+    msg.body = f"Click to confirm {confirmation_url}"
     mail.send(msg)
 
 # app.add_url_rule("/", None, view_func=index)
