@@ -43,6 +43,7 @@ class BlogPost(db.Model):
     latitude = db.Column(db.Float, nullable=True)
     location = db.Column(db.String(255))
     category = db.Column(db.Text, nullable=False, default="")
+    # phonenumber = 
 
     # # for categories
     # category_id = db.Column(db.Integer, db.ForeignKey('work_type.id'), nullable=True)
