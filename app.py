@@ -247,6 +247,20 @@ def save_post():
     # poklical funkcijo sendmail in jo izpolnil z parametri iz posts
     sendmail(post_email, post_confirmation_id)
 
+
+
+    # try:
+    #     with current_app.app_context():
+    #         mail.send(msg)
+    #     flash("Check mail!")  # Flash this message on successful email sending
+    #     return redirect('/posts')  # Redirect to a suitable page after success
+    # except Exception as e:
+    #     print(e)
+    #     flash("Something went wrong while sending the email.")  # Flash this message on email sending failure
+    #     return redirect('/posts')  # Redirect to a suitable page after failure
+
+
+
     flash("Check mail!")
 
     # vrne posodobljen posts page
@@ -265,7 +279,8 @@ def sendmail(email, confirmation_id):
         return True
     except Exception as e:
         print(e)
-        return False
+        flash("Something went wrong while sending the email.")  # Flash this message on email sending failure
+        return redirect('/posts')  # Redirect to a suitable page after failure
 
 
 # def sendmail(email, confirmation_id):
