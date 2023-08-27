@@ -21,6 +21,9 @@ from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
+# Define BASE_URL directly in your code
+BASE_URL = "http://localhost:5000"
+
 # app config with private data excluded from git
 app.config.from_pyfile('config.defaults.cfg')
 app.config.from_pyfile('config.cfg', silent=True)
@@ -255,6 +258,34 @@ def sendmail(email, confirmation_id):
     msg.body = f"Click to confirm {BASE_URL}/posts/confirm/{confirmation_id}"
     msg.html = render_template('email_template.html', confirmation_id=confirmation_id)
     mail.send(msg)
+
+
+# def sendmail(email, confirmation_id):
+#     subject = "Confirm your post"
+    
+#     msg = Message(subject, sender=("Your Name", "handytest753@gmail.com"), recipients=[email])
+    
+#     # Plain text content
+#     plain_text = f"Click the following link to confirm your post: {BASE_URL}/posts/confirm/{confirmation_id}"
+    
+#     # HTML content using a template
+#     html_content = render_template('email_template.html', confirmation_id=confirmation_id)
+    
+#     msg.body = plain_text
+#     msg.html = html_content
+    
+#     try:
+#         with app.app_context():
+#             mail.send(msg)
+#         return True
+#     except Exception as e:
+#         print(e)
+#         return False
+
+
+
+
+
 
 # decorator funkcijo pokiče v ozadju. 
 @app.route('/posts/confirm/<int:id>')
