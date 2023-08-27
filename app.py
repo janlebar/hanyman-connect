@@ -259,30 +259,35 @@ def sendmail(email, confirmation_id):
     msg.html = render_template('email_template.html', confirmation_id=confirmation_id)
     mail.send(msg)
 
+    try:
+        with current_app.app_context():
+            mail.send(msg)
+        return True
+    except Exception as e:
+        print(e)
+        return False
+
 
 # def sendmail(email, confirmation_id):
-#     subject = "Confirm your post"
+#     subject = "Confirm Your Post"
+    
+#     # Render the HTML content from the template
+#     html_content = render_template('email_template.html', BASE_URL=BASE_URL, confirmation_id=confirmation_id)
     
 #     msg = Message(subject, sender=("Your Name", "handytest753@gmail.com"), recipients=[email])
-    
-#     # Plain text content
-#     plain_text = f"Click the following link to confirm your post: {BASE_URL}/posts/confirm/{confirmation_id}"
-    
-#     # HTML content using a template
-#     html_content = render_template('email_template.html', confirmation_id=confirmation_id)
-    
-#     msg.body = plain_text
 #     msg.html = html_content
+
     
-#     try:
-#         with app.app_context():
-#             mail.send(msg)
-#         return True
-#     except Exception as e:
-#         print(e)
-#         return False
 
 
+    # # Construct the email body using HTML template
+    # email_body = render_template(
+    #     'email_template.html',
+    #     BASE_URL="http://localhost:5000",  # Define BASE_URL properly
+    #     confirmation_id=confirmation_id
+    # )
+
+    # msg.html = email_body
 
 
 
