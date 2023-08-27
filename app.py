@@ -248,20 +248,7 @@ def save_post():
     sendmail(post_email, post_confirmation_id)
 
 
-
-    # try:
-    #     with current_app.app_context():
-    #         mail.send(msg)
-    #     flash("Check mail!")  # Flash this message on successful email sending
-    #     return redirect('/posts')  # Redirect to a suitable page after success
-    # except Exception as e:
-    #     print(e)
-    #     flash("Something went wrong while sending the email.")  # Flash this message on email sending failure
-    #     return redirect('/posts')  # Redirect to a suitable page after failure
-
-
-
-    flash("Check mail!")
+    flash("")
 
     # vrne posodobljen posts page
     return redirect('/posts')
@@ -269,8 +256,20 @@ def save_post():
 # posts mail function
 def sendmail(email, confirmation_id):
     msg = Message('Confirm your post', sender='handytest753@gmail.com', recipients=[email])
-    msg.body = f"Click to confirm {BASE_URL}/posts/confirm/{confirmation_id}"
-    msg.html = render_template('email_template.html', confirmation_id=confirmation_id)
+    # msg.body = f"Click to confirm {BASE_URL}/posts/confirm/{confirmation_id}"
+
+
+
+    # Construct the email body using HTML template
+    msg.html = render_template(
+        'email_template.html',
+        BASE_URL= BASE_URL,  
+        confirmation_id=confirmation_id
+    )
+
+
+
+    # msg.html = render_template('email_template.html', confirmation_id=confirmation_id)
     mail.send(msg)
 
     try:

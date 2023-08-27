@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>{{ gettext("Posts") }}</title> 
+<title>{{ gettext("Posts") }}</title>
 {% endblock %}
 
 {% block body %}
@@ -11,6 +11,19 @@
     <a href="/posts/new" class="text-white bg-green-500 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-green-600 dark:hover:bg-blue-700 dark:focus:ring-green-800" style="z-index: 9999;">+ {{ gettext("New Listing") }}</a>
   </div>
   <hr class="my-4">
+
+  <!-- Centered flash message card -->
+  <div class="flex justify-center items-center fixed top-0 left-0 right-0 bottom-0">
+    <div class="max-w-md p-6 rounded-lg shadow-md bg-blue-100 border border-blue-400 text-blue-700">
+      <!-- Flash message -->
+      <div class="text-center mt-4">
+        <span class="block sm:inline">{{ gettext("Check mail!") }}</span>
+      </div>
+    </div>
+  </div>
+  <!-- End of centered flash message card -->
+
+
   {% for post in posts %}
     <div class="mb-4">
       <h2 class="text-xl font-bold mb-2">{{ post.title }}</h2>
@@ -19,16 +32,14 @@
       {% else %}
         <small>{{ gettext("Date:") }}  {{ post.date_posted }}</small>
       {% endif %}
-      <!-- {% if post.category %}
-        <p class="mt-2 text-gray-700">{{ post.category.name }}</p>
-      {% endif %} -->
       <p class="mt-2 text-gray-700 font-bold">{{ gettext("Category:") }} <span class="font-normal">{{ post.category }}</span></p>
-      <p class="mt-2 text-gray-700 font-bold">{{ gettext("Offer:") }} <span class="font-normal">{{ post.offer }}</span></p>      
-      <p class="mt-2 text-gray-700 font-bold">{{ gettext("Work description:") }}<span class="font-normal">{{ post.content }}</span></p> 
+      <p class="mt-2 text-gray-700 font-bold">{{ gettext("Offer:") }} <span class="font-normal">{{ post.offer }}</span></p>
+      <p class="mt-2 text-gray-700 font-bold">{{ gettext("Work description:") }}<span class="font-normal">{{ post.content }}</span></p>
       <div class="mt-4">
         <a href='/apply/new/{{ urls[post.id] }}' class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-full">{{ gettext("Apply") }} </a>
       </div>
     </div>
+
     <hr class="my-4">
   {% endfor %}
 </div>
