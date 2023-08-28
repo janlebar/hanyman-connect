@@ -248,10 +248,17 @@ def save_post():
     sendmail(post_email, post_confirmation_id)
 
 
-    flash("")
+    try:
+        sendmail(post_email, post_confirmation_id)
+        flash('', "info")
+    except Exception as e:
+        flash("An error occurred while sending the email.", "error")
+        # Handle the error, maybe log it or display an error message
+
 
     # vrne posodobljen posts page
     return redirect('/posts')
+
 
 # posts mail function
 def sendmail(email, confirmation_id):
