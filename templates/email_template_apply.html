@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- No external styles or scripts in the head for Gmail compatibility -->
+</head>
+<body style="font-family: Arial, sans-serif; font-size: 18px; color: #fff; background-color: #3b82f6; margin: 0; padding: 0; border-radius: 15px;">
+  <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+    <h1 style="font-size: 24px; font-weight: bold; color: #fff;">{{ gettext("Welcome to Handyman,") }}</h1>
+    <p style="font-size: 20px; font-weight: bold; color: #fff;">{{ gettext("Confirm your apply") }}</p>
+    <p>{{ gettext("Thank you for applying for work. Please click the link below to confirm your apply:") }}</p>
+    <p><a href="http://localhost:5000/apply/confirm/{{ apply_confirmation_id }}" style="color: #000; text-decoration: none; background-color: #f0f0f0; padding: 10px; border-radius: 3px;">{{ gettext("Confirm post") }}</a></p>
+    <p style="color: #fff;">{{ gettext("If you did not create this post, please ignore this email.") }}</p>
+    <p style="color: #fff;">{{ gettext("Thank You!") }}</p>
+  </div>
+</body>
+</html>

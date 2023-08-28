@@ -254,8 +254,6 @@ def save_post():
     except Exception as e:
         flash("An error occurred while sending the email.", "error")
         # Handle the error, maybe log it or display an error message
-
-
     # vrne posodobljen posts page
     return redirect('/posts')
 
@@ -264,18 +262,11 @@ def save_post():
 def sendmail(email, confirmation_id):
     msg = Message('Confirm your post', sender='handytest753@gmail.com', recipients=[email])
     # msg.body = f"Click to confirm {BASE_URL}/posts/confirm/{confirmation_id}"
-
-
-
-    # Construct the email body using HTML template
     msg.html = render_template(
         'email_template.html',
         BASE_URL= BASE_URL,  
         confirmation_id=confirmation_id
     )
-
-
-    # msg.html = render_template('email_template.html', confirmation_id=confirmation_id)
     mail.send(msg)
 
     try:
@@ -396,6 +387,7 @@ def sendmailapply(email_apply, apply_confirmation_id):
     msg = Message('Hello', sender='handytest753@gmail.com', recipients=[email_apply])
     msg.body = f"Click to confirm {BASE_URL}/apply/confirmed/{apply_confirmation_id}"
     mail.send(msg)
+    
 
 @app.route('/apply/confirmed/<int:apply_confirmation_id>')
 def confirmed(apply_confirmation_id):
