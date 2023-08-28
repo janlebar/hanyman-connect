@@ -248,7 +248,7 @@ def save_post():
     sendmail(post_email, post_confirmation_id)
 
 
-    flash("")
+    flash("Check mail!")
 
     # vrne posodobljen posts page
     return redirect('/posts')

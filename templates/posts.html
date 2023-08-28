@@ -12,17 +12,18 @@
   </div>
   <hr class="my-4">
 
-  <!-- Centered flash message card -->
-  <div class="flex justify-center items-center fixed top-0 left-0 right-0 bottom-0">
-    <div class="max-w-md p-6 rounded-lg shadow-md bg-blue-100 border border-blue-400 text-blue-700">
-      <!-- Flash message -->
-      <div class="text-center mt-4">
-        <span class="block sm:inline">{{ gettext("Check mail!") }}</span>
+  {% if 'Check mail!' in get_flashed_messages() %}
+    <!-- Centered flash message card -->
+    <div class="flex justify-center items-center fixed top-0 left-0 right-0 bottom-0">
+      <div class="max-w-md p-6 rounded-lg shadow-md bg-blue-100 border border-blue-400 text-blue-700">
+        <!-- Flash message -->
+        <div class="text-center mt-4">
+          <span class="block sm:inline">{{ gettext("Check mail!") }}</span>
+        </div>
       </div>
     </div>
-  </div>
-  <!-- End of centered flash message card -->
-
+    <!-- End of centered flash message card -->
+  {% endif %}
 
   {% for post in posts %}
     <div class="mb-4">
