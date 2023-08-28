@@ -268,7 +268,6 @@ def sendmail(email, confirmation_id):
     )
 
 
-
     # msg.html = render_template('email_template.html', confirmation_id=confirmation_id)
     mail.send(msg)
 
@@ -282,26 +281,6 @@ def sendmail(email, confirmation_id):
         return redirect('/posts')  # Redirect to a suitable page after failure
 
 
-# def sendmail(email, confirmation_id):
-#     subject = "Confirm Your Post"
-    
-#     # Render the HTML content from the template
-#     html_content = render_template('email_template.html', BASE_URL=BASE_URL, confirmation_id=confirmation_id)
-    
-#     msg = Message(subject, sender=("Your Name", "handytest753@gmail.com"), recipients=[email])
-#     msg.html = html_content
-
-    
-
-
-    # # Construct the email body using HTML template
-    # email_body = render_template(
-    #     'email_template.html',
-    #     BASE_URL="http://localhost:5000",  # Define BASE_URL properly
-    #     confirmation_id=confirmation_id
-    # )
-
-    # msg.html = email_body
 
 
 
