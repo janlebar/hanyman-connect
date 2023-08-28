@@ -360,6 +360,39 @@ def post():
 def new_apply(id):
     return render_template('new_apply.html', blog_post_id=id, action_url=url_for(applys.__name__))
 
+# @app.route('/applys', methods=['GET', 'POST'])
+# def applys():
+#     # if spodi ipolne form oz ga prebere
+#     if request.method == 'POST':
+#         name_apply = request.form['name_apply']
+#         email_apply = request.form['email_apply']
+#         # # blog_post_id = request.form['blog_post_id']
+#         # blog_post_id = request.form['blog_post_id']
+#         apply_confirmation_id = randbelow(2 ** 31)
+#         # blog_post_id = serializer.loads(request.form['blog_post_id'], salt=secret_salt)
+#         blog_post_id = request.form['blog_post_id']
+#         new_apply = BlogApply(email_apply=email_apply, name_apply=name_apply, blog_post_id=blog_post_id,
+#                               apply_confirmation_id=apply_confirmation_id)
+
+#         # vpise v bazo v trenutno
+#         db.session.add(new_apply)
+#         # commit ga sele vpise permanentno v bazo
+#         db.session.commit()
+#         # add cokies session
+#         sendmailapply(email_apply, apply_confirmation_id)
+#         session['email_apply'] = email_apply
+#         return redirect('/posts')
+
+# def sendmailapply(email_apply, apply_confirmation_id):
+#     msg = Message('Hello', sender='handytest753@gmail.com', recipients=[email_apply])
+#     msg.body = f"Click to confirm {BASE_URL}/apply/confirmed/{apply_confirmation_id}"
+#     mail.send(msg)
+    
+
+
+
+
+
 @app.route('/applys', methods=['GET', 'POST'])
 def applys():
     # if spodi ipolne form oz ga prebere
@@ -379,15 +412,43 @@ def applys():
         # commit ga sele vpise permanentno v bazo
         db.session.commit()
         # add cokies session
-        sendmailapply(email_apply, apply_confirmation_id)
-        session['email_apply'] = email_apply
+
+        try:
+            sendmailapply(email_apply, apply_confirmation_id)
+            flash('', "info")
+        except Exception as e:
+            flash("An error occurred while sending the email.", "error")
+            # Handle the error, maybe log it or display an error message
+        # vrne posodobljen posts page
         return redirect('/posts')
+
 
 def sendmailapply(email_apply, apply_confirmation_id):
     msg = Message('Hello', sender='handytest753@gmail.com', recipients=[email_apply])
     msg.body = f"Click to confirm {BASE_URL}/apply/confirmed/{apply_confirmation_id}"
     mail.send(msg)
-    
+
+
+# def sendmailapply(email_apply, apply_confirmation_id):
+#     msg = Message('Confirm your post', sender='handytest753@gmail.com', recipients=[email_apply])
+#     # msg.body = f"Click to confirm {BASE_URL}/posts/confirm/{confirmation_id}"
+#     msg.html = render_template('email_template_apply.html', BASE_URL= BASE_URL, apply_confirmation_id=apply_confirmation_id
+#     )
+#     mail.send(msg)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @app.route('/apply/confirmed/<int:apply_confirmation_id>')
 def confirmed(apply_confirmation_id):
