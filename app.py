@@ -243,6 +243,10 @@ def save_post():
     db.session.add(new_post)
     # commit ga sele vpise permanentno v bazo
     db.session.commit()
+    
+    print("Latitude:", post_latitude)
+    print("Longitude:", post_longitude)
+
 
     # poklical funkcijo sendmail in jo izpolnil z parametri iz posts
     sendmail(post_email, post_confirmation_id)
