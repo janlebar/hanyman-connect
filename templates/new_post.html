@@ -47,11 +47,15 @@
 
         <input type="hidden" type="text" name='longitude' id='longitude'>
         <input type="hidden" type="text" name='latitude' id='latitude'>
+
         <script>
+            debugger
             document.addEventListener("location", (event) => {
                 document.getElementById("latitude").value = event.detail.latitude;
                 document.getElementById("longitude").value = event.detail.longitude;
             });
+            
+            console.log(latitude);
         </script>
 
         {{ hcaptcha }}

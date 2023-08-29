@@ -1,5 +1,5 @@
 // var map = L.map('map').setView([{{ longitude_localisation }}, {{ latitude_localisation }}], neki);
-debugger
+
 document.addEventListener("location", (event) => {
   const { latitude, longitude } = event.detail;
 
