@@ -118,16 +118,27 @@
                class="font-bold ml-0 md:ml-12 mr-0 md:mr-3 lg:mr-8 transition-color duration-100 hover:text-indigo-600">{{ gettext("Home") }}</a>
             <a href="/posts"
                class="font-bold mr-0 md:mr-3 lg:mr-8 transition-color duration-100 hover:text-indigo-600">{{ gettext("Listings") }}</a>
-            <a href="/login"
-               class="font-bold mr-0 md:mr-3 lg:mr-8 transition-color duration-100 hover:text-indigo-600">{{ gettext("My Ratings") }}</a>
+            <a href="/login" class="font-bold mr-0 md:mr-3 lg:mr-8 transition-color duration-100 hover:text-indigo-600">{{ gettext("MyRatings") }}</a>
             <a href="/#testimonials"
                class="font-bold transition-color duration-100 hover:text-indigo-600">{{ gettext("Testimonials") }}</a>
+
+            <div class="p-4"> 
+                <label for="language-select" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white z-50">Select Language</label>
+                <select id="language-select" onchange="location = this.value;" class="mb-2 text-sm font-medium bg-blue-700 text-white dark:text-white border rounded-md p-1 z-50">
+                    <option value="{{ url_for('change_language', lang='en') }}" {% if session['language'] == 'en' %}selected{% endif %}>English</option>
+                    <option value="{{ url_for('change_language', lang='sl') }}" {% if session['language'] == 'sl' %}selected{% endif %}>Slovenian</option>
+                </select>
+            </div>
+            
+
             <a class="px-5 py-1 rounded theme-switch" onclick="theme()"><img id="theme-switch"
                                                                              src="https://img.icons8.com/ios-glyphs/30/000000/moon-symbol.png"
                                                                              style="width:20px;"
                                                                              class="inver" id="im"></a>
             <div class="block md:hidden border-t border-gray-200 font-medium flex flex-col w-full">
                 <a href="/login" class="py-2 text-pink-500 w-full text-center font-bold">{{ gettext("Login") }}</a>
+
+
 
                 <!-- SEARCH MOBILE -->
                 <form method="GET" action="{{url_for('search')}}">
@@ -148,6 +159,7 @@
                                 {{ gettext("Search") }}
                         </button>
                     </div>
+                
                 </form>
             </div>
 
@@ -178,12 +190,7 @@
                 </div>
             </form>
         </div>
-        <label for="language-select" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white z-50">Select Language</label>
-        <select id="language-select" onchange="location = this.value;" class="mb-2 text-sm font-medium bg-blue-700 text-white dark:text-white border rounded-md p-1 z-50 ">
-            <option value="{{ url_for('change_language', lang='en') }}" {% if session['language'] == 'en' %}selected{% endif %}>English</option>
-            <option value="{{ url_for('change_language', lang='sl') }}" {% if session['language'] == 'sl' %}selected{% endif %}>Slovenian</option>
-        </select>
-    
+
         <script>
             let longitude = {{ longitude_localisation if longitude_localisation else 0.0 }};
             let latitude = {{ latitude_localisation if latitude_localisation else 0.0 }}
