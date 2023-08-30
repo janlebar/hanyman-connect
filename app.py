@@ -394,9 +394,6 @@ def new_apply(id):
     
 
 
-
-
-
 @app.route('/applys', methods=['POST'])
 def applys():
     if request.method == 'POST':
@@ -410,10 +407,10 @@ def applys():
 
         try:
             send_mail_apply(email_apply, apply_confirmation_id)
-            flash('Confirmation email sent.', 'info')
+            flash('', 'info')
         except Exception as e:
             flash('An error occurred while sending the email.', 'error')
-            app.logger.error(str(e))  # Log the error for debugging
+            app.logger.error(str(e))  
 
         db.session.add(new_apply)
         db.session.commit()
@@ -429,33 +426,10 @@ def send_mail_apply(email_apply, apply_confirmation_id):
 
 
 
-
-
-
 # def sendmailapply(email_apply, apply_confirmation_id):
 #     msg = Message('Hello', sender='handytest753@gmail.com', recipients=[email_apply])
 #     msg.body = f"Click to confirm {BASE_URL}/apply/confirmed/{apply_confirmation_id}"
 #     mail.send(msg)
-
-
-# def sendmailapply(email_apply, apply_confirmation_id):
-#     msg = Message('Confirm your post', sender='handytest753@gmail.com', recipients=[email_apply])
-#     # msg.body = f"Click to confirm {BASE_URL}/posts/confirm/{confirmation_id}"
-#     msg.html = render_template('email_template_apply.html', BASE_URL= BASE_URL, apply_confirmation_id=apply_confirmation_id
-#     )
-#     mail.send(msg)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -479,10 +453,23 @@ def confirmed(apply_confirmation_id):
     sendmailconnect(email_applys, emails, apply.id_apply)
     return redirect(url_for('posts'))
 
+
 def sendmailconnect(email_applys, emails, id_apply):
-    msg = Message('Contact', sender='handytest753@gmail.com', recipients=[emails])
-    msg.body = f"Please contact {email_applys} and rate by clicking {BASE_URL}/rating/{id_apply}"
+    rate_link = f"{BASE_URL}/rating/{id_apply}"
+    contact = email_applys
+    subject = "Handyman connecting You with applicant"
+    
+    msg = Message(subject=subject, sender='handytest753@gmail.com', recipients=[emails])
+    msg.html = render_template('email_template_connect.html', BASE_URL=BASE_URL, rate_link=rate_link, contact=contact)
+    
     mail.send(msg)
+
+
+# def sendmailconnect(email_applys, emails, id_apply):
+#     msg = Message('Contact', sender='handytest753@gmail.com', recipients=[emails])
+#     msg.body = f"Please contact {email_applys} and rate by clicking {BASE_URL}/rating/{id_apply}"
+#     mail.send(msg)
+
 
 # RATING APPLYS
 

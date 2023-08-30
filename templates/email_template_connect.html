@@ -1,27 +1,16 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-        color: #333;
-      }
-      h1 {
-        font-size: 24px;
-        font-weight: bold;
-        color: #222;
-      }
-      p {
-        margin-bottom: 10px;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Please contact</h1>
-    <p>Hello,</p>
-    <p>{{ gettext("Please contact") }} {{ email_applys }} {{ gettext("for more information.") }} </p>
-    <p>{{ gettext("If you did not request this information, please ignore this email.") }}</p>
-    <p>{{ gettext("Thanks for reading!") }}</p>
-  </body>
+<head>
+  <!-- No external styles or scripts in the head for Gmail compatibility -->
+</head>
+<body style="font-family: Arial, sans-serif; font-size: 18px; color: #fff; background-color: #3b82f6; margin: 0; padding: 0; border-radius: 15px;">
+  <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+    <h1 style="font-size: 24px; font-weight: bold; color: #fff;">{{ gettext("We are connecting You with applicant,") }}</h1>
+    <p style="font-size: 20px; font-weight: bold; color: #fff;">{{ gettext("You can connect with the applicant using the email:") }}</p>
+    <p style="color: #000; text-decoration: none; background-color: #f0f0f0; padding: 10px; border-radius: 3px;">{{ contact }}</p>
+    <p>{{ gettext("After his work is done, please click on the link below to rate his job:") }}</p>
+    <a href="{{ rate_link }}"style="color: #000; text-decoration: none; background-color: #f0f0f0; padding: 10px; border-radius: 3px;">{{ gettext("Rate job") }}</a></p>
+    <p style="color: #fff;">{{ gettext("Thank You!") }}</p>
+  </div>
+</body>
 </html>
