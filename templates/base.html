@@ -118,8 +118,8 @@
                class="font-bold ml-0 md:ml-12 mr-0 md:mr-3 lg:mr-8 transition-color duration-100 hover:text-indigo-600">{{ gettext("Home") }}</a>
             <a href="/posts"
                class="font-bold mr-0 md:mr-3 lg:mr-8 transition-color duration-100 hover:text-indigo-600">{{ gettext("Listings") }}</a>
-            <a href="/about"
-               class="font-bold mr-0 md:mr-3 lg:mr-8 transition-color duration-100 hover:text-indigo-600">{{ gettext("About") }}</a>
+            <a href="/login"
+               class="font-bold mr-0 md:mr-3 lg:mr-8 transition-color duration-100 hover:text-indigo-600">{{ gettext("My Ratings") }}</a>
             <a href="/#testimonials"
                class="font-bold transition-color duration-100 hover:text-indigo-600">{{ gettext("Testimonials") }}</a>
             <a class="px-5 py-1 rounded theme-switch" onclick="theme()"><img id="theme-switch"
@@ -127,7 +127,7 @@
                                                                              style="width:20px;"
                                                                              class="inver" id="im"></a>
             <div class="block md:hidden border-t border-gray-200 font-medium flex flex-col w-full">
-                <a href="#_" class="py-2 text-pink-500 w-full text-center font-bold">{{ gettext("Login") }}</a>
+                <a href="/login" class="py-2 text-pink-500 w-full text-center font-bold">{{ gettext("Login") }}</a>
 
                 <!-- SEARCH MOBILE -->
                 <form method="GET" action="{{url_for('search')}}">
