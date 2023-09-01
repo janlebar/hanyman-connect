@@ -147,7 +147,8 @@ def index():
                    'longitude': post.longitude,
                    'latitude': post.latitude,
                    'title': post.title}
-                  for post in blog_posts]
+                  for post in blog_posts
+                  if post.longitude and post.latitude]
 
         return render_template('index.html', coords=coords, longitude_localisation=longitude_localisation, latitude_localisation=latitude_localisation, items=items)
 
@@ -226,8 +227,8 @@ def save_post():
     post_content = request.form['content']
     post_offer = request.form['offer']
     post_email = request.form['email']
-    post_longitude = session.get('longitude')
-    post_latitude = session.get('latitude')
+    post_longitude = request.form['longitude']
+    post_latitude = request.form['latitude']
     post_item = request.form['item']  
     post_confirmation_id = randbelow(2 ** 31)
     post_phonenumber = request.form['phonenumber']
