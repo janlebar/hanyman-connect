@@ -67,6 +67,10 @@
 
 
 
+
+
+
+
 // document.addEventListener("location", (event) => {
 //     const { latitude, longitude } = event.detail;
 
@@ -76,14 +80,20 @@
 //         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 //     }).addTo(map);
 
-//     // Function to add a marker to the map at the clicked location
-//     function addMarker(e) {
-//         const marker = L.marker(e.latlng).addTo(map);
+//     let marker = null;
+
+//     // Function to add or replace the marker on the map at the clicked location
+//     function addOrReplaceMarker(e) {
+//         if (marker) {
+//             // Remove the existing marker from the map
+//             map.removeLayer(marker);
+//         }
+//         marker = L.marker(e.latlng).addTo(map);
 //         marker.bindPopup("Marker at Clicked Location");
 //     }
 
 //     // Add a click event listener to the map
-//     map.on('click', addMarker);
+//     map.on('click', addOrReplaceMarker);
 // });
 
 
@@ -111,8 +121,24 @@ document.addEventListener("location", (event) => {
         }
         marker = L.marker(e.latlng).addTo(map);
         marker.bindPopup("Marker at Clicked Location");
+
+        // Retrieve latitude and longitude of the clicked location
+        const clickedLatitude = e.latlng.lat;
+        const clickedLongitude = e.latlng.lng;
+        // alert(`Latitude: ${clickedLatitude}, Longitude: ${clickedLongitude}`);
     }
 
     // Add a click event listener to the map
     map.on('click', addOrReplaceMarker);
 });
+
+
+
+
+
+
+
+
+
+
+
