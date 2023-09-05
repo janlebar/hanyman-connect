@@ -45,6 +45,32 @@
             <textarea class="form-textarea" name='content' id="content" placeholder="{{ gettext('Describe what You are looking for:') }}" aria-label="Enter Content" rows="3"></textarea>
         </div>
 
+
+
+        <script>
+       
+            // Check if the marker is not set
+            if (!longitude || !latitude) {
+                // Load location.js to retrieve user's location
+                var locationScript = document.createElement('script');
+                locationScript.src = "{{ url_for('static', filename='js/location.js') }}";
+                document.body.appendChild(locationScript);
+            }
+        </script>
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
         <input type="hidden" type="text" name='longitude' id='longitude'>
         <input type="hidden" type="text" name='latitude' id='latitude'>
 
