@@ -19,15 +19,6 @@ window.onload = function() {
     } else {
         dispatchLocation(longitude, latitude);
     }
-    
-    debugger
-    document.addEventListener("location", (event) => {
-        document.getElementById("latitude").value = event.detail.latitude;
-        document.getElementById("longitude").value = event.detail.longitude;
 
-        // Store the location in the session
-        sessionStorage.setItem('latitude', event.detail.latitude);
-        sessionStorage.setItem('longitude', event.detail.longitude);
-    });
 };
 
