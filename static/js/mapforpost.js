@@ -157,11 +157,11 @@ document.addEventListener("location", (event) => {
         marker.bindPopup("Marker at Clicked Location");
     
         // Retrieve latitude and longitude of the clicked location
-        const clickedLatitude = e.latlng.lat;
-        const clickedLongitude = e.latlng.lng;
+        const latitude = e.latlng.lat;
+        const longitude = e.latlng.lng;
     
         // Dispatch the location event with the clicked latitude and longitude
-        dispatchLocation(clickedLongitude, clickedLatitude);
+        dispatchLocation(longitude, latitude);
     }
 
     // Add a click event listener to the map
