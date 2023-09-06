@@ -27,8 +27,8 @@ document.addEventListener("location", (event) => {
   coords.forEach(coord => {
   const { id, title, latitude, longitude } = coord;
   const marker = L.marker([latitude, longitude]).addTo(map);
-  marker.bindPopup(`<a href="/post/${id}">${title}</a>`).openPopup();
-  // marker.bindPopup(`<a href="/search?query=${title}">${title}</a>`).openPopup();
+  // marker.bindPopup(`<a href="/post/${id}">${title}</a>`).openPopup();
+  marker.bindPopup(`<a href="/search?query=${title}">${title}</a>`).openPopup();
   });
 
 
