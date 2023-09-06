@@ -212,6 +212,17 @@ def posts():
                    for post in all_posts}
         return render_template('posts.html', posts=all_posts, urls=urls)
 
+
+@app.route('/post/<string:id>', methods=['GET', 'POST'])
+def post(id):
+    # returns all posts query.order_by date_posted
+
+    all_posts = BlogPost.query.filter(BlogPost.id == id)
+
+    urls = {post.id: post.id
+        for post in all_posts}
+    return render_template('posts.html', posts=all_posts, urls=urls)       
+
 @app.route('/posts/new', methods=['GET', 'POST'])
 def new_post():
     print(items)
@@ -349,8 +360,8 @@ def edit(id):
 
 # POSTS WITH TIME LIMIT
 
-@app.route('/post', methods=['GET'])
-def post():
+@app.route('/posttimelimit', methods=['GET'])
+def posttimelimit():
     # calculate the date from one month ago
     one_month_ago = datetime.utcnow() - timedelta(days=30)
     # query for posts from the last month
