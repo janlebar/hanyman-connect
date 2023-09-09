@@ -339,36 +339,6 @@ def delete(id):
 
 
 
-# @app.route('/posts/edit/<string:id>', methods=['GET', 'POST'])
-# def edit(id):
-#     post = BlogPost.query.get_or_404(id)
-
-#     # Check if the post_email is in the session and matches the post's email
-#     if 'post_email' not in session or session['post_email'] != post.email:
-#         abort(403)  # Return a forbidden status if the emails don't match
-
-#         if post.email != session.get("email"):
-#             raise Exception("wrong email")
-        
-#         if request.method == 'POST':
-#             post.title = request.form['title']
-#             post.offer = request.form['offer']
-#             post.content = request.form['content']
-#             post.email = request.form['email']
-#             post.phonenumber = request.form['phonenumber']
-#             post.category = request.form['category']  # Change 'item' to 'category'
-#             db.session.commit()
-#             return redirect('/posts')
-#         else:
-#             # post=post ker rabi prebrisat prejsn povst
-#             # post_item = post.category  # Assign the current category value
-#             return render_template('edit.html', post=post,items=items)
-
-
-
-
-
-
 
 
 # route za edit post, ker ga urejas mora bit metoda post ker jo shrani v bazo
