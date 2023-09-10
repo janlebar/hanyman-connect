@@ -243,7 +243,7 @@ def save_post():
     post_item = request.form['item']  
     post_confirmation_id = randbelow(2 ** 31)
     post_phonenumber = request.form['phonenumber']
-    session['email'] = post_email
+    # session['email'] = post_email
 
     for word in swear_words:
         if word[:4].lower() in post_title.lower():
