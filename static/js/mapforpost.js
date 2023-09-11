@@ -121,7 +121,7 @@
 //         }
 //         marker = L.marker(e.latlng).addTo(map);
 //         marker.bindPopup("Marker at Clicked Location");
-
+//         console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
 //         // Retrieve latitude and longitude of the clicked location
 //         const clickedLatitude = e.latlng.lat;
 //         const clickedLongitude = e.latlng.lng;
