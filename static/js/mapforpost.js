@@ -141,14 +141,24 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 document.addEventListener("location", (event) => {
-    const { latitude, longitude } = event.detail;
+  const { latitude, longitude } = event.detail;
 
-    var map = L.map('map').setView([latitude, longitude], 14);
+  var map = L.map('map').setView([latitude, longitude], 14);
 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
 
 
 
@@ -156,34 +166,39 @@ document.addEventListener("location", (event) => {
 
 
 debugger
-    let clickedLatitude = null;
-    let clickedLongitude = null;
-    let marker = null;
-    
-    function addOrReplaceMarker(e) {
-      if (marker) {
-        // Remove the existing marker from the map
+  let clickedLatitude = null;
+  let clickedLongitude = null;
+  let marker = null;
+  
+  function addOrReplaceMarker(e) {
+    if (marker) {
         map.removeLayer(marker);
-      }
-      
-      marker = L.marker(e.latlng).addTo(map);
-      marker.bindPopup("Marker at Clicked Location");
-    
-      // Update latitude and longitude
-      clickedLatitude = e.latlng.lat;
-      clickedLongitude = e.latlng.lng;
-    
-      // Call a function or perform any action you need with the updated values
-      handleMarkerChange(clickedLatitude, clickedLongitude);
     }
-debugger
-    function handleMarkerChange(latitude, longitude) {
-      // This function will be called whenever the marker location changes.
-      // You can perform any actions here with the updated latitude and longitude.
-      console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-    }
+
+    marker = L.marker(e.latlng).addTo(map);
+    marker.bindPopup("Marker at Clicked Location");
+
+    clickedLatitude = e.latlng.lat;
+    clickedLongitude = e.latlng.lng;
+
+    handleMarkerChange(clickedLatitude, clickedLongitude);
+}
+
+function handleMarkerChange(latitude, longitude) {
+    console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
     
-    // Add a click event listener to the map
-    map.on('click', addOrReplaceMarker);
+    // Update the HTML form with latitude and longitude
+    document.getElementById("latitude").value = latitude;
+    document.getElementById("longitude").value = longitude;
+
+    // Dispatch a custom event with latitude and longitude
+    const locationEvent = new CustomEvent("locationUpdate", {
+        detail: { latitude, longitude },
+    });
+    document.dispatchEvent(locationEvent);
+}
+  
+  // Add a click event listener to the map
+  map.on('click', addOrReplaceMarker);
 
 });
