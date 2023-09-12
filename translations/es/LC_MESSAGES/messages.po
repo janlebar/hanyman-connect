@@ -1,0 +1,643 @@
+# Spanish translations for PROJECT.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-09-12 13:56+0200\n"
+"PO-Revision-Date: 2023-09-12 14:26+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.12.1\n"
+
+
+#: app.py:74
+msgid "Help Moving"
+msgstr "Ayuda para Mudanza"
+
+#: app.py:75
+msgid "Yard Work"
+msgstr "Trabajo en el Jardín"
+
+#: app.py:76
+msgid "Heavy Lifting"
+msgstr "Levantamiento Pesado"
+
+#: app.py:77
+msgid "Electrical help"
+msgstr "Ayuda Eléctrica"
+
+#: app.py:78
+msgid "Snow Removal"
+msgstr "Remoción de Nieve"
+
+#: app.py:79
+msgid "Lawn Care and Yard Work"
+msgstr "Cuidado del Césped y Trabajo en el Jardín"
+
+#: app.py:80
+msgid "Pet Care"
+msgstr "Cuidado de Mascotas"
+
+#: app.py:81
+msgid "Tech Help"
+msgstr "Ayuda Técnica"
+
+#: app.py:82
+msgid "Childcare"
+msgstr "Cuidado de Niños"
+
+#: app.py:83
+msgid "Elderly Assistance"
+msgstr "Asistencia para Personas Mayores"
+
+#: app.py:84
+msgid "Car Wash and Detailing"
+msgstr "Lavado y Detallado de Autos"
+
+#: app.py:85
+msgid "Painting and Repairs"
+msgstr "Pintura y Reparaciones"
+
+#: app.py:86
+msgid "Tutoring"
+msgstr "Tutoría"
+
+#: app.py:87
+msgid "Personal Shopping"
+msgstr "Compras Personales"
+
+#: app.py:88
+msgid "Plant Care"
+msgstr "Cuidado de Plantas"
+
+#: app.py:89
+msgid "House Sitting"
+msgstr "Cuidado de la Casa"
+
+#: app.py:90
+msgid "Legal assistance"
+msgstr "Asistencia Legal"
+
+#: app.py:91
+msgid "Permit assistance"
+msgstr "Asistencia con Permisos"
+
+#: app.py:92
+msgid "Other small work assistance"
+msgstr "Otra Asistencia para Trabajos Pequeños"
+
+#: templates/about.html:9 templates/about.html:17
+msgid "Web App Usage Guidelines"
+msgstr "Directrices de Uso de la Aplicación Web"
+
+#: templates/about.html:18 templates/cookie_consent_banner.html:7
+msgid ""
+"Welcome to our web app! By using this app, you agree to follow these "
+"guidelines:"
+msgstr ""
+"Bienvenido a nuestra aplicación web. Al usar esta aplicación, aceptas seguir estas directrices:"
+
+#: templates/about.html:20 templates/cookie_consent_banner.html:9
+#: templates/cookie_consent_banner.html:11
+msgid "Treat others with respect and kindness."
+msgstr "Trata a los demás con respeto y amabilidad."
+
+#: templates/about.html:21 templates/cookie_consent_banner.html:10
+#: templates/cookie_consent_banner.html:12
+msgid "Avoid hate speech, harassment, or offensive behavior."
+msgstr "Evita discursos de odio, acoso o comportamiento ofensivo."
+
+#: templates/about.html:22 templates/cookie_consent_banner.html:13
+msgid "Do not share explicit, offensive, or violent content."
+msgstr "No compartas contenido explícito, ofensivo o violento."
+
+#: templates/about.html:23 templates/cookie_consent_banner.html:14
+msgid "Do not engage in illegal activities or promote them."
+msgstr "No participes en actividades ilegales ni las promuevas."
+
+#: templates/about.html:24 templates/cookie_consent_banner.html:15
+msgid "Respect others' privacy and intellectual property."
+msgstr "Respeta la privacidad y propiedad intelectual de los demás."
+
+#: templates/about.html:25 templates/cookie_consent_banner.html:16
+msgid "Report inappropriate content using provided tools."
+msgstr "Reporta contenido inapropiado utilizando las herramientas proporcionadas."
+
+#: templates/about.html:26 templates/cookie_consent_banner.html:17
+msgid "Contribute relevant and on-topic discussions."
+msgstr "Contribuye en discusiones relevantes y relacionadas al tema."
+
+#: templates/about.html:27 templates/cookie_consent_banner.html:18
+msgid "Comply with applicable laws and regulations."
+msgstr "Cumple con las leyes y regulaciones aplicables."
+
+#: templates/about.html:28 templates/cookie_consent_banner.html:19
+msgid "Users are responsible for their posted content."
+msgstr "Los usuarios son responsables de su contenido publicado."
+
+#: templates/about.html:29 templates/cookie_consent_banner.html:20
+msgid "Violation may result in account suspension."
+msgstr "La violación puede resultar en la suspensión de la cuenta."
+
+#: templates/about.html:31
+msgid ""
+"Please ensure you adhere to these guidelines to maintain a positive "
+"community environment. Thank you!"
+msgstr ""
+"Asegúrate de seguir estas directrices para mantener un ambiente comunitario positivo. ¡Gracias!"
+
+#: templates/applys.html:10
+msgid "Apply for work"
+msgstr "Solicitar Trabajo"
+
+#: templates/applys.html:23 templates/posts.html:45
+msgid "Apply"
+msgstr "Solicitar"
+
+#: templates/base.html:118
+msgid "Home"
+msgstr "Inicio"
+
+#: templates/base.html:120
+msgid "Listings"
+msgstr "Listados"
+
+#: templates/base.html:121
+msgid "MyRatings"
+msgstr "Mis Calificaciones"
+
+#: templates/base.html:123 templates/index.html:214
+msgid "Testimonials"
+msgstr "Testimonios"
+
+#: templates/base.html:139 templates/base.html:172
+msgid "Login"
+msgstr "Iniciar Sesión"
+
+#: templates/base.html:145 templates/base.html:159 templates/base.html:174
+#: templates/base.html:188
+msgid "Search"
+msgstr "Buscar"
+
+#: templates/cookie_consent_banner.html:6
+msgid "Web App Usage Guidelines and cookie consent"
+msgstr "Directrices de Uso de la Aplicación Web y consentimiento de cookies"
+
+#: templates/cookie_consent_banner.html:21
+msgid ""
+"Please ensure you adhere to these guidelines to maintain a positive "
+"community environment."
+msgstr ""
+"Asegúrate de seguir estas directrices para mantener un ambiente comunitario positivo."
+
+#: templates/cookie_consent_banner.html:23
+msgid "We use cookies to improve your experience on our site."
+msgstr "Utilizamos cookies para mejorar tu experiencia en nuestro sitio."
+
+#: templates/cookie_consent_banner.html:25
+msgid ""
+"By clicking \"I Consent\" below, you agree to our rules and use of "
+"cookies."
+msgstr ""
+"Al hacer clic en \"Acepto\" a continuación, aceptas nuestras reglas y el uso de cookies."
+
+#: templates/cookie_consent_banner.html:27
+msgid "Thank you!"
+msgstr "¡Gracias!"
+
+#: templates/cookie_consent_banner.html:34
+msgid "I agree to the use of cookies."
+msgstr "Acepto el uso de cookies."
+
+#: templates/edit.html:15
+msgid "Edit the post"
+msgstr "Editar la publicación"
+
+#: templates/edit.html:17
+msgid "Title"
+msgstr "Título"
+
+#: templates/edit.html:22 templates/new_post.html:19 templates/posts.html:41
+msgid "Category:"
+msgstr "Categoría:"
+
+#: templates/edit.html:33
+msgid "Offer"
+msgstr "Oferta"
+
+#: templates/edit.html:38
+msgid "Email"
+msgstr "Correo Electrónico"
+
+#: templates/edit.html:43
+msgid "Contact number"
+msgstr "Número de Contacto"
+
+#: templates/edit.html:48 templates/editing.html:4 templates/editing.html:41
+msgid "Post"
+msgstr "Publicar"
+
+#: templates/edit.html:54
+msgid "Save"
+msgstr "Guardar"
+
+#: templates/editing.html:37
+msgid "Delete"
+msgstr "Eliminar"
+
+#: templates/editing.html:39
+msgid "Edit"
+msgstr "Editar"
+
+#: templates/email_template.html:8 templates/email_template_apply.html:8
+msgid "Welcome to Handyman,"
+msgstr "Bienvenido a Handyman,"
+
+#: templates/email_template.html:9
+msgid "Confirm your post"
+msgstr "Confirma tu publicación"
+
+#: templates/email_template.html:10
+msgid ""
+"Thank you for creating a post. Please click the link below to confirm "
+"your post:"
+msgstr ""
+"Gracias por crear una publicación. Haz clic en el enlace de abajo para confirmar tu publicación:"
+
+#: templates/email_template.html:11 templates/email_template_apply.html:11
+msgid "Confirm post"
+msgstr "Confirmar publicación"
+
+#: templates/email_template.html:12 templates/email_template_apply.html:12
+msgid "If you did not create this post, please ignore this email."
+msgstr "Si no creaste esta publicación, por favor ignora este correo electrónico."
+
+#: templates/email_template.html:13 templates/email_template_apply.html:13
+#: templates/email_template_connect.html:13
+msgid "Thank You!"
+msgstr "¡Gracias!"
+
+#: templates/email_template_apply.html:9
+msgid "Confirm your apply"
+msgstr "Confirma tu solicitud"
+
+#: templates/email_template_apply.html:10
+msgid ""
+"Thank you for applying for work. Please click the link below to confirm "
+"your apply:"
+msgstr ""
+"Gracias por solicitar trabajo. Haz clic en el enlace de abajo para confirmar tu solicitud:"
+
+#: templates/email_template_connect.html:8
+msgid "We are connecting You with applicant,"
+msgstr "Estamos conectándote con el solicitante,"
+
+#: templates/email_template_connect.html:9
+msgid "You can connect with the applicant using the email:"
+msgstr "Puedes conectarte con el solicitante usando el correo electrónico:"
+
+#: templates/email_template_connect.html:11
+msgid "After his work is done, please click on the link below to rate his job:"
+msgstr "Después de que termine su trabajo, haz clic en el enlace de abajo para calificar su trabajo:"
+
+#: templates/email_template_connect.html:12
+msgid "Rate job"
+msgstr "Calificar trabajo"
+
+#: templates/index.html:37
+msgid "Find help for what You need"
+msgstr "Encuentra ayuda para lo que necesitas"
+
+#: templates/index.html:38
+msgid "Get help today"
+msgstr "Obtén ayuda hoy"
+
+#: templates/index.html:40
+msgid "Find a helping hand"
+msgstr "Encuentra una mano amiga"
+
+#: templates/index.html:43
+msgid "Integrates With"
+msgstr "Integrado con"
+
+#: templates/index.html:84
+msgid "Find your next opportunity!"
+msgstr "¡Encuentra tu próxima oportunidad!"
+
+#: templates/index.html:85
+msgid "Are you ready to start?"
+msgstr "¿Estás listo para empezar?"
+
+#: templates/index.html:113
+msgid "Make Your offer, that suits You"
+msgstr "Haz tu oferta, que se adapte a ti"
+
+#: templates/index.html:116
+msgid "Find help or make an offer"
+msgstr "Encuentra ayuda o haz una oferta"
+
+#: templates/index.html:148
+msgid "Your pick of contractors at your prices"
+msgstr "Tu elección de contratistas a tus precios"
+
+#: templates/index.html:149
+msgid ""
+"No matter where you are, find the perfect solution for the help you need "
+"at prices you set."
+msgstr ""
+"No importa dónde estés, encuentra la solución perfecta para la ayuda que necesitas a los precios que establezcas."
+
+#: templates/index.html:150 templates/index.html:171 templates/index.html:192
+msgid ""
+"Learn\n"
+"                                More"
+msgstr ""
+"Aprende\n"
+"                                Más"
+
+#: templates/index.html:169
+msgid "Scroll, click, tap and go!"
+msgstr "Desplázate, haz clic, toca y ve."
+
+#: templates/index.html:170
+msgid ""
+"Finding help has never been easier! Thanks to our simple app, you can "
+"find a help close to you in just minutes."
+msgstr ""
+"¡Encontrar ayuda nunca ha sido tan fácil! Gracias a nuestra sencilla aplicación, puedes encontrar ayuda cerca de ti en solo minutos."
+
+#: templates/index.html:190
+msgid "Smart notifications"
+msgstr "Notificaciones inteligentes"
+
+#: templates/index.html:191
+msgid "Our smart notifications will notify you when users convert."
+msgstr "Nuestras notificaciones inteligentes te avisarán cuando los usuarios realicen conversiones."
+
+#: templates/index.html:210
+msgid ""
+"Our customers\n"
+"                            love\n"
+"                            our product"
+msgstr ""
+"Nuestros clientes\n"
+"                            adoran\n"
+"                            nuestro producto"
+
+#: templates/index.html:216
+msgid ""
+"Don't just take our word for it, read from our\n"
+"                            extensive list of case studies and customer "
+"testimonials."
+msgstr ""
+"No solo nos creas a nosotros, lee nuestra\n"
+"                            extensa lista de casos de estudio y testimonios de clientes."
+
+#: templates/index.html:232
+msgid "I'm like that I can find someone who can help me when moving"
+msgstr "Me gusta que puedo encontrar a alguien que me pueda ayudar cuando me mudo"
+
+#: templates/index.html:235
+msgid "- Client Solutions Manager"
+msgstr "- Gerente de Soluciones para Clientes"
+
+#: templates/index.html:251
+msgid ""
+"Really digging this service. Now I can\n"
+"                                            quickly find someone for any "
+"project."
+msgstr ""
+"Realmente me gusta este servicio. Ahora puedo\n"
+"                                            encontrar rápidamente a alguien para cualquier proyecto."
+
+#: templates/index.html:255
+msgid "- Hobbyist"
+msgstr "- Aficionado"
+
+#: templates/index.html:273
+msgid "- Extremely helpful in every way."
+msgstr "- Extremadamente útil en todos los aspectos."
+
+#: templates/index.html:276
+msgid "Jure"
+msgstr "Jure"
+
+#: templates/index.html:277
+msgid ""
+" - \n"
+"                                            Photographer"
+msgstr ""
+" - \n"
+"                                            Fotógrafo"
+
+#: templates/index.html:294
+msgid "Finally a quick and easy way to find help."
+msgstr "Finalmente, una forma rápida y fácil de encontrar ayuda."
+
+#: templates/index.html:297
+msgid "Maria"
+msgstr "Maria"
+
+#: templates/index.html:298
+msgid "Retired"
+msgstr "Jubilada"
+
+#: templates/index.html:341
+msgid ""
+"Connecting skilled professionals and experienced ones with the needs of "
+"the people."
+msgstr ""
+"Conectando profesionales calificados y experimentados con las necesidades de las personas."
+
+#: templates/index.html:351
+msgid "FAQ"
+msgstr "Preguntas Frecuentes"
+
+#: templates/index.html:354
+msgid "Privacy"
+msgstr "Privacidad"
+
+#: templates/index.html:357
+msgid ""
+"Terms\n"
+"                                of Service"
+msgstr ""
+"Términos\n"
+"                                de Servicio"
+
+#: templates/index.html:363
+msgid "Follow Us"
+msgstr "Síguenos"
+
+#: templates/index.html:379
+msgid ""
+"All rights\n"
+"                reserved."
+msgstr ""
+"Todos los derechos\n"
+"                reservados."
+
+#: templates/login.html:4
+msgid "Post your offer"
+msgstr "Publica tu oferta"
+
+#: templates/login.html:15
+msgid "Email not found in database. Please fill out the following form to apply:"
+msgstr "Correo electrónico no encontrado en la base de datos. Por favor, completa el siguiente formulario para aplicar:"
+
+#: templates/login.html:17 templates/login.html:32 templates/new_apply.html:17
+#: templates/new_post.html:14
+msgid "Name:"
+msgstr "Nombre:"
+
+#: templates/login.html:25 templates/new_apply.html:22
+#: templates/new_post.html:34
+msgid "Email:"
+msgstr "Correo Electrónico:"
+
+#: templates/login.html:37
+msgid "Log In"
+msgstr "Iniciar Sesión"
+
+#: templates/my_portfolio.html:6
+msgid "My Rating"
+msgstr "Mi Calificación"
+
+#: templates/my_portfolio.html:34
+msgid "No ratings found for this email."
+msgstr "No se encontraron calificaciones para este correo electrónico."
+
+#: templates/new_apply.html:4
+msgid "Apply for the offer"
+msgstr "Solicitar la oferta"
+
+#: templates/new_apply.html:11
+msgid "Submit an inquiry"
+msgstr "Enviar una consulta"
+
+#: templates/new_apply.html:18
+msgid "Input name"
+msgstr "Ingrese el nombre"
+
+#: templates/new_apply.html:23
+msgid "Enter email"
+msgstr "Ingrese un correo electrónico"
+
+#: templates/new_apply.html:24
+msgid "Enter valid email"
+msgstr "Ingrese un correo electrónico válido"
+
+#: templates/new_apply.html:32
+msgid "Publish"
+msgstr "Publicar"
+
+#: templates/new_post.html:4
+msgid "Post offer"
+msgstr "Publicar oferta"
+
+#: templates/new_post.html:8
+msgid "Submit Your inquiry"
+msgstr "Enviar tu consulta"
+
+#: templates/new_post.html:15
+msgid "Work Title:"
+msgstr "Título del Trabajo:"
+
+#: templates/new_post.html:29 templates/posts.html:42
+msgid "Offer:"
+msgstr "Oferta:"
+
+#: templates/new_post.html:30
+msgid "Your Offer:"
+msgstr "Tu Oferta:"
+
+#: templates/new_post.html:30
+msgid "Enter Offer"
+msgstr "Ingrese la Oferta"
+
+#: templates/new_post.html:35
+msgid "Write Your Email:"
+msgstr "Escribe tu Correo Electrónico:"
+
+#: templates/new_post.html:40
+msgid "Contact mobile number:"
+msgstr "Número de Contacto Móvil:"
+
+#: templates/new_post.html:41
+msgid "Optional phone number:"
+msgstr "Número de teléfono opcional:"
+
+#: templates/new_post.html:41
+msgid "Enter Your contact number"
+msgstr "Ingresa tu número de contacto"
+
+#: templates/new_post.html:44 templates/posts.html:43
+msgid "Work description:"
+msgstr "Descripción del Trabajo:"
+
+#: templates/new_post.html:45
+msgid "Describe what You are looking for:"
+msgstr "Describe lo que estás buscando:"
+
+#: templates/new_post.html:64
+msgid ""
+"Please indicate your specific location on the map where you require "
+"assistance."
+msgstr ""
+"Por favor, indica tu ubicación específica en el mapa donde necesitas "
+"ayuda."
+
+#: templates/new_post.html:80
+msgid "Submit"
+msgstr "Enviar"
+
+#: templates/posts.html:4
+msgid "Posts"
+msgstr "Publicaciones"
+
+#: templates/posts.html:10
+msgid "All Listings"
+msgstr "Todos los Listados"
+
+#: templates/posts.html:11
+msgid "New Listing"
+msgstr "Nuevo Listado"
+
+#: templates/posts.html:23
+msgid "Check email"
+msgstr "Revisar correo electrónico"
+
+#: templates/posts.html:37
+msgid "Written by"
+msgstr "Escrito por"
+
+#: templates/posts.html:37
+msgid "on"
+msgstr "en"
+
+#: templates/posts.html:39
+msgid "Date:"
+msgstr "Fecha:"
+
+#: templates/rating.html:5
+msgid "Rate"
+msgstr "Calificar"
+
+#: templates/rating.html:8
+msgid "Please rate this apply with stars:"
+msgstr "Por favor, califica esta solicitud con estrellas:"
+
+#: templates/swearingnotallowed.html:10
+msgid "Please be polite, Your post was not delivered"
+msgstr "Por favor, sé educado. Tu publicación no fue entregada"
+
+

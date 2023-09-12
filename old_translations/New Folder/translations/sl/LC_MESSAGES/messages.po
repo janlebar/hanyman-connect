@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-08-18 15:32+0200\n"
-"PO-Revision-Date: 2023-08-18 15:46+0200\n"
+"PO-Revision-Date: 2023-08-18 15:30+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: sl\n"
 "Language-Team: sl <LL@li.org>\n"
@@ -25,7 +25,7 @@ msgstr "Pomoč pri selitvi"
 
 #: app.py:72
 msgid "Yard Work"
-msgstr "Vrtičkanje"
+msgstr "Vrtičkarska dela"
 
 #: app.py:73
 msgid "Heavy Lifting"
@@ -33,7 +33,7 @@ msgstr "Težko dvigovanje"
 
 #: app.py:74
 msgid "Electrical help"
-msgstr "Električna pomoč"
+msgstr "Električar"
 
 #: app.py:75
 msgid "Snow Removal"
@@ -41,7 +41,7 @@ msgstr "Odstranjevanje snega"
 
 #: app.py:76
 msgid "Lawn Care and Yard Work"
-msgstr "Nega trate in vrta"
+msgstr "Nega trate in vrtnih del"
 
 #: app.py:77
 msgid "Pet Care"
@@ -49,7 +49,7 @@ msgstr "Skrb za hišne ljubljenčke"
 
 #: app.py:78
 msgid "Tech Help"
-msgstr "Pomoč pri tehnologiji"
+msgstr "Tehnična pomoč"
 
 #: app.py:79
 msgid "Childcare"
@@ -57,11 +57,11 @@ msgstr "Varstvo otrok"
 
 #: app.py:80
 msgid "Elderly Assistance"
-msgstr "Pomoč starejšim"
+msgstr "Pomoč starejšim osebam"
 
 #: app.py:81
 msgid "Car Wash and Detailing"
-msgstr "Pranje in detajli avtomobila"
+msgstr "Pranje avtomobila in detajli"
 
 #: app.py:82
 msgid "Painting and Repairs"
@@ -85,63 +85,59 @@ msgstr "Varovanje hiše"
 
 #: templates/about.html:10 templates/about.html:18
 msgid "Web App Usage Guidelines"
-msgstr "Smernice za uporabo spletnega mesta"
+msgstr ""
 
 #: templates/about.html:19 templates/cookie_consent_banner.html:7
 msgid ""
 "Welcome to our web app! By using this app, you agree to follow these "
 "guidelines:"
 msgstr ""
-"Dobrodošli na našem spletnem mestu! Z uporabo te aplikacije se strinjate,"
-" da boste upoštevali naslednja pravila:"
 
 #: templates/about.html:21 templates/cookie_consent_banner.html:9
 msgid "Treat others with respect and kindness."
-msgstr "Spoštujte druge in bodite vljudni."
+msgstr ""
 
 #: templates/about.html:22 templates/cookie_consent_banner.html:10
 msgid "Avoid hate speech, harassment, or offensive behavior."
-msgstr "Izogibajte se sovražnemu govoru, nadlegovanju ali žaljivemu vedenju."
+msgstr ""
 
 #: templates/about.html:23 templates/cookie_consent_banner.html:11
 msgid "Do not share explicit, offensive, or violent content."
-msgstr "Ne delite eksplicitnih, žaljivih ali nasilnih vsebin."
+msgstr ""
 
 #: templates/about.html:24 templates/cookie_consent_banner.html:12
 msgid "Do not engage in illegal activities or promote them."
-msgstr "Ne sodelujte v nezakonitih dejavnostih ali jih spodbujajte."
+msgstr ""
 
 #: templates/about.html:25 templates/cookie_consent_banner.html:13
 msgid "Respect others' privacy and intellectual property."
-msgstr "Spoštujte zasebnost drugih in intelektualno lastnino."
+msgstr ""
 
 #: templates/about.html:26 templates/cookie_consent_banner.html:14
 msgid "Report inappropriate content using provided tools."
-msgstr "Neskladne vsebine prijavite s pomočjo ponujenih orodij."
+msgstr ""
 
 #: templates/about.html:27 templates/cookie_consent_banner.html:15
 msgid "Contribute relevant and on-topic discussions."
-msgstr "Prispevajte k relevantnim in na temo usmerjenim razpravam."
+msgstr ""
 
 #: templates/about.html:28 templates/cookie_consent_banner.html:16
 msgid "Comply with applicable laws and regulations."
-msgstr "Spoštujte veljavne zakone in predpise."
+msgstr ""
 
 #: templates/about.html:29 templates/cookie_consent_banner.html:17
 msgid "Users are responsible for their posted content."
-msgstr "Uporabniki so odgovorni za svojo objavljeno vsebino."
+msgstr ""
 
 #: templates/about.html:30 templates/cookie_consent_banner.html:18
 msgid "Violation may result in account suspension."
-msgstr "Kršitve lahko privedejo do suspenza računa."
+msgstr ""
 
 #: templates/about.html:32
 msgid ""
 "Please ensure you adhere to these guidelines to maintain a positive "
 "community environment. Thank you!"
 msgstr ""
-"Prosimo, upoštevajte ta pravila, da ohranimo pozitivno skupnostno okolje."
-" Hvala vam!"
 
 #: templates/applys.html:10
 msgid "Apply for work"
@@ -149,7 +145,7 @@ msgstr "Prijavite se za delo"
 
 #: templates/applys.html:23 templates/posts.html:29
 msgid "Apply"
-msgstr "Prijavi se"
+msgstr "Prijavite se"
 
 #: templates/base.html:118
 msgid "Home"
@@ -157,7 +153,7 @@ msgstr "Domov"
 
 #: templates/base.html:120
 msgid "Listings"
-msgstr "Ponudbe"
+msgstr "Oglasi"
 
 #: templates/base.html:122
 msgid "About"
@@ -165,7 +161,7 @@ msgstr "O nas"
 
 #: templates/base.html:124 templates/index.html:212
 msgid "Testimonials"
-msgstr "Pričevanja"
+msgstr "Izjave strank"
 
 #: templates/base.html:130 templates/base.html:158
 msgid "Login"
@@ -178,29 +174,33 @@ msgstr "Iskanje"
 
 #: templates/cookie_consent_banner.html:6
 msgid "Web App Usage Guidelines and cookie consent"
-msgstr "Smernice za uporabo spletnega mesta in soglasje za piškotke"
+msgstr ""
 
 #: templates/cookie_consent_banner.html:20
 msgid ""
 "Please ensure you adhere to these guidelines to maintain a positive "
 "community environment."
-msgstr "Prosimo, upoštevajte ta pravila, da ohranimo pozitivno skupnostno okolje."
+msgstr ""
 
 #: templates/cookie_consent_banner.html:22
 msgid "Thank you!"
-msgstr "Hvala!"
+msgstr ""
 
 #: templates/cookie_consent_banner.html:24
+#, fuzzy
 msgid "We use cookies to improve your experience on our site."
-msgstr "Uporabljamo piškotke za izboljšanje vaše izkušnje na našem mestu."
+msgstr ""
+"Uporabljamo piškotke, da izboljšamo vašo izkušnjo na našem mestu. S "
+"klikom na \"Strinjam se\" spodaj se strinjate z uporabo piškotkov."
 
 #: templates/cookie_consent_banner.html:25
+#, fuzzy
 msgid ""
 "By clicking \"I Consent\" below, you agree to our rules and use of "
 "cookies."
 msgstr ""
-"S klikom na \"Soglašam\" spodaj se strinjate z našimi pravili in uporabo "
-"piškotkov."
+"Uporabljamo piškotke, da izboljšamo vašo izkušnjo na našem mestu. S "
+"klikom na \"Strinjam se\" spodaj se strinjate z uporabo piškotkov."
 
 #: templates/cookie_consent_banner.html:30
 msgid "I agree to the use of cookies."
@@ -244,19 +244,19 @@ msgstr "Uredi"
 
 #: templates/email_template.html:21
 msgid "Confirm your post"
-msgstr "Potrdite svojo objavo"
+msgstr "Potrdite vašo objavo"
 
 #: templates/email_template.html:22
 msgid "Hello,"
-msgstr "Zdravo,"
+msgstr "Pozdravljeni,"
 
 #: templates/email_template.html:23
 msgid ""
 "Thank you for creating a post. Please click the link below to confirm "
 "your post:"
 msgstr ""
-"Hvala, ker ste ustvarili objavo. Prosimo, kliknite spodnjo povezavo, da "
-"potrdite svojo objavo:"
+"Hvala vam za ustvarjanje objave. Kliknite spodnjo povezavo, da potrdite "
+"svojo objavo:"
 
 #: templates/email_template.html:24
 msgid "Confirm post"
@@ -264,7 +264,7 @@ msgstr "Potrdi objavo"
 
 #: templates/email_template.html:25
 msgid "If you did not create this post, please ignore this email."
-msgstr "Če niste ustvarili te objave, to sporočilo ignorirajte."
+msgstr "Če niste ustvarili te objave, prosimo, prezrite to e-pošto."
 
 #: templates/email_template.html:26 templates/email_template_connect.html:25
 msgid "Thanks for reading!"
@@ -272,11 +272,15 @@ msgstr "Hvala za branje!"
 
 #: templates/email_template_connect.html:23
 msgid "Please contact"
-msgstr "Za več informacij prosimo kontaktirajte"
+msgstr "Prosimo, kontaktirajte"
+
+#: templates/email_template_connect.html:23
+msgid "for more information."
+msgstr "za več informacij."
 
 #: templates/email_template_connect.html:24
 msgid "If you did not request this information, please ignore this email."
-msgstr "Če niste zahtevali teh informacij, to sporočilo ignorirajte."
+msgstr "Če niste zahtevali teh informacij, prosimo, prezrite to e-pošto."
 
 #: templates/index.html:37
 msgid "Find help for what You need"
@@ -284,19 +288,19 @@ msgstr "Poiščite pomoč za to, kar potrebujete"
 
 #: templates/index.html:38
 msgid "Get help today"
-msgstr "Dobite pomoč danes"
+msgstr "Danes poiščite pomoč"
 
 #: templates/index.html:40
 msgid "Find a helping hand"
-msgstr "Najdite ročno roko"
+msgstr "Najdite roko pomoči"
 
 #: templates/index.html:43
 msgid "Integrates With"
-msgstr "Povezuje se z"
+msgstr "Integrirano z"
 
 #: templates/index.html:84
 msgid "Find your next opportunity!"
-msgstr "Najdite naslednjo priložnost!"
+msgstr "Poiščite naslednjo priložnost!"
 
 #: templates/index.html:85
 msgid "Are you ready to start?"
@@ -304,11 +308,11 @@ msgstr "Ste pripravljeni začeti?"
 
 #: templates/index.html:111
 msgid "Make Your offer, that suits You"
-msgstr "Oddajte svojo ponudbo, ki vam ustreza"
+msgstr "Ponudite svojo ponudbo, ki vam ustreza"
 
 #: templates/index.html:114
 msgid "Find help or make an offer"
-msgstr "Poiščite pomoč ali oddajte ponudbo"
+msgstr "Poiščite pomoč ali ponudite pomoč"
 
 #: templates/index.html:146
 msgid "Your pick of contractors at your prices"
@@ -319,26 +323,26 @@ msgid ""
 "No matter where you are, find the perfect solution for the help you need "
 "at prices you set."
 msgstr ""
-"Ne glede na to, kje se nahajate, poiščite popolno rešitev za pomoč, ki jo"
-" potrebujete, po cenah, ki jih določite."
+"Ne glede na to, kje ste, poiščite popolno rešitev za pomoč, ki jo "
+"potrebujete, po cenah, ki jih določite."
 
 #: templates/index.html:148 templates/index.html:169 templates/index.html:190
 msgid ""
 "Learn\n"
 "                                More"
-msgstr "Več izvedite"
+msgstr "Poglejte več"
 
 #: templates/index.html:167
 msgid "Scroll, click, tap and go!"
-msgstr "Pomaknite se, kliknite, tapnite in pojdite!"
+msgstr "Pomikajte, klikajte, tapnite in začnite!"
 
 #: templates/index.html:168
 msgid ""
 "Finding help has never been easier! Thanks to our simple app, you can "
 "find a help close to you in just minutes."
 msgstr ""
-"Iskanje pomoči še nikoli ni bilo lažje! Zahvaljujoč naši preprosti "
-"aplikaciji lahko v samo nekaj minutah poiščete pomoč v bližini."
+"Poiščite pomoč še nikoli ni bilo lažje! Zahvaljujoč naši preprosti "
+"aplikaciji lahko v samo nekaj minutah poiščete pomoč blizu vas."
 
 #: templates/index.html:188
 msgid "Smart notifications"
@@ -346,7 +350,7 @@ msgstr "Pametna obvestila"
 
 #: templates/index.html:189
 msgid "Our smart notifications will notify you when users convert."
-msgstr "Naša pametna obvestila vas bodo obvestila, ko se uporabniki pretvorijo."
+msgstr "Naša pametna obvestila vas bodo obvestila, ko se uporabniki preoblikujejo."
 
 #: templates/index.html:208
 msgid ""
@@ -354,7 +358,7 @@ msgid ""
 "                            love\n"
 "                            our product"
 msgstr ""
-"Naši stranke\n"
+"Naše stranke\n"
 "                            obožujejo\n"
 "                            naš izdelek"
 
@@ -364,8 +368,8 @@ msgid ""
 "                            extensive list of case studies and customer "
 "testimonials."
 msgstr ""
-"Ne verjemite nam samo, preberite iz našega obsežnega seznama študij "
-"primerov in pričevanj strank."
+"Ne verjemite le nam, preberite iz našega obsežnega seznama primerov "
+"študij in izjav strank."
 
 #: templates/index.html:230
 msgid "I'm like that I can find someone who can help me when moving"
@@ -381,16 +385,16 @@ msgid ""
 "                                            quickly find someone for any "
 "project."
 msgstr ""
-"Res sem navdušen nad to storitvijo. Zdaj lahko hitro najdem nekoga za "
-"kateri koli projekt."
+"Zelo mi je všeč ta storitev. Zdaj lahko hitro najdem nekoga za kateri "
+"koli projekt."
 
 #: templates/index.html:253
 msgid "- Hobbyist"
-msgstr "- Navdušenec"
+msgstr "- Hobijist"
 
 #: templates/index.html:271
 msgid "- Extremely helpful in every way."
-msgstr "- Izjemno koristno na vseh področjih."
+msgstr "- Izjemno koristno na vsak način."
 
 #: templates/index.html:274
 msgid "Jure"
@@ -406,21 +410,21 @@ msgstr ""
 
 #: templates/index.html:292
 msgid "Finally a quick and easy way to find help."
-msgstr "Končno hiter in enostaven način za iskanje pomoči."
+msgstr "Končno hitra in enostavna pot za iskanje pomoči."
 
 #: templates/index.html:295
 msgid "Maria"
-msgstr "Marija"
+msgstr "Maria"
 
 #: templates/index.html:296
 msgid "Retired"
-msgstr "Upokojena"
+msgstr "Upokojenec"
 
 #: templates/index.html:339
 msgid ""
 "Connecting skilled professionals and experienced ones with the needs of "
 "the people."
-msgstr "Povezovanje strokovnjakov in izkušenih posameznikov s potrebami ljudi."
+msgstr "Povezovanje izkušenih strokovnjakov in izkušenih oseb z potrebami ljudi."
 
 #: templates/index.html:349
 msgid "FAQ"
@@ -436,7 +440,7 @@ msgid ""
 "                                of Service"
 msgstr ""
 "Pogoji\n"
-"                            storitve"
+"                                storitve"
 
 #: templates/index.html:361
 msgid "Follow Us"
@@ -457,8 +461,8 @@ msgstr "Objavite svojo ponudbo"
 #: templates/login.html:15
 msgid "Email not found in database. Please fill out the following form to apply:"
 msgstr ""
-"E-pošte ni mogoče najti v bazi podatkov. Prosimo, izpolnite spodnji "
-"obrazec za prijavo:"
+"Elektronske pošte ni bilo mogoče najti v bazi podatkov. Izpolnite "
+"naslednji obrazec za prijavo:"
 
 #: templates/login.html:17 templates/login.html:32 templates/new_apply.html:17
 #: templates/new_post.html:14
@@ -476,7 +480,7 @@ msgstr "Moja ocena"
 
 #: templates/my_portfolio.html:34
 msgid "No ratings found for this email."
-msgstr "Ni najdenih ocen za to e-pošto."
+msgstr "Ni najdenih ocen za to elektronsko pošto."
 
 #: templates/new_apply.html:4
 msgid "Apply for the offer"
@@ -484,11 +488,11 @@ msgstr "Prijavite se za ponudbo"
 
 #: templates/new_post.html:4
 msgid "Post offer"
-msgstr "Objavi ponudbo"
+msgstr "Objavite ponudbo"
 
 #: templates/new_post.html:8
 msgid "Submit Your inquiry"
-msgstr "Oddajte vaše povpraševanje"
+msgstr "Pošljite svoje povpraševanje"
 
 #: templates/new_post.html:15
 msgid "Work Title:"
@@ -508,7 +512,7 @@ msgstr "Vnesite ponudbo"
 
 #: templates/new_post.html:35
 msgid "Write Your Email:"
-msgstr "Napišite svojo e-pošto:"
+msgstr "Vpišite svojo e-pošto:"
 
 #: templates/new_post.html:41 templates/posts.html:27
 msgid "Work description:"
@@ -520,7 +524,7 @@ msgstr "Opišite, kaj iščete:"
 
 #: templates/new_post.html:57
 msgid "Submit"
-msgstr "Oddaj"
+msgstr "Pošlji"
 
 #: templates/posts.html:4
 msgid "Posts"
@@ -528,19 +532,19 @@ msgstr "Objave"
 
 #: templates/posts.html:10
 msgid "All Listings"
-msgstr "Vse ponudbe"
+msgstr "Vsi oglasi"
 
 #: templates/posts.html:11
 msgid "New Listing"
-msgstr "Nova ponudba"
+msgstr "Nov oglas"
 
 #: templates/posts.html:18
 msgid "Written by"
-msgstr "Napisano od"
+msgstr "Napisal"
 
 #: templates/posts.html:18
 msgid "on"
-msgstr "dne"
+msgstr "na dan"
 
 #: templates/posts.html:20
 msgid "Date:"
@@ -556,5 +560,11 @@ msgstr "Prosimo, ocenite to prijavo z zvezdicami:"
 
 #: templates/swearingnotallowed.html:10
 msgid "Please be polite, Your post was not dellivered"
-msgstr "Prosimo, bodite vljudni, vaša objava ni bila dostavljena"
+msgstr ""
+
+#~ msgid "Cookie Consent"
+#~ msgstr "Soglasje za piškotke"
+
+#~ msgid "Please be polite, Your post was not delivered"
+#~ msgstr "Prosim, bodite vljudni, vaša objava ni bila dostavljena"
 

@@ -61,7 +61,7 @@ def get_locale():
         return user_language
 
     # If the user didn't select a language, use the Accept-Language header from the browser
-    accept_languages = request.accept_languages.best_match(['en', 'sl'])
+    accept_languages = request.accept_languages.best_match(['en', 'sl','es'])
     return accept_languages
 
 babel.init_app(app, locale_selector=get_locale)
@@ -86,7 +86,11 @@ def init_items():
         gettext("Tutoring"),
         gettext("Personal Shopping"),
         gettext("Plant Care"),
-        gettext("House Sitting")
+        gettext("House Sitting"),
+        gettext("Legal assistance"),
+        gettext("Permit assistance"),
+        gettext("Other small work assistance")
+
     ]
 
 @app.route('/change_language/<lang>')
