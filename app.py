@@ -1,5 +1,6 @@
 import os
 
+from logging.config import dictConfig
 from secrets import randbelow
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 # flask needs to import request, to get data from database
@@ -15,6 +16,23 @@ from flask_babel import gettext
 # from transformers import pipeline
 from datetime import datetime, timedelta
 
+dictConfig({
+    'version': 1,
+    'formatters': {'default': {
+        'format': '[%(asctime)s] %(levelname)s in %(module)s: %(message)s',
+    }},
+    'handlers': {'wsgi': {
+        'class': 'logging.StreamHandler',
+        'stream': 'ext://flask.logging.wsgi_errors_stream',
+        'formatter': 'default'
+    }},
+    'root': {
+        'level': 'INFO',
+        'handlers': ['wsgi']
+    }
+})
+
+
 # # Load the text classification pipeline for hugging face
 # model_name = "distilbert-base-uncased"
 # classifier = pipeline("text-classification", model=model_name)
@@ -22,7 +40,7 @@ from datetime import datetime, timedelta
 app = Flask(__name__)
 
 # Define BASE_URL directly in your code
-BASE_URL = "http://localhost:5000"
+#BASE_URL = "http://localhost:5000"
 
 # app config with private data excluded from git
 app.config.from_pyfile('config.defaults.cfg')
@@ -145,7 +163,7 @@ def index():
         latitude_localisation = session.get('latitude')
 
         # Query the BlogPost objects
-        blog_posts = BlogPost.query.all()
+        blog_posts = BlogPost.query.filter(BlogPost.confirmed == True).all()
 
         coords = [{'id': post.id,
                    'longitude': post.longitude,
@@ -283,10 +301,11 @@ def save_post():
 def sendmail(email, confirmation_id):
     msg = Message('Confirm your post', sender='handytest753@gmail.com', recipients=[email])
     # msg.body = f"Click to confirm {BASE_URL}/posts/confirm/{confirmation_id}"
+    confirmation_url = url_for("confirm", id=confirmation_id, _external=True)
+    
     msg.html = render_template(
         'email_template.html',
-        BASE_URL= BASE_URL,  
-        confirmation_id=confirmation_id
+        confirmation_url=confirmation_url
     )
     mail.send(msg)
 
@@ -439,9 +458,10 @@ def applys():
         return redirect('/posts')
 
 def send_mail_apply(email_apply, apply_confirmation_id):
-    confirmation_url = f"{BASE_URL}/apply/confirmed/{apply_confirmation_id}"
+    #confirmation_url = f"{BASE_URL}/apply/confirmed/{apply_confirmation_id}"
+    confirmation_url = url_for('confirmed', apply_confirmation_id=apply_confirmation_id, _external=True)
     msg = Message('Confirm your post', sender='handytest753@gmail.com', recipients=[email_apply])
-    msg.html = render_template('email_template_apply.html', BASE_URL=BASE_URL, confirmation_url=confirmation_url,
+    msg.html = render_template('email_template_apply.html', confirmation_url=confirmation_url,
                                apply_confirmation_id=apply_confirmation_id)
     mail.send(msg)
 
@@ -476,12 +496,12 @@ def confirmed(apply_confirmation_id):
 
 
 def sendmailconnect(email_applys, emails, id_apply):
-    rate_link = f"{BASE_URL}/rating/{id_apply}"
+    rate_link = url_for("rating", id_apply=id_apply, _external=True)
     contact = email_applys
     subject = "Handyman connecting You with applicant"
     
     msg = Message(subject=subject, sender='handytest753@gmail.com', recipients=[emails])
-    msg.html = render_template('email_template_connect.html', BASE_URL=BASE_URL, rate_link=rate_link, contact=contact)
+    msg.html = render_template('email_template_connect.html', rate_link=rate_link, contact=contact)
     
     mail.send(msg)
 
@@ -561,7 +581,8 @@ def login():
 
 def sendmailogin(email_apply, apply_confirmation_id):
     msg = Message('Hello', sender='handytest753@gmail.com', recipients=[email_apply])
-    confirmation_url = f"{BASE_URL}/apply/confirmed/{apply_confirmation_id}"
+    #confirmation_url = f"{BASE_URL}/apply/confirmed/{apply_confirmation_id}"
+    confirmation_url = url_for('confirmed', apply_confirmation_id=apply_confirmation_id)
     msg.body = f"Click to confirm {confirmation_url}"
     mail.send(msg)
 
