@@ -9,7 +9,7 @@ from flask_migrate import Migrate
 from flask_mail import Mail
 from flask_mail import Message
 from flask_hcaptcha import hCaptcha
-from models.database import db, BlogPost, Category, BlogApply, Rating
+from app.models.database import db, BlogPost, Category, BlogApply, Rating
 from sqlalchemy import or_,func
 from flask_babel import Babel
 from flask_babel import gettext
