@@ -3,10 +3,11 @@
 from flask import render_template, request, url_for
 # from .app import items  # Import app and items from app.py
 from database import BlogPost  # Import the BlogPost model from database.py
-from flask import Blueprint
-
+# from flask import Blueprint, current_app
 
 posts_blueprint = Blueprint('posts', __name__)
+
+# items = current_app.items
 
 @posts_blueprint.route('/posts', methods=['GET'])
 def get_posts():
