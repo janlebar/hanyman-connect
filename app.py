@@ -15,6 +15,10 @@ from flask_babel import Babel
 from flask_babel import gettext
 # from transformers import pipeline
 from datetime import datetime, timedelta
+from app.views.posts_routes import posts_blueprint
+from app.constants.constants import items
+
+
 
 dictConfig({
     'version': 1,
@@ -38,7 +42,7 @@ dictConfig({
 # classifier = pipeline("text-classification", model=model_name)
 
 app = Flask(__name__)
-
+app.register_blueprint(posts_blueprint)
 # Define BASE_URL directly in your code
 #BASE_URL = "http://localhost:5000"
 
@@ -88,28 +92,28 @@ babel.init_app(app, locale_selector=get_locale)
 def init_items():
     global items
 
-    items = [
-        gettext("Help Moving"),
-        gettext("Yard Work"),
-        gettext("Heavy Lifting"),
-        gettext("Electrical help"),
-        gettext("Snow Removal"),
-        gettext("Lawn Care and Yard Work"),
-        gettext("Pet Care"),
-        gettext("Tech Help"),
-        gettext("Childcare"),
-        gettext("Elderly Assistance"),
-        gettext("Car Wash and Detailing"),
-        gettext("Painting and Repairs"),
-        gettext("Tutoring"),
-        gettext("Personal Shopping"),
-        gettext("Plant Care"),
-        gettext("House Sitting"),
-        gettext("Legal assistance"),
-        gettext("Permit assistance"),
-        gettext("Other small work assistance")
+    # items = [
+    #     gettext("Help Moving"),
+    #     gettext("Yard Work"),
+    #     gettext("Heavy Lifting"),
+    #     gettext("Electrical help"),
+    #     gettext("Snow Removal"),
+    #     gettext("Lawn Care and Yard Work"),
+    #     gettext("Pet Care"),
+    #     gettext("Tech Help"),
+    #     gettext("Childcare"),
+    #     gettext("Elderly Assistance"),
+    #     gettext("Car Wash and Detailing"),
+    #     gettext("Painting and Repairs"),
+    #     gettext("Tutoring"),
+    #     gettext("Personal Shopping"),
+    #     gettext("Plant Care"),
+    #     gettext("House Sitting"),
+    #     gettext("Legal assistance"),
+    #     gettext("Permit assistance"),
+    #     gettext("Other small work assistance")
 
-    ]
+    # ]
 
 @app.route('/change_language/<lang>')
 def change_language(lang):
@@ -219,37 +223,37 @@ def search():
     urls = {post.id: post.id for post in all_posts}
     return render_template('posts.html', posts=all_posts, urls=urls)
 
-# POSTS    
+# # POSTS    
 
-@app.route('/posts', methods=['GET'])
-def posts():
-    if request.method == 'GET':
-        blog_filter = BlogPost.confirmed == True
+# @app.route('/posts', methods=['GET'])
+# def posts():
+#     if request.method == 'GET':
+#         blog_filter = BlogPost.confirmed == True
 
-        # returns all posts otherwise returns previous posts ordered by date query.order_by date_posted
-        all_posts = BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted).all()
+#         # returns all posts otherwise returns previous posts ordered by date query.order_by date_posted
+#         all_posts = BlogPost.query.filter(blog_filter).order_by(BlogPost.date_posted).all()
 
-        # urls, dictionary, for all posts id that were queried above transformed with serialiser
-        urls = {post.id: post.id
-                   for post in all_posts}
-        return render_template('posts.html', posts=all_posts, urls=urls)
+#         # urls, dictionary, for all posts id that were queried above transformed with serialiser
+#         urls = {post.id: post.id
+#                    for post in all_posts}
+#         return render_template('posts.html', posts=all_posts, urls=urls)
 
 
-@app.route('/post/<string:id>', methods=['GET', 'POST'])
-def post(id):
-    # returns all posts query.order_by date_posted
+# @app.route('/post/<string:id>', methods=['GET', 'POST'])
+# def post(id):
+#     # returns all posts query.order_by date_posted
 
-    all_posts = BlogPost.query.filter(BlogPost.id == id)
+#     all_posts = BlogPost.query.filter(BlogPost.id == id)
 
-    urls = {post.id: post.id
-        for post in all_posts}
-    return render_template('posts.html', posts=all_posts, urls=urls)       
+#     urls = {post.id: post.id
+#         for post in all_posts}
+#     return render_template('posts.html', posts=all_posts, urls=urls)       
 
-@app.route('/posts/new', methods=['GET', 'POST'])
-def new_post():
-    print(items)
-    # categories = Category.query.all()
-    return render_template('new_post.html', items=items, action_url=url_for(posts.__name__))
+# @app.route('/posts/new', methods=['GET', 'POST'])
+# def new_post():
+#     print(items)
+#     # categories = Category.query.all()
+#     return render_template('new_post.html', items=items, action_url=url_for(posts.__name__))
 
 @app.route('/save_post', methods=['POST'])
 def save_post():
