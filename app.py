@@ -16,6 +16,7 @@ from flask_babel import gettext
 # from transformers import pipeline
 from datetime import datetime, timedelta
 from app.views.posts_routes import posts_blueprint
+from app.views.applys_routes import applys_blueprint
 from app.constants.constants import items
 
 
@@ -43,8 +44,9 @@ dictConfig({
 
 app = Flask(__name__)
 app.register_blueprint(posts_blueprint)
+app.register_blueprint(applys_blueprint)
 # Define BASE_URL directly in your code
-#BASE_URL = "http://localhost:5000"
+
 
 # app config with private data excluded from git
 app.config.from_pyfile('config.defaults.cfg')
@@ -92,28 +94,28 @@ babel.init_app(app, locale_selector=get_locale)
 def init_items():
     global items
 
-    # items = [
-    #     gettext("Help Moving"),
-    #     gettext("Yard Work"),
-    #     gettext("Heavy Lifting"),
-    #     gettext("Electrical help"),
-    #     gettext("Snow Removal"),
-    #     gettext("Lawn Care and Yard Work"),
-    #     gettext("Pet Care"),
-    #     gettext("Tech Help"),
-    #     gettext("Childcare"),
-    #     gettext("Elderly Assistance"),
-    #     gettext("Car Wash and Detailing"),
-    #     gettext("Painting and Repairs"),
-    #     gettext("Tutoring"),
-    #     gettext("Personal Shopping"),
-    #     gettext("Plant Care"),
-    #     gettext("House Sitting"),
-    #     gettext("Legal assistance"),
-    #     gettext("Permit assistance"),
-    #     gettext("Other small work assistance")
+    items = [
+        gettext("Help Moving"),
+        gettext("Yard Work"),
+        gettext("Heavy Lifting"),
+        gettext("Electrical help"),
+        gettext("Snow Removal"),
+        gettext("Lawn Care and Yard Work"),
+        gettext("Pet Care"),
+        gettext("Tech Help"),
+        gettext("Childcare"),
+        gettext("Elderly Assistance"),
+        gettext("Car Wash and Detailing"),
+        gettext("Painting and Repairs"),
+        gettext("Tutoring"),
+        gettext("Personal Shopping"),
+        gettext("Plant Care"),
+        gettext("House Sitting"),
+        gettext("Legal assistance"),
+        gettext("Permit assistance"),
+        gettext("Other small work assistance")
 
-    # ]
+    ]
 
 @app.route('/change_language/<lang>')
 def change_language(lang):

@@ -3,6 +3,10 @@ from flask import render_template, request, url_for
 from app.models.database import BlogPost  # Import the BlogPost model from database.py
 from flask import Blueprint, current_app
 from app.constants.constants import items
+from flask_mail import Mail
+from flask_mail import Message
+from flask import Flask, render_template, request, redirect, url_for, jsonify, make_response, flash, session
+from secrets import randbelow
 
 posts_blueprint = Blueprint('posts', __name__)
 
