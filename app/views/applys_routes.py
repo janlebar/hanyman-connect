@@ -10,6 +10,7 @@ from secrets import randbelow
 
 applys_blueprint = Blueprint('applys', __name__)
 
-# @applys_blueprint.route('/apply/new/<id>', methods=['GET', 'POST'])
-# def new_apply(id):
-#     return render_template('new_apply.html', blog_post_id=id, action_url=url_for(applys.get_applys))
+
+@applys_blueprint.route('/apply/new/<id>', methods=['GET', 'POST'])
+def new_apply(id):
+    return render_template('new_apply.html', blog_post_id=id, action_url=url_for('applys.new_apply',id=id))
