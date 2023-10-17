@@ -10,6 +10,7 @@ from secrets import randbelow
 from app.models.database import db, BlogPost, Category, BlogApply, Rating
 
 
+
 applys_blueprint = Blueprint('applys', __name__)
 current_app.config.from_pyfile('config.cfg', silent=True)
 mail = Mail(applys_blueprint)
