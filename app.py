@@ -440,36 +440,36 @@ def posttimelimit():
     
 
 
-@app.route('/applys', methods=['POST'])
-def applys():
-    if request.method == 'POST':
-        name_apply = request.form['name_apply']
-        email_apply = request.form['email_apply']
-        blog_post_id = request.form['blog_post_id']
-        apply_confirmation_id = randbelow(2 ** 31)
+# @app.route('/applys', methods=['POST'])
+# def applys():
+#     if request.method == 'POST':
+#         name_apply = request.form['name_apply']
+#         email_apply = request.form['email_apply']
+#         blog_post_id = request.form['blog_post_id']
+#         apply_confirmation_id = randbelow(2 ** 31)
 
-        new_apply = BlogApply(email_apply=email_apply, name_apply=name_apply, blog_post_id=blog_post_id,
-                              apply_confirmation_id=apply_confirmation_id)
+#         new_apply = BlogApply(email_apply=email_apply, name_apply=name_apply, blog_post_id=blog_post_id,
+#                               apply_confirmation_id=apply_confirmation_id)
 
-        try:
-            send_mail_apply(email_apply, apply_confirmation_id)
-            flash('', 'info')
-        except Exception as e:
-            flash('An error occurred while sending the email.', 'error')
-            app.logger.error(str(e))  
+#         try:
+#             send_mail_apply(email_apply, apply_confirmation_id)
+#             flash('', 'info')
+#         except Exception as e:
+#             flash('An error occurred while sending the email.', 'error')
+#             app.logger.error(str(e))  
 
-        db.session.add(new_apply)
-        db.session.commit()
+#         db.session.add(new_apply)
+#         db.session.commit()
 
-        return redirect('/posts')
+#         return redirect('/posts')
 
-def send_mail_apply(email_apply, apply_confirmation_id):
-    #confirmation_url = f"{BASE_URL}/apply/confirmed/{apply_confirmation_id}"
-    confirmation_url = url_for('confirmed', apply_confirmation_id=apply_confirmation_id, _external=True)
-    msg = Message('Confirm your post', sender='handytest753@gmail.com', recipients=[email_apply])
-    msg.html = render_template('email_template_apply.html', confirmation_url=confirmation_url,
-                               apply_confirmation_id=apply_confirmation_id)
-    mail.send(msg)
+# def send_mail_apply(email_apply, apply_confirmation_id):
+#     #confirmation_url = f"{BASE_URL}/apply/confirmed/{apply_confirmation_id}"
+#     confirmation_url = url_for('confirmed', apply_confirmation_id=apply_confirmation_id, _external=True)
+#     msg = Message('Confirm your post', sender='handytest753@gmail.com', recipients=[email_apply])
+#     msg.html = render_template('email_template_apply.html', confirmation_url=confirmation_url,
+#                                apply_confirmation_id=apply_confirmation_id)
+#     mail.send(msg)
 
 
 
