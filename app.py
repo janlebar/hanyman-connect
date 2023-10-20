@@ -406,10 +406,10 @@ def posttimelimit():
 
 # APPLYS
 
-# @app.route('/apply/new/<id>', methods=['GET', 'POST'])
-# def new_apply(id):
-#     return render_template('new_apply.html', blog_post_id=id, action_url=url_for(applys.__name__))
-
+@app.route('/apply/new/<id>', methods=['GET', 'POST'])
+def new_apply(id):
+    return render_template('new_apply.html', blog_post_id=id, action_url=url_for(applys.__name__))
+#skip this one
 # @app.route('/applys', methods=['GET', 'POST'])
 # def applys():
 #     # if spodi ipolne form oz ga prebere
@@ -439,7 +439,7 @@ def posttimelimit():
 #     mail.send(msg)
     
 
-
+#this one ok
 # @app.route('/applys', methods=['POST'])
 # def applys():
 #     if request.method == 'POST':
