@@ -8,6 +8,9 @@ from flask_mail import Mail, Message
 from ..models.database import BlogApply, db, BlogPost, Category, Rating
 from ..constants.constants import items
 
+
+
+
 applys_blueprint = Blueprint('applys', __name__)
 
 
@@ -21,6 +24,8 @@ def load_mail_config():
     mail.init_app(current_app)
     current_app.config.from_pyfile('config.cfg', silent=True)
 
+
+print(items)
 
 # with current_app.app_context():
 #     mail = Mail()
@@ -62,3 +67,48 @@ def send_mail_apply(email_apply, apply_confirmation_id):
     msg.html = render_template('email_template_apply.html', confirmation_url=confirmation_url,
                                apply_confirmation_id=apply_confirmation_id)
     mail.send(msg)
+
+
+
+
+
+# from flask import render_template, request, url_for
+# from flask import Blueprint, current_app
+# # from app.models.database import BlogApply  # Adjust the import path as needed
+# # from app.constants.constants import items
+# from flask import Flask, render_template, request, redirect, url_for, jsonify, make_response, flash, session
+# from secrets import randbelow
+# from flask_mail import Mail, Message
+# from ..models.database import BlogApply, db, BlogPost, Category, Rating
+
+# applys_blueprint = Blueprint('my_blueprint', __name__)
+
+# @applys_blueprint.route('/applys', methods=['POST'])
+# def applys():
+#     if request.method == 'POST':
+#         name_apply = request.form['name_apply']
+#         email_apply = request.form['email_apply']
+#         blog_post_id = request.form['blog_post_id']
+#         apply_confirmation_id = randbelow(2 ** 31)
+
+#         new_apply = BlogApply(email_apply=email_apply, name_apply=name_apply, blog_post_id=blog_post_id,
+#                               apply_confirmation_id=apply_confirmation_id)
+
+#         try:
+#             send_mail_apply(email_apply, apply_confirmation_id)
+#             flash('', 'info')
+#         except Exception as e:
+#             flash('An error occurred while sending the email.', 'error')
+#             current_app.logger.error(str(e))
+
+#         db.session.add(new_apply)
+#         db.session.commit()
+
+#         return redirect('/posts')
+
+# def send_mail_apply(email_apply, apply_confirmation_id):
+#     confirmation_url = url_for('confirmed', apply_confirmation_id=apply_confirmation_id, _external=True)
+#     msg = Message('Confirm your post', sender=current_app.config['MAIL_USERNAME'], recipients=[email_apply])
+#     msg.html = render_template('email_template_apply.html', confirmation_url=confirmation_url,
+#                                apply_confirmation_id=apply_confirmation_id)
+#     current_app.extensions['mail'].send(msg)
