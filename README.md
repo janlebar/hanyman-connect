@@ -19,7 +19,7 @@ sudo -u postgres psql
 Check if database is working
 
 ```shell
-sudo systemctl status postgesql
+sudo systemctl status postgresql
 ```
 
 Connecting to database:
@@ -64,7 +64,7 @@ explain select * from blog_post where to_tsvector('slovenian', content) @@ 'stan
 Database migration
 
 ```shell
-rm -r migrations/versions/*
+rm -r migrations/versions/* #delete migrations?
 flask db migrate -m "Initial migration."
 flask db upgrade
 ```

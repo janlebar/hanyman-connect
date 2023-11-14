@@ -9,15 +9,15 @@ from flask_migrate import Migrate
 from flask_mail import Mail
 from flask_mail import Message
 from flask_hcaptcha import hCaptcha
-from app.models.database import db, BlogPost, Category, BlogApply, Rating
+from handyman.models.database import db, BlogPost, Category, BlogApply, Rating
 from sqlalchemy import or_,func
 from flask_babel import Babel
 from flask_babel import gettext
 # from transformers import pipeline
 from datetime import datetime, timedelta
-from app.views.posts_routes import posts_blueprint
-from app.views.applys_routes import applys_blueprint
-from app.constants.constants import items
+from handyman.views.posts_routes import posts_blueprint
+from handyman.views.applys_routes import applys_blueprint
+from handyman.constants.constants import items
 
 
 

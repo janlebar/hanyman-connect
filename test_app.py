@@ -1,5 +1,5 @@
 import unittest
-from app import app, db, BlogPost, Category
+from handyman import app, db, BlogPost, Category
 
 class TestApp(unittest.TestCase):
 

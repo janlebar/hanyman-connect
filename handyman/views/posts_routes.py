@@ -1,8 +1,8 @@
 from flask import render_template, request, url_for
 # from .app import items  # Import app and items from app.py
-from app.models.database import BlogPost  # Import the BlogPost model from database.py
+from handyman.models.database import BlogPost  # Import the BlogPost model from database.py
 from flask import Blueprint, current_app
-from app.constants.constants import items
+from handyman.constants.constants import items
 from flask_mail import Mail
 from flask_mail import Message
 from flask import Flask, render_template, request, redirect, url_for, jsonify, make_response, flash, session
