@@ -14,17 +14,6 @@ from ..constants.constants import items
 applys_blueprint = Blueprint('applys', __name__)
 
 
-
-
-# Create a mail instance
-mail = Mail()
-
-# Define the function to load the email configuration
-def load_mail_config():
-    mail.init_app(current_app)
-    current_app.config.from_pyfile('config.cfg', silent=True)
-
-
 print(items)
 
 # with current_app.app_context():
@@ -53,7 +42,7 @@ def applys():
             flash('', 'info')
         except Exception as e:
             flash('An error occurred while sending the email.', 'error')
-            app.logger.error(str(e))  
+            current_app.logger.error(str(e))  
 
         db.session.add(new_apply)
         db.session.commit()
@@ -61,12 +50,16 @@ def applys():
         return redirect('/posts')
 
 def send_mail_apply(email_apply, apply_confirmation_id):
-    #confirmation_url = f"{BASE_URL}/apply/confirmed/{apply_confirmation_id}"
-    confirmation_url = url_for('confirmed', apply_confirmation_id=apply_confirmation_id, _external=True)
-    msg = Message('Confirm your post', sender='handytest753@gmail.com', recipients=[email_apply])
-    msg.html = render_template('email_template_apply.html', confirmation_url=confirmation_url,
-                               apply_confirmation_id=apply_confirmation_id)
-    mail.send(msg)
+    with current_app.app_context():
+        mail = Mail()
+        
+        #confirmation_url = f"{BASE_URL}/apply/confirmed/{apply_confirmation_id}"
+        confirmation_url = url_for('confirmed', apply_confirmation_id=apply_confirmation_id, _external=True)
+        msg = Message('Confirm your post', sender='handytest753@gmail.com', recipients=[email_apply])
+        msg.html = render_template('email_template_apply.html', confirmation_url=confirmation_url,
+                                apply_confirmation_id=apply_confirmation_id)
+
+        mail.send(msg)
 
 
 

@@ -1,5 +1,7 @@
 config.cfg
 config.py
+refactoring.md
+refactoring.png
 venv/
 # Byte-compiled / optimized / DLL files
 __pycache__/

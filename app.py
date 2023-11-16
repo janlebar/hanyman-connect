@@ -64,6 +64,7 @@ hcaptcha = hCaptcha(app)
 
 # ORM is SQLAlchemy
 migrate = Migrate(app, db)
+
 # mail class
 mail = Mail(app)
 
