@@ -258,158 +258,158 @@ def search():
 #     # categories = Category.query.all()
 #     return render_template('new_post.html', items=items, action_url=url_for(posts.__name__))
 
-@app.route('/save_post', methods=['POST'])
-def save_post():
-    # if spodi ipolne form oz ga prebere
-    # POST /posts
+# @app.route('/save_post', methods=['POST'])
+# def save_post():
+#     # if spodi ipolne form oz ga prebere
+#     # POST /posts
 
-    post_title = request.form['title']
-    post_content = request.form['content']
-    post_offer = request.form['offer']
-    post_email = request.form['email']
-    post_longitude = request.form['longitude']
-    post_latitude = request.form['latitude']
-    post_item = request.form['item']  
-    post_confirmation_id = randbelow(2 ** 31)
-    post_phonenumber = request.form['phonenumber']
-    # session['email'] = post_email
+#     post_title = request.form['title']
+#     post_content = request.form['content']
+#     post_offer = request.form['offer']
+#     post_email = request.form['email']
+#     post_longitude = request.form['longitude']
+#     post_latitude = request.form['latitude']
+#     post_item = request.form['item']  
+#     post_confirmation_id = randbelow(2 ** 31)
+#     post_phonenumber = request.form['phonenumber']
+#     # session['email'] = post_email
 
-    for word in swear_words:
-        if word[:4].lower() in post_title.lower():
-                 return render_template('swearingnotallowed.html')
+#     for word in swear_words:
+#         if word[:4].lower() in post_title.lower():
+#                  return render_template('swearingnotallowed.html')
 
-    new_post = BlogPost(title=post_title,content=post_content,offer=post_offer,longitude=post_longitude,latitude=post_latitude,email=post_email,
-    confirmation_id=post_confirmation_id,category=post_item,phonenumber=post_phonenumber)
+#     new_post = BlogPost(title=post_title,content=post_content,offer=post_offer,longitude=post_longitude,latitude=post_latitude,email=post_email,
+#     confirmation_id=post_confirmation_id,category=post_item,phonenumber=post_phonenumber)
 
-    # vpise v bazo v trenutno
-    db.session.add(new_post)
-    # commit ga sele vpise permanentno v bazo
-    db.session.commit()
+#     # vpise v bazo v trenutno
+#     db.session.add(new_post)
+#     # commit ga sele vpise permanentno v bazo
+#     db.session.commit()
     
-    print("Latitude:", post_latitude)
-    print("Longitude:", post_longitude)
+#     print("Latitude:", post_latitude)
+#     print("Longitude:", post_longitude)
 
 
-    # poklical funkcijo sendmail in jo izpolnil z parametri iz posts
-    sendmail(post_email, post_confirmation_id)
+#     # poklical funkcijo sendmail in jo izpolnil z parametri iz posts
+#     sendmail(post_email, post_confirmation_id)
 
 
-    try:
-        sendmail(post_email, post_confirmation_id)
-        flash('', "info")
-    except Exception as e:
-        flash("An error occurred while sending the email.", "error")
-        # Handle the error, maybe log it or display an error message
-    # vrne posodobljen posts page
-    return redirect('/posts')
+#     try:
+#         sendmail(post_email, post_confirmation_id)
+#         flash('', "info")
+#     except Exception as e:
+#         flash("An error occurred while sending the email.", "error")
+#         # Handle the error, maybe log it or display an error message
+#     # vrne posodobljen posts page
+#     return redirect('/posts')
 
 
 # posts mail function
-def sendmail(email, confirmation_id):
-    msg = Message('Confirm your post', sender='handytest753@gmail.com', recipients=[email])
-    # msg.body = f"Click to confirm {BASE_URL}/posts/confirm/{confirmation_id}"
-    confirmation_url = url_for("confirm", id=confirmation_id, _external=True)
+# def sendmail(email, confirmation_id):
+#     msg = Message('Confirm your post', sender='handytest753@gmail.com', recipients=[email])
+#     # msg.body = f"Click to confirm {BASE_URL}/posts/confirm/{confirmation_id}"
+#     confirmation_url = url_for("confirm", id=confirmation_id, _external=True)
     
-    msg.html = render_template(
-        'email_template.html',
-        confirmation_url=confirmation_url
-    )
-    mail.send(msg)
+#     msg.html = render_template(
+#         'email_template.html',
+#         confirmation_url=confirmation_url
+#     )
+#     mail.send(msg)
 
-    try:
-        with current_app.app_context():
-            mail.send(msg)
-        return True
-    except Exception as e:
-        print(e)
-        flash("Something went wrong while sending the email.")  # Flash this message on email sending failure
-        return redirect('/posts')  # Redirect to a suitable page after failure
-
-
+    # try:
+    #     with current_app.app_context():
+    #         mail.send(msg)
+    #     return True
+    # except Exception as e:
+    #     print(e)
+    #     flash("Something went wrong while sending the email.")  # Flash this message on email sending failure
+    #     return redirect('/posts')  # Redirect to a suitable page after failure
 
 
 
 
-# decorator funkcijo pokiče v ozadju. 
-@app.route('/posts/confirm/<int:id>')
-def confirm(id):
-    """Confirm blog post by confirmation id created in POST /posts"""
-    # get post from database where confirmation id matches or return 404
-    post = BlogPost.query.filter(BlogPost.confirmation_id == id).first_or_404()
-    # set post to confirmed
-    post.confirmed = True
-    # save and commit updated post to database
-    db.session.add(post)
-    db.session.commit()
-    # add cokies session
-    session["email"] = post.email
 
-    # redirect to all posts
-    # jaka: url_for je neke vrste funkcija ki generira raut in vzame parameter id, čeprav je string url
-    return redirect(url_for('editing', id=post.id))
 
-@app.route('/editing/<string:id>', methods=['GET', 'POST'])
-def editing(id):
-    # returns all posts query.order_by date_posted
-    post = BlogPost.query.filter(BlogPost.id == id)
-    return render_template('editing.html', posts=post)
+# # decorator funkcijo pokiče v ozadju. 
+# @app.route('/posts/confirm/<int:id>')
+# def confirm(id):
+#     """Confirm blog post by confirmation id created in POST /posts"""
+#     # get post from database where confirmation id matches or return 404
+#     post = BlogPost.query.filter(BlogPost.confirmation_id == id).first_or_404()
+#     # set post to confirmed
+#     post.confirmed = True
+#     # save and commit updated post to database
+#     db.session.add(post)
+#     db.session.commit()
+#     # add cokies session
+#     session["email"] = post.email
 
-    # rout za delete post
-@app.route('/posts/delete/<string:id>')
-def delete(id):
-    post = BlogPost.query.get_or_404(id)
+#     # redirect to all posts
+#     # jaka: url_for je neke vrste funkcija ki generira raut in vzame parameter id, čeprav je string url
+#     return redirect(url_for('editing', id=post.id))
 
-    if session.get("email") != post.email:
-        raise Exception()
+# @app.route('/editing/<string:id>', methods=['GET', 'POST'])
+# def editing(id):
+#     # returns all posts query.order_by date_posted
+#     post = BlogPost.query.filter(BlogPost.id == id)
+#     return render_template('editing.html', posts=post)
+
+#     # rout za delete post
+# @app.route('/posts/delete/<string:id>')
+# def delete(id):
+#     post = BlogPost.query.get_or_404(id)
+
+#     if session.get("email") != post.email:
+#         raise Exception()
         
-    db.session.delete(post)
-    db.session.commit()
-    return redirect('/posts')
+#     db.session.delete(post)
+#     db.session.commit()
+#     return redirect('/posts')
 
 
 
 
 
 
-# route za edit post, ker ga urejas mora bit metoda post ker jo shrani v bazo
-@app.route('/posts/edit/<string:id>', methods=['GET', 'POST'])
-def edit(id):
-    post = BlogPost.query.get_or_404(id)
+# # route za edit post, ker ga urejas mora bit metoda post ker jo shrani v bazo
+# @app.route('/posts/edit/<string:id>', methods=['GET', 'POST'])
+# def edit(id):
+#     post = BlogPost.query.get_or_404(id)
 
-    if post.email != session.get("email"):
-        raise Exception("wrong email")
+#     if post.email != session.get("email"):
+#         raise Exception("wrong email")
     
-    if request.method == 'POST':
-        post.title = request.form['title']
-        post.offer = request.form['offer']
-        post.content = request.form['content']
-        post.email = request.form['email']
-        post.phonenumber = request.form['phonenumber']
-        post.category = request.form['category']  # Change 'item' to 'category'
-        db.session.commit()
-        return redirect('/posts')
-    else:
-        # post=post ker rabi prebrisat prejsn povst
-        # post_item = post.category  # Assign the current category value
-        return render_template('edit.html', post=post,items=items)
+#     if request.method == 'POST':
+#         post.title = request.form['title']
+#         post.offer = request.form['offer']
+#         post.content = request.form['content']
+#         post.email = request.form['email']
+#         post.phonenumber = request.form['phonenumber']
+#         post.category = request.form['category']  # Change 'item' to 'category'
+#         db.session.commit()
+#         return redirect('/posts')
+#     else:
+#         # post=post ker rabi prebrisat prejsn povst
+#         # post_item = post.category  # Assign the current category value
+#         return render_template('edit.html', post=post,items=items)
 
-# POSTS WITH TIME LIMIT
+# # POSTS WITH TIME LIMIT
 
-@app.route('/posttimelimit', methods=['GET'])
-def posttimelimit():
-    # calculate the date from one month ago
-    one_month_ago = datetime.utcnow() - timedelta(days=30)
-    # query for posts from the last month
-    all_posts = BlogPost.query.filter(BlogPost.date_posted >= one_month_ago).all()
-    # urls, dictionary, for all posts id that were queried above transformed with serializer
-    urls = {post.id: post.id for post in all_posts}
-    return render_template('posts.html', posts=all_posts, urls=urls)
+# @app.route('/posttimelimit', methods=['GET'])
+# def posttimelimit():
+#     # calculate the date from one month ago
+#     one_month_ago = datetime.utcnow() - timedelta(days=30)
+#     # query for posts from the last month
+#     all_posts = BlogPost.query.filter(BlogPost.date_posted >= one_month_ago).all()
+#     # urls, dictionary, for all posts id that were queried above transformed with serializer
+#     urls = {post.id: post.id for post in all_posts}
+#     return render_template('posts.html', posts=all_posts, urls=urls)
 
 # APPLYS
 
-@app.route('/apply/new/<id>', methods=['GET', 'POST'])
-def new_apply(id):
-    return render_template('new_apply.html', blog_post_id=id, action_url=url_for(applys.__name__))
+# @app.route('/apply/new/<id>', methods=['GET', 'POST'])
+# def new_apply(id):
+#     return render_template('new_apply.html', blog_post_id=id, action_url=url_for(applys.__name__))
 
 #skip this one
 # @app.route('/applys', methods=['GET', 'POST'])
@@ -482,117 +482,117 @@ def new_apply(id):
 
 
 
-@app.route('/apply/confirmed/<int:apply_confirmation_id>')
-def confirmed(apply_confirmation_id):
-    """Confirm blog post by confirmation id created in POST /posts"""
-    # get post from database where confirmation id matches or return 404
-    apply = BlogApply.query.filter(BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404()
-    # set post to confirmed
-    apply.apply_confirmed = True
-    # save and commit updated post to database
-    db.session.add(apply)
-    db.session.commit()
+# @app.route('/apply/confirmed/<int:apply_confirmation_id>')
+# def confirmed(apply_confirmation_id):
+#     """Confirm blog post by confirmation id created in POST /posts"""
+#     # get post from database where confirmation id matches or return 404
+#     apply = BlogApply.query.filter(BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404()
+#     # set post to confirmed
+#     apply.apply_confirmed = True
+#     # save and commit updated post to database
+#     db.session.add(apply)
+#     db.session.commit()
 
-    email_applys = ''.join(db.session.query(BlogPost.email).join(BlogApply).filter(
-        BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404())
+#     email_applys = ''.join(db.session.query(BlogPost.email).join(BlogApply).filter(
+#         BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404())
 
-    emails = ''.join(db.session.query(BlogApply.email_apply).filter(
-        BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404())
+#     emails = ''.join(db.session.query(BlogApply.email_apply).filter(
+#         BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404())
 
-    sendmailconnect(email_applys, emails, apply.id_apply)
-    return redirect(url_for('posts'))
-
-
-def sendmailconnect(email_applys, emails, id_apply):
-    rate_link = url_for("rating", id_apply=id_apply, _external=True)
-    contact = email_applys
-    subject = "Handyman connecting You with applicant"
-    
-    msg = Message(subject=subject, sender='handytest753@gmail.com', recipients=[emails])
-    msg.html = render_template('email_template_connect.html', rate_link=rate_link, contact=contact)
-    
-    mail.send(msg)
+#     sendmailconnect(email_applys, emails, apply.id_apply)
+#     return redirect(url_for('posts'))
 
 
 # def sendmailconnect(email_applys, emails, id_apply):
-#     msg = Message('Contact', sender='handytest753@gmail.com', recipients=[emails])
-#     msg.body = f"Please contact {email_applys} and rate by clicking {BASE_URL}/rating/{id_apply}"
+#     rate_link = url_for("rating", id_apply=id_apply, _external=True)
+#     contact = email_applys
+#     subject = "Handyman connecting You with applicant"
+    
+#     msg = Message(subject=subject, sender='handytest753@gmail.com', recipients=[emails])
+#     msg.html = render_template('email_template_connect.html', rate_link=rate_link, contact=contact)
+    
 #     mail.send(msg)
 
 
-# RATING APPLYS
-
-@app.route('/rating/<uuid:id_apply>', methods=['GET', 'POST'])
-def rating(id_apply):
-    """Rate email_apply with stars 1 to 5"""
-    apply = BlogApply.query.filter_by(id_apply=id_apply).first()
-    if apply is None:
-        abort(404)
-
-    if request.method == 'POST':
-        rating_value = int(request.form['rating'])
-        rating = Rating(rating=rating_value, apply=apply)
-        db.session.add(rating)
-        db.session.commit()
-        return redirect(url_for('posts'))
-
-    return render_template('rating.html', apply=apply)
-
-@app.route('/my_portfolio', methods=['GET'])
-def my_portfolio():
-    # Get the email from the session
-    email_apply_cookie = session.get('email_apply')
-
-    # Check if the email exists in the BlogApply database
-    apply = BlogApply.query.filter_by(email_apply=email_apply_cookie).first()
-
-    if apply:
-        ratings = [r[0] for r in db.session.query(Rating.rating)\
-                            .join(BlogApply, BlogApply.id_apply == Rating.apply_id)\
-                            .filter(BlogApply.email_apply == email_apply_cookie)\
-                            .all()]
-        # ratings = db.session.query(Rating)\
-        #             .join(BlogApply, BlogApply.id_apply == Rating.apply_id)\
-        #             .filter(BlogApply.email_apply == email_apply_cookie)\
-        #             .all()
-
-        # Render the my_portfolio template with the ratings
-        return render_template('my_portfolio.html', ratings=ratings, email_apply_cookie=email_apply_cookie)
-    else:
-        # flash("No ratings found for this email.")
-        # Redirect to the login template if the email is not found
-        return redirect('login')
+# # def sendmailconnect(email_applys, emails, id_apply):
+# #     msg = Message('Contact', sender='handytest753@gmail.com', recipients=[emails])
+# #     msg.body = f"Please contact {email_applys} and rate by clicking {BASE_URL}/rating/{id_apply}"
+# #     mail.send(msg)
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        email_apply = request.form.get('email_apply')
-        # Check if email exists in the database
-        blog_apply = BlogApply.query.filter_by(email_apply=email_apply).first()
-        if blog_apply:
-            # Set email to session
-            session['email_apply'] = email_apply
-            return redirect(url_for('my_portfolio'))
-        else:
-            # Email not found in database, handle expanded form fields
-            name_apply = request.form.get('name_apply')
-            blog_post_id = request.form.get('blog_post_id')
-            apply_confirmation_id = randbelow(2 ** 31)
-            new_apply = BlogApply(email_apply=email_apply, name_apply=name_apply, blog_post_id=blog_post_id, apply_confirmation_id=apply_confirmation_id)
-            db.session.add(new_apply)
-            db.session.commit()
-            sendmailogin(email_apply, apply_confirmation_id)
-            session['email_apply'] = email_apply
-            return "Please check your email for confirmation"
-    return render_template('login.html')
+# # RATING APPLYS
 
-def sendmailogin(email_apply, apply_confirmation_id):
-    msg = Message('Hello', sender='handytest753@gmail.com', recipients=[email_apply])
-    #confirmation_url = f"{BASE_URL}/apply/confirmed/{apply_confirmation_id}"
-    confirmation_url = url_for('confirmed', apply_confirmation_id=apply_confirmation_id)
-    msg.body = f"Click to confirm {confirmation_url}"
-    mail.send(msg)
+# @app.route('/rating/<uuid:id_apply>', methods=['GET', 'POST'])
+# def rating(id_apply):
+#     """Rate email_apply with stars 1 to 5"""
+#     apply = BlogApply.query.filter_by(id_apply=id_apply).first()
+#     if apply is None:
+#         abort(404)
+
+#     if request.method == 'POST':
+#         rating_value = int(request.form['rating'])
+#         rating = Rating(rating=rating_value, apply=apply)
+#         db.session.add(rating)
+#         db.session.commit()
+#         return redirect(url_for('posts'))
+
+#     return render_template('rating.html', apply=apply)
+
+# @app.route('/my_portfolio', methods=['GET'])
+# def my_portfolio():
+#     # Get the email from the session
+#     email_apply_cookie = session.get('email_apply')
+
+#     # Check if the email exists in the BlogApply database
+#     apply = BlogApply.query.filter_by(email_apply=email_apply_cookie).first()
+
+#     if apply:
+#         ratings = [r[0] for r in db.session.query(Rating.rating)\
+#                             .join(BlogApply, BlogApply.id_apply == Rating.apply_id)\
+#                             .filter(BlogApply.email_apply == email_apply_cookie)\
+#                             .all()]
+#         # ratings = db.session.query(Rating)\
+#         #             .join(BlogApply, BlogApply.id_apply == Rating.apply_id)\
+#         #             .filter(BlogApply.email_apply == email_apply_cookie)\
+#         #             .all()
+
+#         # Render the my_portfolio template with the ratings
+#         return render_template('my_portfolio.html', ratings=ratings, email_apply_cookie=email_apply_cookie)
+#     else:
+#         # flash("No ratings found for this email.")
+#         # Redirect to the login template if the email is not found
+#         return redirect('login')
+
+
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#     if request.method == 'POST':
+#         email_apply = request.form.get('email_apply')
+#         # Check if email exists in the database
+#         blog_apply = BlogApply.query.filter_by(email_apply=email_apply).first()
+#         if blog_apply:
+#             # Set email to session
+#             session['email_apply'] = email_apply
+#             return redirect(url_for('my_portfolio'))
+#         else:
+#             # Email not found in database, handle expanded form fields
+#             name_apply = request.form.get('name_apply')
+#             blog_post_id = request.form.get('blog_post_id')
+#             apply_confirmation_id = randbelow(2 ** 31)
+#             new_apply = BlogApply(email_apply=email_apply, name_apply=name_apply, blog_post_id=blog_post_id, apply_confirmation_id=apply_confirmation_id)
+#             db.session.add(new_apply)
+#             db.session.commit()
+#             sendmailogin(email_apply, apply_confirmation_id)
+#             session['email_apply'] = email_apply
+#             return "Please check your email for confirmation"
+#     return render_template('login.html')
+
+# def sendmailogin(email_apply, apply_confirmation_id):
+#     msg = Message('Hello', sender='handytest753@gmail.com', recipients=[email_apply])
+#     #confirmation_url = f"{BASE_URL}/apply/confirmed/{apply_confirmation_id}"
+#     confirmation_url = url_for('confirmed', apply_confirmation_id=apply_confirmation_id)
+#     msg.body = f"Click to confirm {confirmation_url}"
+#     mail.send(msg)
 
 # app.add_url_rule("/", None, view_func=index)
 
