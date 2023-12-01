@@ -17,6 +17,7 @@ from flask_babel import gettext
 from datetime import datetime, timedelta
 from handyman.views.posts_routes import posts_blueprint
 from handyman.views.applys_routes import applys_blueprint
+from handyman.views.utilities_routes import utilities_blueprint
 from handyman.constants.constants import items
 
 
@@ -45,6 +46,7 @@ dictConfig({
 app = Flask(__name__)
 app.register_blueprint(posts_blueprint)
 app.register_blueprint(applys_blueprint)
+app.register_blueprint(utilities_blueprint)
 # Define BASE_URL directly in your code
 
 
@@ -73,7 +75,7 @@ secret_key = app.config.get("SECRET_KEY")
 secret_salt = app.config.get("SECRET_SALT")
 serializer = URLSafeTimedSerializer(secret_key)
 
-swear_words = []  # Global variable to store the loaded list of swear words
+# swear_words = []  # Global variable to store the loaded list of swear words
 
 
 items = []
@@ -183,11 +185,11 @@ def index():
 
 # SWEARING PREWENTION
 
-@app.before_first_request
-def load_swear_words():
-    global swear_words
-    with open('swear_words.txt', 'r') as file:
-        swear_words = [word.strip() for word in file.readlines()]
+# @app.before_first_request
+# def load_swear_words():
+#     global swear_words
+#     with open('swear_words.txt', 'r') as file:
+#         swear_words = [word.strip() for word in file.readlines()]
 
 # SEARCH
 

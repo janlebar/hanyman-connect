@@ -8,7 +8,7 @@ from flask_mail import Message
 from flask import Flask, render_template, request, redirect, url_for, jsonify, make_response, flash, session
 from secrets import randbelow
 from ..models.database import BlogApply, db, BlogPost, Category, Rating
-# from app import swear_words
+from handyman.views.utilities_routes import swear_words
 
 posts_blueprint = Blueprint('posts', __name__)
 
