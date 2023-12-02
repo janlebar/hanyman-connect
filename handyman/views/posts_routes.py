@@ -95,7 +95,9 @@ def sendmail(email, confirmation_id):
     
     msg = Message('Confirm your post', sender='handytest753@gmail.com', recipients=[email])
     # msg.body = f"Click to confirm {BASE_URL}/posts/confirm/{confirmation_id}"
-    confirmation_url = url_for("confirm", id=confirmation_id, _external=True)
+    # confirmation_url = url_for("confirm", id=confirmation_id, _external=True)
+    confirmation_url = url_for("posts.confirm", id=confirmation_id, _external=True)
+
     
     msg.html = render_template(
         'email_template.html',
@@ -119,7 +121,7 @@ def confirm(id):
 
     # redirect to all posts
     # jaka: url_for je neke vrste funkcija ki generira raut in vzame parameter id, čeprav je string url
-    return redirect(url_for('editing', id=post.id))
+    return redirect(url_for('posts.editing', id=post.id))
 
 @posts_blueprint.route('/editing/<string:id>', methods=['GET', 'POST'])
 def editing(id):
