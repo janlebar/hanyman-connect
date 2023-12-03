@@ -5,11 +5,13 @@ from flask import Blueprint, current_app
 from flask import Flask, render_template, request, redirect, url_for, jsonify, make_response, flash, session
 from secrets import randbelow
 from flask_mail import Mail, Message
-from ..models.database import BlogApply, db, BlogPost, Category, Rating
+from handyman.models.database import BlogApply, db, BlogPost, Category, Rating
 from ..constants.constants import items
 
 
 
+
+from handyman.views.utilities_routes import swear_words
 
 applys_blueprint = Blueprint('applys', __name__)
 
@@ -60,6 +62,8 @@ def send_mail_apply(email_apply, apply_confirmation_id):
                                 apply_confirmation_id=apply_confirmation_id)
 
         mail.send(msg)
+
+
 
 
 
