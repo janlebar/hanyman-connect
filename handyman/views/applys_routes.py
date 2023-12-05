@@ -26,7 +26,8 @@ print(items)
 
 @applys_blueprint.route('/apply/new/<id>', methods=['GET', 'POST'])
 def new_apply(id):
-    return render_template('new_apply.html', blog_post_id=id, action_url=url_for('applys.new_apply', id=id))
+    # return render_template('new_apply.html', blog_post_id=id, action_url=url_for('applys.new_apply', id=id))
+    return render_template('new_apply.html', blog_post_id=id, action_url=url_for('applys.applys', id=id))
 
 @applys_blueprint.route('/applys', methods=['POST'])
 def applys():
