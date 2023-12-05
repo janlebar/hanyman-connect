@@ -16,7 +16,46 @@ from handyman.views.utilities_routes import swear_words
 applys_blueprint = Blueprint('applys', __name__)
 
 
-print(items)
+# print(items)
+
+
+
+@applys_blueprint.route('/apply/new/<id>', methods=['GET', 'POST'])
+def applys(id):
+    if request.method == 'POST':
+        name_apply = request.form['name_apply']
+        email_apply = request.form['email_apply']
+        blog_post_id = request.form['blog_post_id']
+        apply_confirmation_id = randbelow(2 ** 31)
+
+        new_apply = BlogApply(email_apply=email_apply, name_apply=name_apply, blog_post_id=blog_post_id,
+                              apply_confirmation_id=apply_confirmation_id)
+
+        db.session.add(new_apply)
+        db.session.commit()
+        
+        send_mail_apply(email_apply, apply_confirmation_id)
+
+        try:
+            flash('', "info")
+        except Exception as e:
+            flash("An error occurred while sending the email.", "error")
+            current_app.logger.error(str(e))
+        return redirect('/posts')
+
+    # If the request method is GET, render the form
+    return render_template('new_apply.html', blog_post_id=id)
+
+
+
+
+
+
+
+
+
+
+
 
 # with current_app.app_context():
 #     mail = Mail()
@@ -54,49 +93,98 @@ print(items)
 
 
 
-@applys_blueprint.route('/apply/new/<id>', methods=['GET', 'POST'])
-def applys(id):
-    if request.method == 'POST':
-        name_apply = request.form['name_apply']
-        email_apply = request.form['email_apply']
-        blog_post_id = request.form['blog_post_id']
-        apply_confirmation_id = randbelow(2 ** 31)
 
-        new_apply = BlogApply(
-            email_apply=email_apply,
-            name_apply=name_apply,
-            blog_post_id=blog_post_id,
-            apply_confirmation_id=apply_confirmation_id
-        )
 
-        try:
-            send_mail_apply(email_apply, apply_confirmation_id)
-            flash('', 'info')
-        except Exception as e:
-            flash('An error occurred while sending the email.', 'error')
-            current_app.logger.error(str(e))
 
-        db.session.add(new_apply)
-        db.session.commit()
-        return render_template('new_apply.html', blog_post_id=id)
 
-    # Handle the GET request (display the form)
-    return render_template('new_apply.html', blog_post_id=id)
+# @applys_blueprint.route('/apply/new/<id>', methods=['GET', 'POST'])
+# def applys(id):
+#     if request.method == 'GET':
+#         # Handle the GET request (display the form)
+#         return render_template('new_apply.html', blog_post_id=id)       
+
+#     if request.method == 'POST':
+#         name_apply = request.form['name_apply']
+#         email_apply = request.form['email_apply']
+#         blog_post_id = request.form['blog_post_id']
+#         apply_confirmation_id = randbelow(2 ** 31)
+
+#         new_apply = BlogApply(
+#             email_apply=email_apply,
+#             name_apply=name_apply,
+#             blog_post_id=blog_post_id,
+#             apply_confirmation_id=apply_confirmation_id
+#         )
+
+#         try:
+#             send_mail_apply(email_apply, apply_confirmation_id)
+#             flash('', 'info')
+#         except Exception as e:
+#             flash('An error occurred while sending the email.', 'error')
+#             current_app.logger.error(str(e))
+
+#         db.session.add(new_apply)
+#         db.session.commit()
+#         return render_template('new_apply.html', blog_post_id=id)
+
+
 
         # return redirect('/posts')
-
 
 def send_mail_apply(email_apply, apply_confirmation_id):
     with current_app.app_context():
         mail = Mail()
-        
-        #confirmation_url = f"{BASE_URL}/apply/confirmed/{apply_confirmation_id}"
-        confirmation_url = url_for('confirmed', apply_confirmation_id=apply_confirmation_id, _external=True)
-        msg = Message('Confirm your post', sender='handytest753@gmail.com', recipients=[email_apply])
-        msg.html = render_template('email_template_apply.html', confirmation_url=confirmation_url,
-                                apply_confirmation_id=apply_confirmation_id)
+    
+    msg = Message('Confirm your post', sender='handytest753@gmail.com', recipients=[email_apply])
+    mail.send(msg)
 
-        mail.send(msg)
+
+
+
+
+
+# def send_mail_apply(email_apply, apply_confirmation_id):
+#     with current_app.app_context():
+#         mail = Mail()
+        
+#         #confirmation_url = f"{BASE_URL}/apply/confirmed/{apply_confirmation_id}"
+#         confirmation_url = url_for('confirmed', apply_confirmation_id=apply_confirmation_id, _external=True)
+#         msg = Message('Confirm your post', sender='handytest753@gmail.com', recipients=[email_apply])
+#         msg.html = render_template('email_template_apply.html', confirmation_url=confirmation_url,
+#                                 apply_confirmation_id=apply_confirmation_id)
+
+#         mail.send(msg)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
