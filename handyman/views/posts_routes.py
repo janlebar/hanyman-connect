@@ -1,13 +1,12 @@
 from flask import render_template, request, url_for
-# from .app import items  # Import app and items from app.py
-from handyman.models.database import BlogPost  # Import the BlogPost model from database.py
+from handyman.models.database import BlogPost  
 from flask import Blueprint, current_app
 from handyman.constants.constants import items
 from flask_mail import Mail
 from flask_mail import Message
-from flask import Flask, render_template, request, redirect, url_for, jsonify, make_response, flash, session
+from flask import Flask, render_template, request, redirect, url_for, jsonify, flash, session
 from secrets import randbelow
-from ..models.database import BlogApply, db, BlogPost, Category, Rating
+from ..models.database import db, BlogPost
 from handyman.views.utilities_routes import swear_words
 
 posts_blueprint = Blueprint('posts', __name__)
@@ -36,9 +35,6 @@ def new_post():
 
 @posts_blueprint.route('/save_post', methods=['POST'])
 def save_post():
-    
-    # if spodi ipolne form oz ga prebere
-    # POST /posts
 
     post_title = request.form['title']
     post_content = request.form['content']
@@ -66,10 +62,8 @@ def save_post():
     print("Latitude:", post_latitude)
     print("Longitude:", post_longitude)
 
-
     # poklical funkcijo sendmail in jo izpolnil z parametri iz posts
     sendmail(post_email, post_confirmation_id)
-
 
     try:
         sendmail(post_email, post_confirmation_id)
@@ -80,15 +74,6 @@ def save_post():
     # vrne posodobljen posts page
     return redirect('/posts')
 
-    # try:
-    #     with current_app.app_context():
-    #         mail.send(msg)
-    #     return True
-    # except Exception as e:
-    #     print(e)
-    #     flash("Something went wrong while sending the email.")  # Flash this message on email sending failure
-    #     return redirect('/posts')  # Redirect to a suitable page after failure
-
 def sendmail(email, confirmation_id):
     with current_app.app_context():
         mail = Mail()
@@ -98,7 +83,6 @@ def sendmail(email, confirmation_id):
     # confirmation_url = url_for("confirm", id=confirmation_id, _external=True)
     confirmation_url = url_for("posts.confirm", id=confirmation_id, _external=True)
 
-    
     msg.html = render_template(
         'email_template.html',
         confirmation_url=confirmation_url
@@ -120,7 +104,7 @@ def confirm(id):
     session["email"] = post.email
 
     # redirect to all posts
-    # jaka: url_for je neke vrste funkcija ki generira raut in vzame parameter id, čeprav je string url
+    # url_for je neke vrste funkcija ki generira raut in vzame parameter id, čeprav je string url
     return redirect(url_for('posts.editing', id=post.id))
 
 @posts_blueprint.route('/editing/<string:id>', methods=['GET', 'POST'])
@@ -160,7 +144,6 @@ def edit(id):
         return redirect('/posts')
     else:
         # post=post ker rabi prebrisat prejsn povst
-        # post_item = post.category  # Assign the current category value
         return render_template('edit.html', post=post,items=items)
 
 # POSTS WITH TIME LIMIT
@@ -174,87 +157,3 @@ def posttimelimit():
     # urls, dictionary, for all posts id that were queried above transformed with serializer
     urls = {post.id: post.id for post in all_posts}
     return render_template('posts.html', posts=all_posts, urls=urls)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# @app.route('/save_post', methods=['POST'])
-# def save_post():
-#     # if spodi ipolne form oz ga prebere
-#     # POST /posts
-
-#     post_title = request.form['title']
-#     post_content = request.form['content']
-#     post_offer = request.form['offer']
-#     post_email = request.form['email']
-#     post_longitude = request.form['longitude']
-#     post_latitude = request.form['latitude']
-#     post_item = request.form['item']  
-#     post_confirmation_id = randbelow(2 ** 31)
-#     post_phonenumber = request.form['phonenumber']
-#     # session['email'] = post_email
-
-#     for word in swear_words:
-#         if word[:4].lower() in post_title.lower():
-#                  return render_template('swearingnotallowed.html')
-
-#     new_post = BlogPost(title=post_title,content=post_content,offer=post_offer,longitude=post_longitude,latitude=post_latitude,email=post_email,
-#     confirmation_id=post_confirmation_id,category=post_item,phonenumber=post_phonenumber)
-
-#     # vpise v bazo v trenutno
-#     db.session.add(new_post)
-#     # commit ga sele vpise permanentno v bazo
-#     db.session.commit()
-    
-#     print("Latitude:", post_latitude)
-#     print("Longitude:", post_longitude)
-
-
-#     # poklical funkcijo sendmail in jo izpolnil z parametri iz posts
-#     sendmail(post_email, post_confirmation_id)
-
-
-#     try:
-#         sendmail(post_email, post_confirmation_id)
-#         flash('', "info")
-#     except Exception as e:
-#         flash("An error occurred while sending the email.", "error")
-#         # Handle the error, maybe log it or display an error message
-#     # vrne posodobljen posts page
-#     return redirect('/posts')
-
-
-# # posts mail function
-# def sendmail(email, confirmation_id):
-#     msg = Message('Confirm your post', sender='handytest753@gmail.com', recipients=[email])
-#     # msg.body = f"Click to confirm {BASE_URL}/posts/confirm/{confirmation_id}"
-#     confirmation_url = url_for("confirm", id=confirmation_id, _external=True)
-    
-#     msg.html = render_template(
-#         'email_template.html',
-#         confirmation_url=confirmation_url
-#     )
-#     mail.send(msg)
-
-#     try:
-#         with current_app.app_context():
-#             mail.send(msg)
-#         return True
-#     except Exception as e:
-#         print(e)
-#         flash("Something went wrong while sending the email.")  # Flash this message on email sending failure
-#         return redirect('/posts')  # Redirect to a suitable page after failure
