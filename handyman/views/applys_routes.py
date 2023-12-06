@@ -185,14 +185,15 @@ def confirmed(apply_confirmation_id):
         BlogApply.apply_confirmation_id == apply_confirmation_id).first_or_404())
 
     sendmailconnect(email_applys, emails, apply.id_apply)
-    return redirect(url_for('posts'))
+    return redirect(url_for('posts.get_posts'))
 
 
 def sendmailconnect(email_applys, emails, id_apply):
     with current_app.app_context():
         mail = Mail()
-        
-    rate_link = url_for("rating", id_apply=id_apply, _external=True)
+    rate_link = url_for("applys.rating", id_apply=id_apply, _external=True)
+   
+    # rate_link = url_for("rating", id_apply=id_apply, _external=True)
     contact = email_applys
     subject = "Handyman connecting You with applicant"
     
@@ -222,7 +223,7 @@ def rating(id_apply):
         rating = Rating(rating=rating_value, apply=apply)
         db.session.add(rating)
         db.session.commit()
-        return redirect(url_for('posts'))
+        return redirect(url_for('posts.get_posts'))
 
     return render_template('rating.html', apply=apply)
 
@@ -261,7 +262,7 @@ def login():
         if blog_apply:
             # Set email to session
             session['email_apply'] = email_apply
-            return redirect(url_for('my_portfolio'))
+            return redirect(url_for('applys.my_portfolio'))
         else:
             # Email not found in database, handle expanded form fields
             name_apply = request.form.get('name_apply')
