@@ -199,3 +199,32 @@ def sendmailogin(email_apply, apply_confirmation_id):
     mail.send(msg)
 
 
+@applys_blueprint.route('/contractors', methods=['GET', ])
+def applyers():
+        # if request.method=='GET':
+        #     blog_filter = BlogApply.apply_confirmed == True
+        #     all_applys = BlogPost.query.filter(blog_filter).all()
+        #     # all_applys = BlogPost.query.filter(blog_filter).order_by(Rating.rating).all()
+        #     urls = {applys.id: applys.id for applys in all_applys}
+        # return render_template('applys.html',applys=all_applys, urls=urls)
+    # Get the email from the session
+    email_apply_cookie = session.get('email_apply')
+    # Check if the email exists in the BlogApply database
+    apply = BlogApply.query.filter_by(email_apply=email_apply_cookie).first()
+
+    if apply:
+        ratings = [r[0] for r in db.session.query(Rating.rating)\
+                            .join(BlogApply, BlogApply.id_apply == Rating.apply_id)\
+                            .filter(BlogApply.email_apply == email_apply_cookie)\
+                            .all()]
+        # ratings = db.session.query(Rating)\
+        #             .join(BlogApply, BlogApply.id_apply == Rating.apply_id)\
+        #             .filter(BlogApply.email_apply == email_apply_cookie)\
+        #             .all()
+
+        # Render the my_portfolio template with the ratings
+        return render_template('contractors.html', ratings=ratings, email_apply_cookie=email_apply_cookie)
+        
+        
+        
+        
