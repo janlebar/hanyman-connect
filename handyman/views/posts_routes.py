@@ -11,7 +11,6 @@ from handyman.views.utilities_routes import swear_words
 
 posts_blueprint = Blueprint('posts', __name__)
 
-# mail = Mail(posts_blueprint)
 # POSTS    
 
 @posts_blueprint.route('/posts', methods=['GET'])
