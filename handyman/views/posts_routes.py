@@ -1,3 +1,4 @@
+# post_routes.py
 from flask import render_template, request, url_for
 from handyman.models.database import BlogPost  
 from flask import Blueprint, current_app
@@ -7,7 +8,7 @@ from flask_mail import Message
 from flask import Flask, render_template, request, redirect, url_for, jsonify, flash, session
 from secrets import randbelow
 from ..models.database import db, BlogPost
-from handyman.views.utilities_routes import swear_words
+# from handyman.views.utilities_routes import swear_words
 
 posts_blueprint = Blueprint('posts', __name__)
 

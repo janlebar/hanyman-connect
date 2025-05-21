@@ -1,3 +1,4 @@
+# app.py
 import os
 
 from logging.config import dictConfig
@@ -17,7 +18,7 @@ from flask_babel import gettext
 from datetime import datetime, timedelta
 from handyman.views.posts_routes import posts_blueprint
 from handyman.views.applys_routes import applys_blueprint
-from handyman.views.utilities_routes import utilities_blueprint
+# from handyman.views.utilities_routes import utilities_blueprint
 from handyman.constants.constants import items
 
 
@@ -46,7 +47,7 @@ dictConfig({
 app = Flask(__name__)
 app.register_blueprint(posts_blueprint)
 app.register_blueprint(applys_blueprint)
-app.register_blueprint(utilities_blueprint)
+# app.register_blueprint(utilities_blueprint)
 # Define BASE_URL directly in your code
 
 
@@ -184,6 +185,7 @@ def index():
         return render_template('index.html', coords=coords, longitude_localisation=longitude_localisation, latitude_localisation=latitude_localisation, items=items)
 
 # SWEARING PREWENTION
+
 
 # @app.before_first_request
 # def load_swear_words():

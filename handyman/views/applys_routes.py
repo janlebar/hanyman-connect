@@ -5,7 +5,7 @@ from secrets import randbelow
 from flask_mail import Mail, Message
 from handyman.models.database import BlogApply, db, BlogPost, Category, Rating
 from ..constants.constants import items
-from handyman.views.utilities_routes import swear_words
+# from handyman.views.utilities_routes import swear_words
 
 applys_blueprint = Blueprint('applys', __name__)
 
